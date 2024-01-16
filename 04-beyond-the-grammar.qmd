@@ -1,0 +1,2440 @@
+---
+title: "Engaging & Reproducible Data Visualization"
+subtitle: "<span style='font-size:1.5em;'>From Theory to Implementation with ggplot2</span><br><span style='font-weight:500;font-size:1.3em;'>Beyond the Grammar of Graphics</span></span>"
+author: "<b style='color:#28a87d;'><a href='https://www.cedricscherer.com'>Dr. Cédric Scherer</a></b>&ensp;**//**&ensp;NC<sup>3</sup> Workshop&ensp;**//**&ensp;January 2024"
+format:
+  revealjs:
+    theme: slides.scss
+    logo: img/logo.png
+    footer: '**[Cédric Scherer](https://cedricscherer.com)** // Data Visualization & Information Design'
+    transition: fade
+    progress: true
+    multiplex: false
+    preview-links: true
+    scrollable: false
+    hide-inactive-cursor: true
+    highlight-style: printing
+    chalkboard:
+      theme: whiteboard
+      boardmarker-width: 4
+      buttons: true
+    pause: true
+    mainfont: Asap SemiCondensed
+editor: source
+knitr:
+  opts_chunk:
+    dev: "ragg_png"
+    retina: 3
+    dpi: 200
+execute:
+  freeze: auto
+  cache: true
+  echo: true
+  fig-width: 5
+  fig-height: 6
+---
+
+## Setup
+
+```{r}
+#| label: prep
+#| cache: false
+library(ggplot2)
+library(dplyr)
+library(stringr)
+
+bikes <- readr::read_csv(
+  here::here("data", "london-bikes-custom.csv"),
+  col_types = "Dcfffilllddddc"
+)
+
+theme_set(theme_light(base_size = 14, base_family = "Asap SemiCondensed"))
+
+theme_update(
+  panel.grid.minor = element_blank(),
+  legend.position = "top"
+)
+
+g <- 
+  ggplot(
+    bikes,
+    aes(x = temp, y = count,
+        color = season)
+  ) +
+  geom_point(
+    alpha = .5
+  )
+```
+
+
+
+# Text Rendering
+
+
+
+## Styling Labels with {ggtext}
+
+```{r}
+#| label: ggtext-prep-markdown
+#| output-location: column
+#| code-line-numbers: "2"
+g +
+  ggtitle("**TfL bike sharing trends by _season_**")
+```
+
+## Styling Labels with {ggtext}
+
+```{r}
+#| label: ggtext-element-markdown
+#| output-location: column
+#| code-line-numbers: "2,3,4,5|2|4"
+g +
+  ggtitle("**TfL bike sharing trends by _season_**") +
+  theme(
+    plot.title = ggtext::element_markdown()
+  )
+```
+
+## Styling Labels with {ggtext}
+
+```{r}
+#| label: ggtext-element-markdown-html
+#| output-location: column
+#| code-line-numbers: "2|2,4"
+#| fig-height: 5.5
+g +
+  ggtitle("<i style='font-family:times;font-size:30pt;'>TfL</i> bike sharing trends by <b style='color:#28a87d;'>season</b>") +
+  theme(
+    plot.title = ggtext::element_markdown()
+  )
+```
+
+<div style="font-size:15pt;">
+`<i style='font-family:times;font-size:30pt;'>TfL</i> bike sharing trends by <b style='color:#28a87d;'>season</b>`
+</div>
+
+
+# Annotations &<br>Call-Outs
+
+
+
+## Add Single Text Annotations
+
+```{r}
+#| label: annotate-text-setup
+#| output-location: column
+#| code-line-numbers: "1|2,3|4,5,6,7|8,9,10,11|5,9"
+ga <- 
+  ggplot(bikes, 
+         aes(x = temp, y = count)) +
+  geom_point(
+    aes(color = count > 40000),
+    size = 2
+  ) +
+  scale_color_manual(
+    values = c("grey", "firebrick"),
+    guide = "none"
+  )
+
+ga
+```
+
+
+
+## Add Single Text Annotations
+
+```{r}
+#| label: annotate-text
+#| output-location: column
+#| code-line-numbers: "1,2,3,4,5,6|2|3,4|5"
+ga +
+  annotate(
+    geom = "text",
+    x = 18,
+    y = 48000,
+    label = "What happened here?"
+  )
+```
+
+
+
+
+## Style Text Annotations
+
+```{r}
+#| label: annotate-text-adj
+#| output-location: column
+#| code-line-numbers: "7,8,9,10,11"
+ga +
+  annotate(
+    geom = "text",
+    x = 18,
+    y = 48000,
+    label = "What happened here?",
+    color = "firebrick",
+    size = 6,
+    family = "Asap SemiCondensed",
+    fontface = "bold",
+    lineheight =  .8
+  )
+```
+
+
+
+## Add Multiple Text Annotations
+
+```{r}
+#| label: annotate-text-multiple
+#| output-location: column
+#| code-line-numbers: "4,5,6|4,5,6,7,8,9,10,11"
+ga +
+  annotate(
+    geom = "text",
+    x = c(18, max(bikes$temp)),
+    y = c(48000, 1000),
+    label = c("What happened here?", "Powered by TfL"),
+    color = c("firebrick", "black"),
+    size = c(6, 3),
+    family = c("Asap SemiCondensed", "Hepta Slab"),
+    fontface = c("bold", "plain"),
+    hjust = c(.5, 1)
+  )
+```
+
+
+
+## "Point'n'Click" Annotations
+
+```{r}
+#| label: ggannotate
+#| eval: false
+ggannotate::ggannotate(g)
+```
+
+![](img/ggplot/ggannotate.png)
+
+
+## Add Lines
+
+```{r}
+#| label: annotate-text-line
+#| output-location: column
+#| code-line-numbers: "11,17|12|13,14,15,16|4,5,13,15"
+ga +
+  annotate(
+    geom = "text",
+    x = 10,
+    y = 38000,
+    label = "The\nhighest\ncount",
+    family = "Asap SemiCondensed",
+    size = 6,
+    lineheight =  .8
+  ) +
+  annotate(
+    geom = "segment",
+    x = 13, 
+    xend = 18.2,
+    y = 38000, 
+    yend = 51870
+  )
+```
+
+
+
+## Add Lines
+
+```{r}
+#| label: annotate-text-curve
+#| output-location: column
+#| code-line-numbers: "13,14,15,16|6,11,15"
+ga +
+  annotate(
+    geom = "text",
+    x = 10,
+    y = 38000,
+    label = "The\nhighest\ncount",
+    family = "Asap SemiCondensed",
+    size = 6,
+    lineheight =  .8
+  ) +
+  annotate(
+    geom = "curve",
+    x = 13, 
+    xend = 18.2,
+    y = 38000, 
+    yend = 51870
+  )
+```
+
+
+
+## Add Arrows
+
+```{r}
+#| label: annotate-text-arrow
+#| output-location: column
+#| code-line-numbers: "17,18"
+ga +
+  annotate(
+    geom = "text",
+    x = 10,
+    y = 38000,
+    label = "The\nhighest\ncount",
+    family = "Asap SemiCondensed",
+    size = 6,
+    lineheight =  .8
+  ) +
+  annotate(
+    geom = "curve",
+    x = 13, 
+    xend = 18.2,
+    y = 38000, 
+    yend = 51870,
+    curvature = .25,
+    arrow = arrow()
+  )
+```
+
+
+
+## Add Arrows
+
+```{r}
+#| label: annotate-text-arrow-type2
+#| output-location: column
+#| code-line-numbers: "18,19,20,21,22|19,20,21"
+ga +
+  annotate(
+    geom = "text",
+    x = 10,
+    y = 38000,
+    label = "The\nhighest\ncount",
+    family = "Asap SemiCondensed",
+    size = 6,
+    lineheight =  .8
+  ) +
+  annotate(
+    geom = "curve",
+    x = 13, 
+    xend = 18.2,
+    y = 38000, 
+    yend = 51870,
+    curvature = .25,
+    arrow = arrow(
+      length = unit(10, "pt"),
+      type = "closed",
+      ends = "both"
+    )
+  )
+```
+
+
+
+## Add Arrows
+
+```{r}
+#| label: annotate-text-arrow-skewed
+#| output-location: column
+#| code-line-numbers: "18|19,20,21,22"
+ga +
+  annotate(
+    geom = "text",
+    x = 10,
+    y = 38000,
+    label = "The\nhighest\ncount",
+    family = "Asap SemiCondensed",
+    size = 6,
+    lineheight =  .8
+  ) +
+  annotate(
+    geom = "curve",
+    x = 13, 
+    xend = 18.2,
+    y = 38000, 
+    yend = 51870,
+    curvature = .8,
+    angle = 130,
+    arrow = arrow(
+      length = unit(10, "pt"),
+      type = "closed"
+    )
+  )
+```
+
+
+## Annotations with {ggforce}
+
+```{r}
+#| label: highlight-geom-mark-rect
+#| output-location: column
+#| code-line-numbers: "2,5|3,4"
+g +
+  ggforce::geom_mark_rect(
+    aes(label = "Outliers?",
+        filter = count > 40000)
+  )
+```
+
+
+
+## Annotations with {ggforce}
+
+```{r}
+#| label: highlight-geom-mark-rect-color
+#| output-location: column
+#| code-line-numbers: "5,6"
+g +
+  ggforce::geom_mark_rect(
+    aes(label = "Outliers?",
+        filter = count > 40000),
+    color = "black",
+    label.family = "Asap SemiCondensed"
+  )
+```
+
+
+
+## Annotations with {ggforce}
+
+```{r}
+#| label: highlight-geom-mark-rect-description
+#| output-location: column
+#| code-line-numbers: "11,12,13"
+g +
+  ggforce::geom_mark_rect(
+    aes(label = "Outliers?",
+        filter = count > 40000),
+    description = "What happened on\nthese two days?",
+    color = "black",
+    label.family = "Asap SemiCondensed"
+  )
+```
+
+
+
+## Annotations with {ggforce}
+
+```{r}
+#| label: highlight-geom-mark-rect-modify
+#| output-location: column
+#| code-line-numbers: "8,9,10,11,12,13"
+g +
+  ggforce::geom_mark_rect(
+    aes(label = "Outliers?",
+        filter = count > 40000),
+    description = "What happened on\nthese two days?",
+    color = "black",
+    label.family = "Asap SemiCondensed",
+    expand = unit(8, "pt"),
+    radius = unit(12, "pt"),
+    con.cap = unit(0, "pt"),
+    label.buffer = unit(15, "pt"),
+    con.type = "straight",
+    label.fill = "transparent"
+  )
+```
+
+
+
+## Annotations with {ggforce}
+
+```{r}
+#| label: highlight-geom-mark-circle
+#| output-location: column
+#| code-line-numbers: "2"
+g +
+  ggforce::geom_mark_circle(
+    aes(label = "Outliers?",
+        filter = count > 40000),
+    description = "What happened on\nthese two days?",
+    color = "black",
+    label.family = "Asap SemiCondensed",
+    expand = unit(8, "pt"),
+    con.cap = unit(0, "pt"),
+    label.buffer = unit(15, "pt"),
+    con.type = "straight",
+    label.fill = "transparent"
+  )
+```
+
+
+
+## Annotations with {ggforce}
+
+```{r}
+#| label: highlight-geom-mark-hull
+#| output-location: column
+#| code-line-numbers: "2"
+g +
+  ggforce::geom_mark_hull(
+    aes(label = "Outliers?",
+        filter = count > 40000),
+    description = "What happened on\nthese two days?",
+    color = "black",
+    label.family = "Asap SemiCondensed",
+    expand = unit(8, "pt"),
+    con.cap = unit(0, "pt"),
+    label.buffer = unit(15, "pt"),
+    con.type = "straight",
+    label.fill = "transparent"
+  )
+```
+
+
+
+## Annotations with {geomtextpath}
+
+```{r}
+#| label: geomtextpath-prep
+#| output-location: column
+#| code-line-numbers: "1,2,3,4|5,6,7,8|9|10,11,12,13,14,15|16,17,18,19"
+bikes |>
+  filter(year == "2016") |>
+  group_by(month, day_night) |> 
+  summarize(count = sum(count)) |> 
+  ggplot(aes(x = month, y = count, 
+             color = day_night,
+             group = day_night)) +
+  geom_line(linewidth = 1) +
+  coord_cartesian(expand = FALSE) +
+  scale_y_continuous(
+    labels = scales::label_comma(
+      scale = 1/10^3, suffix = "K"
+    ),
+    limits = c(0, 850000)
+  ) +
+  scale_color_manual(
+    values = c("#FFA200", "#757BC7"),
+    name = NULL
+  )
+```
+
+
+## Annotations with {geomtextpath}
+
+```{r}
+#| label: geomtextpath
+#| output-location: column
+#| code-line-numbers: "8,9,10,11,12,13,14|24"
+bikes |>
+  filter(year == "2016") |>
+  group_by(month, day_night) |> 
+  summarize(count = sum(count)) |> 
+  ggplot(aes(x = month, y = count, 
+             color = day_night,
+             group = day_night)) +
+  geomtextpath::geom_textline(
+    aes(label = day_night),
+    linewidth = 1,
+    vjust = -.5, 
+    family = "Asap SemiCondensed",
+    fontface = "bold"
+  ) +
+  coord_cartesian(expand = FALSE) +
+  scale_y_continuous(
+    labels = scales::label_comma(
+      scale = 1/10^3, suffix = "K"
+    ),
+    limits = c(0, 850000)
+  ) +
+  scale_color_manual(
+    values = c("#FFA200", "#757BC7"),
+    guide = "none"
+  )
+```
+
+
+## Annotations with {geomtextpath}
+
+```{r}
+#| label: geomtextpath-long
+#| output-location: column
+#| code-line-numbers: "5,6,7,8,9|17"
+bikes |>
+  filter(year == "2016") |>
+  group_by(month, day_night) |> 
+  summarize(count = sum(count)) |> 
+  mutate(day_night = if_else(
+    day_night == "day", 
+    "Day period (6am-6pm)", 
+    "Night period (6pm-6am)"
+  )) |> 
+  ggplot(aes(x = month, y = count, 
+             color = day_night,
+             group = day_night)) +
+  geomtextpath::geom_textline(
+    aes(label = day_night),
+    linewidth = 1,
+    vjust = -.5, 
+    hjust = .05,
+    family = "Asap SemiCondensed",
+    fontface = "bold"
+  ) +
+  coord_cartesian(expand = FALSE) +
+  scale_y_continuous(
+    labels = scales::label_comma(
+      scale = 1/10^3, suffix = "K"
+    ),
+    limits = c(0, 850000)
+  ) +
+  scale_color_manual(
+    values = c("#FFA200", "#757BC7"),
+    guide = "none"
+  )
+```
+
+
+
+# Multi-Panel Plots
+
+
+
+------------------------------------------------------------------------
+
+![Illustration by [Allison Horst](https://github.com/allisonhorst/stats-illustrations)](img/ggplot/ah_patchwork.jpg){fig-align="center" fig-alt="Allison Horsts monster illustration of the patchwork extension package."}
+
+
+
+------------------------------------------------------------------------
+
+::: panel-tabset
+### Graphic
+
+```{r}
+#| label: patchwork-p1
+#| fig-width: 10
+#| fig-height: 5.8
+#| echo: false
+theme_set(theme_minimal(base_size = 18, base_family = "Pally"))
+theme_update(
+  text = element_text(family = "Pally"),
+  panel.grid = element_blank(),
+  axis.text = element_text(color = "grey50", size = 12),
+  axis.title = element_text(color = "grey40", face = "bold"),
+  axis.title.x = element_text(margin = margin(t = 12)),
+  axis.title.y = element_text(margin = margin(r = 12)),
+  axis.line = element_line(color = "grey80", size = .4),
+  legend.text = element_text(color = "grey50", size = 12),
+  plot.tag = element_text(size = 40, margin = margin(b = 15)),
+  plot.background = element_rect(fill = "white", color = "white")
+)
+
+bikes_sorted <-
+  bikes %>%
+  filter(!is.na(weather_type)) %>%
+  group_by(weather_type) %>%
+  mutate(sum = sum(count)) %>%
+  ungroup() %>%
+  mutate(
+    weather_type = forcats::fct_reorder(
+      str_to_title(str_wrap(weather_type, 5)), sum
+    )
+  )
+
+p1 <- ggplot(
+    bikes_sorted,
+    aes(x = weather_type, y = count, color = weather_type)
+  ) +
+  geom_hline(yintercept = 0, color = "grey80", size = .4) +
+  stat_summary(
+    geom = "point", fun = "sum", size = 12
+  ) +
+  stat_summary(
+    geom = "linerange", ymin = 0, fun.max = function(y) sum(y),
+    size = 2, show.legend = FALSE
+  ) +
+  coord_flip(ylim = c(0, NA), clip = "off") +
+  scale_y_continuous(
+    expand = c(0, 0), limits = c(0, 8500000),
+    labels = scales::comma_format(scale = .0001, suffix = "K")
+  ) +
+  scale_color_viridis_d(
+    option = "magma", direction = -1, begin = .1, end = .9, name = NULL,
+    guide = guide_legend(override.aes = list(size = 7))
+  ) +
+  labs(
+    x = NULL, y = "Sum of reported bike shares", tag = "P1",
+  ) +
+  theme(
+    axis.line.y = element_blank(),
+    axis.text.y = element_text(family = "Pally", color = "grey50", face = "bold",
+                               margin = margin(r = 15), lineheight = .9)
+  )
+
+p1
+```
+
+### Code
+
+```{r}
+#| label: patchwork-p1
+#| eval: false
+#| purl: false
+```
+:::
+
+
+
+------------------------------------------------------------------------
+
+::: panel-tabset
+### Graphic
+
+```{r}
+#| label: patchwork-p2
+#| fig-width: 10
+#| fig-height: 5.8
+#| echo: false
+p2 <- bikes_sorted %>%
+  filter(season == "winter", is_weekend == TRUE, day_night == "night") %>%
+  group_by(weather_type, .drop = FALSE) %>%
+  mutate(id = row_number()) %>%
+  ggplot(
+      aes(x = weather_type, y = id, color = weather_type)
+    ) +
+    geom_point(size = 4.5) +
+    scale_color_viridis_d(
+      option = "magma", direction = -1, begin = .1, end = .9, name = NULL,
+      guide = guide_legend(override.aes = list(size = 7))
+    ) +
+    labs(
+      x = NULL, y = "Reported bike shares on\nweekend winter nights", tag = "P2",
+    ) +
+    coord_cartesian(ylim = c(.5, NA), clip = "off")
+
+p2
+```
+
+### Code
+
+```{r}
+#| label: patchwork-p2
+#| eval: false
+#| purl: false
+```
+:::
+
+
+
+------------------------------------------------------------------------
+
+::: panel-tabset
+### Graphic
+
+```{r}
+#| label: patchwork-p3
+#| fig-width: 10
+#| fig-height: 5.8
+#| echo: false
+my_colors <- c("#cc0000", "#000080")
+
+p3 <- bikes %>%
+  group_by(week = lubridate::week(date), day_night, year) %>%
+  summarize(count = sum(count)) %>%
+  group_by(week, day_night) %>%
+  mutate(avg = mean(count)) %>%
+  ggplot(aes(x = week, y = count, group = interaction(day_night, year))) +
+    geom_line(color = "grey65", size = 1) +
+    geom_line(aes(y = avg, color = day_night), stat = "unique", size = 1.7) +
+    annotate(
+      geom = "text", label = c("Day", "Night"), color = my_colors,
+      x = c(5, 18), y = c(125000, 29000), size = 8, fontface = "bold", family = "Pally"
+    ) +
+    scale_x_continuous(breaks = c(1, 1:10*5)) +
+    scale_y_continuous(labels = scales::comma_format()) +
+    scale_color_manual(values = my_colors, guide = "none") +
+    labs(
+      x = "Week of the Year", y = "Reported bike shares\n(cumulative # per week)", tag = "P3",
+    )
+
+p3
+```
+
+### Code
+
+```{r}
+#| label: patchwork-p3
+#| eval: false
+#| purl: false
+```
+:::
+
+
+
+## {patchwork}
+
+```{r}
+#| label: patchwork-composition
+#| fig-width: 15
+#| fig-height: 12
+#| fig-align: "center"
+#| code-line-numbers: "2|1,2"
+library(patchwork)
+(p1 + p2) / p3
+```
+
+
+
+## "Collect Guides"
+
+```{r}
+#| label: patchwork-composition-guides
+#| fig-width: 15
+#| fig-height: 12
+#| fig-align: "center"
+(p1 + p2) / p3 + plot_layout(guides = "collect")
+```
+
+
+
+## Apply Theming
+
+```{r}
+#| label: patchwork-composition-guides-just
+#| fig-width: 15
+#| fig-height: 12
+#| fig-align: "center"
+((p1 + p2) / p3 & theme(legend.justification = "top")) + plot_layout(guides = "collect")
+```
+
+
+
+## Apply Theming
+
+```{r}
+#| label: patchwork-composition-legend-off
+#| fig-width: 15
+#| fig-height: 12
+#| fig-align: "center"
+(p1 + p2) / p3 & theme(legend.position = "none", plot.background = element_rect(color = "black", size = 3))
+```
+
+
+
+## Adjust Widths and Heights
+
+```{r}
+#| label: patchwork-composition-heights-widths
+#| fig-width: 15
+#| fig-height: 12
+#| fig-align: "center"
+#| code-line-numbers: "2"
+((p1 + p2) / p3 & theme(legend.position = "none")) +
+  plot_layout(heights = c(.2, .1), widths = c(2, 1))
+```
+
+
+
+## Use A Custom Layout
+
+```{r}
+#| label: patchwork-composition-design
+#| fig-width: 15
+#| fig-height: 12
+#| fig-align: "center"
+#| code-line-numbers: "1,2,3,4|5"
+picasso <- "
+AAAAAA#BBBB
+CCCCCCCCC##
+CCCCCCCCC##"
+(p1 + p2 + p3 & theme(legend.position = "none")) + plot_layout(design = picasso)
+```
+
+
+
+## Add Labels
+
+```{r}
+#| label: patchwork-composition-labs-prep
+pl1 <- p1 + labs(tag = NULL, title = "Plot One") + theme(legend.position = "none")
+pl2 <- p2 + labs(tag = NULL, title = "Plot Two") + theme(legend.position = "none")
+pl3 <- p3 + labs(tag = NULL, title = "Plot Three") + theme(legend.position = "none")
+```
+
+
+
+## Add Labels
+
+```{r}
+#| label: patchwork-composition-labs
+#| fig-width: 15
+#| fig-height: 12
+#| fig-align: "center"
+#| code-line-numbers: "2"
+(pl1 + pl2) / pl3 +
+  plot_annotation(tag_levels = "1", tag_prefix = "P", title = "An overarching title for all 3 plots, placed on the very top while all other titles are sitting below the tags.")
+```
+
+
+
+## Add Text
+
+::: panel-tabset
+### Graphic
+
+```{r}
+#| label: patchwork-composition-textbox-prep
+#| echo: false
+#| fig-width: 9
+#| fig-height: 4.5
+#| fig-align: "center"
+text <- tibble(
+  x = 0, y = 0, label = "Lorem ipsum dolor sit amet, **consectetur adipiscing elit**, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation <b style='color:#000080;'>ullamco laboris nisi</b> ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat <b style='color:#cc0000;'>cupidatat non proident</b>, sunt in culpa qui officia deserunt mollit anim id est laborum."
+)
+
+pt <- ggplot(text, aes(x = x, y = y)) +
+  ggtext::geom_textbox(
+    aes(label = label),
+    box.color = NA, width = unit(23, "lines"),
+    family = "Pally", color = "grey40", size = 6.5, lineheight = 1.4
+  ) +
+  coord_cartesian(expand = FALSE, clip = "off") +
+  theme_void()
+
+pt
+```
+
+
+
+### Code
+
+```{r}
+#| label: patchwork-composition-textbox-prep
+#| eval: false
+#| purl: false
+```
+:::
+
+
+
+## Add Text
+
+```{r}
+#| label: patchwork-composition-textbox
+#| fig-width: 15
+#| fig-height: 12
+#| fig-align: "center"
+(p1 + pt) / p3
+```
+
+
+
+## Add Inset Plots
+
+```{r}
+#| label: patchwork-composition-inset-1
+#| fig-width: 12
+#| fig-height: 7
+#| fig-align: "center"
+pl1 + inset_element(pl2, l = .6, b = .1, r = 1, t = .6)
+```
+
+
+
+## Add Inset Plots
+
+```{r}
+#| label: patchwork-composition-inset-2
+#| fig-width: 12
+#| fig-height: 7
+#| fig-align: "center"
+pl1 + inset_element(pl2, l = .6, b = 0, r = 1, t = .5, align_to = 'full')
+```
+
+
+
+## Add Inset Plots
+
+```{r}
+#| label: patchwork-composition-inset-3
+#| fig-width: 15
+#| fig-height: 12
+#| fig-align: "center"
+(pl1 + inset_element(pl2, l = .6, b = .1, r = 1, t = .6) + pt) / pl3
+```
+
+
+
+# Programming <br>with ggplot2
+
+```{r}
+#| include: false
+#| cache: false
+theme_set(theme_light(base_size = 14, base_family = "Asap SemiCondensed"))
+
+theme_update(
+  panel.grid.minor = element_blank(),
+  legend.position = "top"
+)
+```
+
+
+
+## Conditional Components
+
+```{r}
+#| label: conditional-components
+#| eval: false
+#| purl: false
+#| code-line-numbers: "1|3,4,5|4"
+smooth <- TRUE
+
+ggplot(bikes, aes(x = temp, y = humidity)) +
+  { if(smooth) geom_smooth(color = "red") } +
+  geom_point(alpha = .5)
+```
+
+
+## Conditional Components
+
+```{r}
+#| label: conditional-components-1
+#| fig-width: 8
+#| fig-height: 5
+#| fig-align: center
+smooth <- TRUE
+
+ggplot(bikes, aes(x = temp, y = humidity)) +
+  { if(smooth) geom_smooth(color = "red") } +
+  geom_point(alpha = .5)
+```
+
+
+## Conditional Components
+
+```{r}
+#| label: conditional-components-2
+#| fig-width: 8
+#| fig-height: 5
+#| fig-align: center
+#| code-line-numbers: "1"
+smooth <- FALSE
+
+ggplot(bikes, aes(x = temp, y = humidity)) +
+  { if(smooth) geom_smooth(color = "red") } +
+  geom_point(alpha = .5)
+```
+
+
+## Wrapper Functions for Plots
+
+```{r}
+#| label: conditional-components-function
+#| code-line-numbers: "1,5|2,3,4"
+draw_scatter <- function(smooth = TRUE) {
+  ggplot(bikes, aes(x = temp, y = humidity)) +
+    { if(smooth) geom_smooth(color = "red") } +
+    geom_point(alpha = .5)
+}
+```
+
+
+## Wrapper Functions for Plots
+
+```{r}
+#| label: conditional-components-function-plot-default
+#| output-location: column
+#| fig-width: 5
+#| fig-height: 6
+draw_scatter()
+```
+
+
+## Wrapper Functions for Plots
+
+```{r}
+#| label: conditional-components-function-plot-false
+#| output-location: column
+#| fig-width: 5
+#| fig-height: 6
+draw_scatter(smooth = FALSE)
+```
+
+
+## Components as Functions
+
+```{r}
+#| label: function-components
+#| cache: false
+#| code-line-numbers: "1,2,7|3,6|4,5"
+geom_scatterfit <- function(pointsize = 1, pointalpha = 1, 
+                            method = "lm", linecolor = "red", ...) {
+  list(
+    geom_point(size = pointsize, alpha = pointalpha, ...),
+    geom_smooth(method = method, color = linecolor, ...)
+  )
+}
+```
+
+
+## Components as Functions
+
+```{r}
+#| label: function-components-defaults
+#| output-location: column
+#| fig-width: 5
+#| fig-height: 6
+#| code-line-numbers: "3"
+ggplot(bikes,
+       aes(x = humidity, y = count)) +
+  geom_scatterfit()
+```
+
+
+## Components as Functions
+
+```{r}
+#| label: function-components-args
+#| output-location: column
+#| fig-width: 5
+#| fig-height: 6
+#| code-line-numbers: "4,5"
+ggplot(bikes,
+       aes(x = humidity, y = count)) +
+  geom_scatterfit(
+    color = "#28A87D", 
+    linewidth = 3
+  )
+```
+
+
+## Components as Functions
+
+```{r}
+#| label: function-components-custom
+#| output-location: column
+#| fig-width: 5
+#| fig-height: 6
+#| code-line-numbers: "1,2|4,5,6,7"
+ggplot(diamonds, 
+       aes(x = carat, y = price)) +
+  geom_scatterfit(
+    pointsize = .5, 
+    pointalpha = .1,
+    method = "gam",
+    linecolor = "#EFAC00"
+  )
+```
+
+
+## Components as Functions
+
+```{r}
+#| label: function-components-scales
+#| cache: false
+#| code-line-numbers: "1,14|2,13|3,4,5,6,7|8,9,10,11,12"
+scales_log <- function(sides = "xy") {
+  list(
+    if(stringr::str_detect(sides, "x")) {
+      scale_x_log10(
+        breaks = c(10^(1:100)), labels = scales::label_log()
+      )
+    },
+    if(stringr::str_detect(sides, "y")) {
+      scale_y_log10(
+        breaks = c(10^(1:100)), labels = scales::label_log()
+      )
+    }
+  )
+}
+```
+
+
+## Components as Functions
+
+```{r}
+#| label: function-components-scales-custom
+#| output-location: column
+#| fig-width: 5
+#| fig-height: 6
+#| code-line-numbers: "9"
+ggplot(diamonds, 
+       aes(x = carat, y = price)) +
+  geom_scatterfit(
+    pointsize = .5, 
+    pointalpha = .1,
+    method = "gam",
+    linecolor = "#EFAC00"
+  ) +
+  scales_log(sides = "y")
+```
+
+
+## Iterative Graphics
+
+```{r}
+#| label: function-iterate-monthly
+#| cache: false
+#| code-line-numbers: "1,11|2,3,4|5,6,7,8,9|1,4,9"
+trends_monthly <- function(grp = "January") {
+  bikes |> 
+    dplyr::mutate(month = lubridate::month(date, label = TRUE, abbr = FALSE)) |> 
+    dplyr::filter(month %in% grp) |> 
+    ggplot(aes(x = temp, y = count, color = day_night)) +
+    geom_point(alpha = .2, show.legend = FALSE) +
+    geom_smooth(se = FALSE) +
+    scale_color_manual(values = c("#FFA200", "#757bc7")) +
+    labs(title = grp, x = "Temperature", y = "Bike shares", color = NULL)
+}
+```
+
+
+## Iterative Graphics
+
+```{r}
+#| label: function-iterate-monthly-july
+#| cache: false
+#| output-location: column
+#| fig-width: 5
+#| fig-height: 6
+trends_monthly("July")
+```
+
+
+## Iterative Graphics
+
+```{r}
+#| label: function-iterate-monthly-ranges
+#| cache: false
+#| code-line-numbers: "8,9,10"
+trends_monthly <- function(grp = "January") {
+  bikes |> 
+    dplyr::mutate(month = lubridate::month(date, label = TRUE, abbr = FALSE)) |> 
+    dplyr::filter(month %in% grp) |> 
+    ggplot(aes(x = temp, y = count, color = day_night)) +
+    geom_point(alpha = .2, show.legend = FALSE) +
+    geom_smooth(se = FALSE) +
+    # keep axis ranges consistent
+    scale_x_continuous(limits = range(bikes$temp)) +
+    scale_y_continuous(limits = range(bikes$count)) +
+    scale_color_manual(values = c("#FFA200", "#757bc7")) +
+    labs(title = grp, x = "Temperature", y = "Bike shares", color = NULL)
+}
+```
+
+
+## Iterative Graphics
+
+```{r}
+#| label: function-iterate-monthly-ranges-july
+#| cache: false
+#| output-location: column
+#| fig-width: 5
+#| fig-height: 6
+trends_monthly("July")
+```
+
+
+## Iterative Graphics
+
+```{r}
+#| label: function-iterate-monthly-ranges-purrr
+#| cache: false
+#| eval: false
+#| purl: false
+plots <- purrr::map(month.name[1:12], trends_monthly) ## also: ~ trends_monthly(.x)
+```
+
+
+## Iterative Graphics
+
+```{r}
+#| label: function-iterate-monthly-ranges-purrr-single
+#| cache: false
+#| fig-width: 8
+#| fig-height: 5
+#| fig-align: center
+#| code-line-numbers: "2"
+plots <- purrr::map(month.name[1:12], trends_monthly) ## also: ~ trends_monthly(.x)
+plots[[9]]
+```
+
+
+## Iterative Graphics
+
+```{r}
+#| label: function-iterate-monthly-ranges-wrap
+#| cache: false
+#| fig-width: 18
+#| fig-height: 8.5
+#| fig-align: center
+#| code-line-numbers: "2"
+plots <- purrr::map(month.name[1:12], trends_monthly) ## also: ~ trends_monthly(.x)
+patchwork::wrap_plots(plots)
+```
+
+
+## Iterative Graphics
+
+```{r}
+#| label: function-density
+#| cache: false
+#| code-line-numbers: "1,11|2|3,4|5,6,7|8,9,10"
+plot_density <- function(data, var, grp = "") {
+  ggplot(data, aes(x = !!sym(var))) +
+    geom_density(aes(fill = !!sym(grp)), position = "identity",
+                 color = "grey30", alpha = .3) +
+    coord_cartesian(expand = FALSE, clip = "off") +
+    scale_y_continuous(labels = scales::label_number()) +
+    scale_fill_brewer(palette = "Dark2", name = NULL) +
+    theme(legend.position = "top")
+}
+```
+
+
+## Iterative Graphics
+
+```{r}
+#| label: function-density-plot
+#| cache: false
+#| output-location: column
+#| fig-width: 5
+#| fig-height: 6
+plot_density(
+  bikes, "count"
+)
+```
+
+
+## Iterative Graphics
+
+```{r}
+#| label: function-density-plot-grp
+#| cache: false
+#| fig-width: 14
+#| fig-height: 6.5
+#| fig-align: center
+#| code-line-numbers: "1,2,3,4|2|3|5"
+plots <- purrr::map(
+  c("count", "temp", "humidity", "wind_speed"), 
+  ~ plot_density(data = bikes, var = .x, grp = "day_night")
+)
+patchwork::wrap_plots(plots, nrow = 1)
+```
+
+
+## Iterative Graphics
+
+```{r}
+#| label: function-density-plot-midwest
+#| cache: false
+#| fig-width: 20
+#| fig-height: 9
+#| fig-align: center
+#| code-line-numbers: "2|3|5"
+plots <- purrr::map(
+  names(dplyr::select(midwest, where(is.numeric))),
+  ~plot_density(data = midwest, var = .x)
+)
+patchwork::wrap_plots(plots)
+```
+
+
+
+# Exercises
+
+
+
+## Exercise 1
+
+::: question
+-  **Take a look at the following visualization.**
+   -  For each group of text labels, note how one would add and modify them.
+   -  Discuss how to automate the placement of the labels in- and outside of the bars.
+:::
+
+--------------------------------------------------------------------------------
+
+```{r}
+#| label: exercise-labels
+#| echo: false
+#| purl: false
+#| fig-width: 7.5
+#| fig-height: 4.7
+bikes |> 
+  filter(!is.na(weather_type), year == "2015") |> 
+  mutate(weather_type = forcats::fct_reorder(weather_type, count, .fun = sum)) |> 
+  ggplot(aes(x = count, y = weather_type)) +
+  stat_summary(
+    fun = sum, geom = "bar",
+    color = "grey20", fill = "beige", width = .7
+  ) +
+  stat_summary(
+    fun = sum, geom = "text", 
+    aes(
+      label = after_stat(paste0("  ", sprintf("%2.2f", x / 10^6), "M  ")),
+      hjust = after_stat(x) > .5*10^6
+    ),
+    family = "Asap SemiCondensed"
+  ) +
+  scale_x_continuous(
+    expand = c(0, 0), name = "**Reported bike shares**, in millions",
+    breaks = 0:4*10^6, labels = c("0", paste0(1:4, "M"))
+  ) +
+  scale_y_discrete(labels = stringr::str_to_sentence, name = NULL) +
+  coord_cartesian(clip = "off") +
+  labs(
+    title = "Fair weather preferred—even in London",
+    subtitle = "Less than 10% of TfL bikes shares have been reported on rainy, cloudy, or snowy days in 2015.",
+    caption = "**Data:** Transport for London / freemeteo.com"
+  ) +
+  theme_minimal(base_size = 14, base_family = "Asap SemiCondensed") +
+  theme(
+    panel.grid.major.y = element_blank(),
+    panel.grid.minor = element_blank(),
+    axis.title.x = ggtext::element_markdown(hjust = 0, face = "italic"),
+    axis.text.y = element_text(color = "black", size = rel(1.2)),
+    plot.title = element_text(face = "bold"),
+    plot.subtitle = element_text(margin = margin(b = 20)),
+    plot.title.position = "plot",
+    plot.caption = ggtext::element_markdown(color = "grey40")
+  )
+```
+
+
+
+## Exercise 2
+
+::: question
+-   **Create the following penguins multi-panel graphic, as close as possible.**
+
+```{r}
+#| label: exercise-penguins
+#| echo: false
+#| purl: false
+#| fig-pos: "center"
+#| fig-width: 13
+#| fig-height: 6.8
+library(palmerpenguins)
+
+theme_set(theme_minimal(
+  base_size = 16, base_family = "Asap SemiCondensed"
+))
+
+theme_update(
+  plot.title = ggtext::element_textbox_simple(
+    size = 20, margin = margin(15, 0, 15, 0),
+    padding = margin(rep(12, 4)), fill = "grey90", r = unit(9, "pt")
+  ),
+  plot.title.position = "plot",
+  plot.caption = ggtext::element_markdown(
+    size = 10, color = "grey50", margin = margin(12, 0, 6, 0)
+  ),
+  plot.caption.position = "plot",
+  plot.tag = element_text(margin = margin(b = 0, l = 15)),
+  plot.background = element_rect(color = "#f8f8f8", fill = "#f8f8f8"),
+  panel.grid.minor = element_blank(),
+  legend.position = "none",
+  axis.title.x = element_text(margin = margin(t = 10)),
+  axis.title.y = element_text(margin = margin(r = 10))
+)
+
+penguin_cols <- c("#FF8C00", "#159090", "#A034F0")
+
+penguins$species <- factor(penguins$species, levels = c("Adelie", "Gentoo", "Chinstrap"))
+
+p1 <- ggplot(
+    penguins,
+    aes(x = species, fill = species)
+  ) +
+  geom_bar() +
+  stat_count(
+    geom = "text",
+    aes(label = stat(count)),
+    vjust = 1.5, size = 5, color = "white", 
+    family = "Spline Sans Mono", fontface = "bold"
+  ) +
+  scale_y_continuous(
+    expand = c(0, 0),
+    guide = "none",
+    limits = c(0, 168)
+  ) +
+  scale_fill_manual(
+    values = penguin_cols
+  ) +
+  labs(
+    x = "Pygoscelis spec.", y = NULL 
+  ) +
+  theme(
+    panel.grid.major = element_blank(),
+    axis.title.x = element_text(face = "italic")
+  )
+
+p2 <- ggplot(
+    penguins,
+    aes(x = island, fill = island)
+  ) +
+  geom_bar() +
+  stat_count(
+    geom = "text",
+    aes(label = stat(count)),
+    vjust = 1.5, size = 5, color = "white", 
+    family = "Spline Sans Mono", fontface = "bold"
+  ) +
+  scale_y_continuous(
+    expand = c(0, 0),
+    guide = "none",
+    limits = c(0, 168)
+  ) +
+  scale_fill_manual(
+    values = c("#9294BE", "#D4B7A9", "#CF98A3")
+  ) +
+  labs(
+    x = "Island", y = NULL 
+  ) +
+  theme(panel.grid.major = element_blank())
+
+p3 <- ggplot(
+    penguins,
+    aes(x = flipper_length_mm, y = body_mass_g, color = species)
+  ) +
+  geom_point(size = 3.5, color = "black") + 
+  geom_point(size = 3, color = "white") + 
+  geom_point(size = 2, alpha = .5) + 
+  stat_smooth(
+    method = "lm", se = FALSE,
+    show.legend = FALSE
+  ) +
+  coord_cartesian(
+    clip = "off", 
+    expand = FALSE, 
+    xlim = c(171, 232)
+  ) +
+  scale_x_continuous(labels = function(x) paste(x, "mm")) +
+  scale_y_continuous(labels = function(y) paste(y / 1000, "kg")) +
+  scale_color_manual(
+    values = penguin_cols
+  ) +
+  labs(
+    x = "Flipper length", y = "Body mass" 
+  ) 
+
+
+library(patchwork)
+
+((p1 / p2) | p3) +
+  plot_layout(widths = c(.4, 1)) + 
+  plot_annotation(
+    title = "Individual counts per species (A) and island (B) as well as the relationship of physiological metrics (C) for adult *Pygoscelis spec.* penguins, measured between 2007 and 2009 near Palmer Station, Antarctica.", caption = "Horst AM, Hill AP, Gorman KB (2020). <span style='font-family:tabular;'>palmerpenguins</span> R package version 0.1.0",
+    tag_levels = "A", tag_suffix = "."
+  )
+```
+
+:::
+
+
+
+## Exercise 3
+
+::: question
+-  **Create a function that plots the famous Gapminder chart, highlighting one of the continents.**
+   -  Extend the following code in to annotate a continent your choice of with {ggforce}.
+   -  Turn the code into a function with the utility to annotate any continent.
+   -  Optional: Create a second function to highlight a country.
+:::
+
+
+--------------------------------------------------------------------------------
+
+```{r}
+#| label: exercise-function
+#| eval: false
+#| purl: false
+#| code-line-numbers: "1|3|5|6,7,8|9,10,11,12|13,14,15,16,17|18|19,20"
+# install.packages("gapminder")
+
+gm2007 <- filter(gapminder::gapminder, year == 2007)
+
+ggplot(gm2007, aes(x = gdpPercap, y = lifeExp)) +
+  geom_point( 
+    aes(size = pop), alpha = .5
+  ) +
+  scale_x_log10(
+    breaks = c(500, 2000, 8000, 32000),
+    labels = scales::label_dollar(accuracy = 1)
+  ) +
+  scale_size(
+    range = c(1, 12), name = "Population:", 
+    breaks = c(10, 100, 1000)*1000000, 
+    labels = scales::label_comma(scale = 1 / 10^6, suffix = "M")
+  ) +
+  labs(x = "GDP per capita", y = "Life expectancy") +
+  theme_minimal(base_family = "Spline Sans") +
+  theme(panel.grid.minor = element_blank())
+```
+
+--------------------------------------------------------------------------------
+
+```{r}
+#| label: exercise-function
+#| echo: false
+#| purl: false
+#| fig-width: 10
+#| fig-height: 6.2
+#| fig-align: center
+```
+
+
+
+# Solution Exercise 1 {background-color="#e6d9f2"}
+
+
+
+## Exercise 1
+
+::: question
+-  **Take a look at the following visualization.**
+   -  For each group of text labels, note how one would add and modify them.
+   -  Discuss how to automate the placement of the labels in- and outside of the bars.
+:::
+
+
+
+## Horizontal Bar Chart
+
+```{r}
+#| label: exercise-labels-solution-01
+#| eval: false
+#| cache: false
+#| purl: false
+#| code-line-numbers: "1|2,3,4|5|6,7,8,9|7|10|11|12,13,14,15,16"
+p <- 
+  bikes |> 
+  filter(!is.na(weather_type), year == "2015") |> 
+  summarize(n = sum(count), .by = weather_type) |> 
+  ggplot(aes(x = n, y = forcats::fct_reorder(weather_type, n))) +
+  geom_col(color = "grey20", fill = "beige", width = .7) +
+  scale_x_continuous(expand = c(0, 0)) +
+  coord_cartesian(clip = "off") +
+  theme_minimal(base_size = 14, base_family = "Asap SemiCondensed") +
+  theme(
+    panel.grid.major.y = element_blank(),
+    panel.grid.minor = element_blank()
+  )
+
+p
+```
+
+--------------------------------------------------------------------------------
+
+```{r}
+#| label: exercise-labels-solution-01
+#| echo: false
+#| purl: false
+#| fig-width: 7.5
+#| fig-height: 4.7
+```
+
+
+## Add Count Annotations
+
+```{r}
+#| label: exercise-labels-solution-02
+#| eval: false
+#| purl: false
+#| code-line-numbers: "2,3,4,5,6|3|4"
+p +
+  geom_text(
+    aes(label = n),
+    family = "Asap SemiCondensed"
+  )
+```
+
+--------------------------------------------------------------------------------
+
+```{r}
+#| label: exercise-labels-solution-02
+#| echo: false
+#| purl: false
+#| fig-width: 7.5
+#| fig-height: 4.7
+```
+
+
+## Add Count Annotations
+
+```{r}
+#| label: exercise-labels-solution-03
+#| eval: false
+#| purl: false
+#| code-line-numbers: "4,5|5"
+p +
+  geom_text(
+    aes(label = n,
+        hjust = n > .5*10^6),
+    family = "Asap SemiCondensed"
+  )
+```
+
+--------------------------------------------------------------------------------
+
+```{r}
+#| label: exercise-labels-solution-03
+#| echo: false
+#| purl: false
+#| fig-width: 7.5
+#| fig-height: 4.7
+```
+
+
+## Add Count Annotations
+
+```{r}
+#| label: exercise-labels-solution-04
+#| eval: false
+#| purl: false
+#| code-line-numbers: "4"
+p +
+  geom_text(
+    aes(label = paste0("  ", sprintf("%2.2f", n / 10^6), "M  "),
+        hjust = n > .5*10^6),
+    family = "Asap SemiCondensed"
+  )
+```
+
+--------------------------------------------------------------------------------
+
+```{r}
+#| label: exercise-labels-solution-04
+#| echo: false
+#| purl: false
+#| fig-width: 7.5
+#| fig-height: 4.7
+```
+
+
+## Polish Axes
+
+```{r}
+#| label: exercise-labels-solution-05
+#| eval: false
+#| purl: false
+#| code-line-numbers: "8,9,10,11|9|9,12,13,14|10"
+p +
+  geom_text(
+    aes(label = paste0("  ", sprintf("%2.2f", n / 10^6), "M  "),
+        hjust = n > .5*10^6),
+    family = "Asap SemiCondensed"
+  ) +
+  scale_x_continuous(
+    expand = c(0, 0), name = "**Reported bike shares**, in millions", 
+    breaks = 0:4*10^6, labels = c("0", paste0(1:4, "M"))
+  ) +
+  theme(
+    axis.title.x = ggtext::element_markdown(hjust = 0, face = "italic")
+  )
+```
+
+--------------------------------------------------------------------------------
+
+```{r}
+#| label: exercise-labels-solution-05
+#| echo: false
+#| purl: false
+#| fig-width: 7.5
+#| fig-height: 4.7
+```
+
+
+## Polish Axes Labels
+
+```{r}
+#| label: exercise-labels-solution-06
+#| eval: false
+#| purl: false
+#| code-line-numbers: "12,13,14|13|17"
+p +
+  geom_text(
+    aes(label = paste0("  ", sprintf("%2.2f", n / 10^6), "M  "),
+        hjust = n > .5*10^6),
+    family = "Asap SemiCondensed"
+  ) +
+  scale_x_continuous(
+    expand = c(0, 0), name = "**Reported bike shares**, in millions", 
+    breaks = 0:4*10^6, labels = c("0", paste0(1:4, "M"))
+  ) +
+  scale_y_discrete(
+    labels = stringr::str_to_sentence, name = NULL
+  ) +
+  theme(
+    axis.title.x = ggtext::element_markdown(hjust = 0, face = "italic"),
+    axis.text.y = element_text(color = "black", size = rel(1.2))
+  )
+```
+
+--------------------------------------------------------------------------------
+
+```{r}
+#| label: exercise-labels-solution-06
+#| echo: false
+#| purl: false
+#| fig-width: 7.5
+#| fig-height: 4.7
+```
+
+
+## Add Titles
+
+```{r}
+#| label: exercise-labels-solution-07
+#| eval: false
+#| purl: false
+#| code-line-numbers: "15,16,17,18,19|16,23,24|17,23,25|18,26"
+p +
+  geom_text(
+    aes(label = paste0("  ", sprintf("%2.2f", n / 10^6), "M  "),
+        hjust = n > .5*10^6),
+    family = "Asap SemiCondensed"
+  ) +
+  scale_x_continuous(
+    expand = c(0, 0), name = "**Reported bike shares**, in millions", 
+    breaks = 0:4*10^6, labels = c("0", paste0(1:4, "M"))
+  ) +
+  scale_y_discrete(
+    labels = stringr::str_to_sentence, name = NULL
+  ) +
+  labs(
+    title = "Fair weather preferred—even in London",
+    subtitle = "Less than 10% of TfL bikes shares have been reported on rainy, cloudy, or snowy days in 2015.",
+    caption = "**Data:** Transport for London / freemeteo.com"
+  ) +
+  theme(
+    axis.title.x = ggtext::element_markdown(hjust = 0, face = "italic"),
+    axis.text.y = element_text(color = "black", size = rel(1.2)),
+    plot.title.position = "plot",
+    plot.title = element_text(face = "bold"),
+    plot.subtitle = element_text(margin = margin(b = 20)),
+    plot.caption = ggtext::element_markdown(color = "grey40")
+  )
+```
+
+--------------------------------------------------------------------------------
+
+```{r}
+#| label: exercise-labels-solution-07
+#| echo: false
+#| purl: false
+#| fig-width: 7.5
+#| fig-height: 4.7
+```
+
+
+## Full Code
+
+```{r}
+#| label: exercise-labels-solution-full-geom
+#| eval: false
+#| purl: false
+bikes |> 
+  filter(!is.na(weather_type), year == "2015") |> 
+  summarize(n = sum(count), .by = weather_type) |> 
+  ggplot(aes(x = n, y = forcats::fct_reorder(weather_type, n))) +
+  geom_col(color = "grey20", fill = "beige", width = .7) +
+  geom_text(
+    aes(label = paste0("  ", sprintf("%2.2f", n / 10^6), "M  "),
+        hjust = n > .5*10^6),
+    family = "Asap SemiCondensed"
+  ) +
+  scale_x_continuous(
+    breaks = 0:4*10^6,
+    labels = c("0", paste0(1:4, "M")),
+    expand = c(0, 0), 
+    name = "**Reported bike shares**, in millions"
+  ) +
+  scale_y_discrete(labels = stringr::str_to_sentence, name = NULL) +
+  coord_cartesian(clip = "off") +
+  labs(
+    title = "Fair weather preferred—even in London",
+    subtitle = "Less than 10% of TfL bikes shares have been reported on rainy, cloudy, or snowy days in 2015.",
+    caption = "**Data:** Transport for London / freemeteo.com"
+  ) +
+  theme_minimal(base_size = 14, base_family = "Asap SemiCondensed") +
+  theme(
+    panel.grid.major.y = element_blank(),
+    panel.grid.minor = element_blank(),
+    axis.title.x = ggtext::element_markdown(hjust = 0, face = "italic"),
+    axis.text.y = element_text(color = "black", size = rel(1.2)),
+    plot.title = element_text(face = "bold"),
+    plot.subtitle = element_text(margin = margin(b = 20)),
+    plot.title.position = "plot",
+    plot.caption = ggtext::element_markdown(color = "grey40")
+  )
+```
+
+
+## Full Code with \`stat_summary()\`
+
+```{r}
+#| label: exercise-labels-solution-full-stat
+#| eval: false
+#| purl: false
+#| code-line-numbers: "3|3,5,6,8|3,5,6,8,9,10,11,12,13,14,16"
+bikes |> 
+  filter(year == "2015") |> 
+  mutate(weather_type = forcats::fct_reorder(weather_type, count, .fun = sum)) |> 
+  ggplot(aes(x = count, y = weather_type)) +
+  stat_summary(
+    geom = "bar", fun = sum, 
+    color = "grey20", fill = "beige", width = .7
+  ) +
+  stat_summary(
+    geom = "text", fun = sum,
+    aes(
+      label = after_stat(paste0("  ", sprintf("%2.2f", x / 10^6), "M  ")),
+      hjust = after_stat(x) > .5*10^6
+    ),
+    family = "Asap SemiCondensed"
+  ) +
+  scale_x_continuous(
+    breaks = 0:4*10^6,
+    labels = c("0", paste0(1:4, "M")),
+    expand = c(0, 0), 
+    name = "**Reported bike shares**, in millions"
+  ) +
+  scale_y_discrete(labels = stringr::str_to_sentence, name = NULL) +
+  coord_cartesian(clip = "off") +
+  labs(
+    title = "Fair weather preferred—even in London",
+    subtitle = "Less than 10% of TfL bikes shares have been reported on rainy, cloudy, or snowy days in 2015.",
+    caption = "**Data:** Transport for London / freemeteo.com"
+  ) +
+  theme_minimal(base_size = 14, base_family = "Asap SemiCondensed") +
+  theme(
+    panel.grid.major.y = element_blank(),
+    panel.grid.minor = element_blank(),
+    axis.title.x = ggtext::element_markdown(hjust = 0, face = "italic"),
+    axis.text.y = element_text(color = "black", size = rel(1.2)),
+    plot.title = element_text(face = "bold"),
+    plot.subtitle = element_text(margin = margin(b = 20)),
+    plot.title.position = "plot",
+    plot.caption = ggtext::element_markdown(color = "grey40")
+  )
+```
+
+
+
+# Solution Exercise 2 {background-color="#e6d9f2"}
+
+
+
+## Exercise 2
+
+::: question
+-   **Create the following penguins multi-panel graphic, as close as possible.**
+
+```{r}
+#| label: exercise-penguins
+#| echo: false
+#| purl: false
+#| fig-pos: "center"
+#| fig-width: 13
+#| fig-height: 6.8
+```
+:::
+
+
+
+## Prepare the Data Set
+
+```{r}
+#| label: exercise-penguins-solution-01
+#| eval: false
+#| purl: false
+library(palmerpenguins)
+
+penguin_cols <- c("#FF8C00", "#159090", "#A034F0")
+
+penguins$species <- factor(penguins$species, levels = c("Adelie", "Gentoo", "Chinstrap"))
+```
+
+
+
+## Prepare Theming
+
+```{r}
+#| label: exercise-penguins-solution-02
+#| eval: false
+#| purl: false
+theme_set(theme_minimal(
+  base_size = 16, base_family = "Asap SemiCondensed"
+))
+
+theme_update(
+  plot.title = ggtext::element_textbox_simple(
+    size = 20, margin = margin(15, 0, 15, 0),
+    padding = margin(rep(12, 4)), fill = "grey90"
+  ),
+  plot.title.position = "plot",
+  plot.caption = ggtext::element_markdown(
+    size = 10, color = "grey50", margin = margin(12, 0, 6, 0)
+  ),
+  plot.caption.position = "plot",
+  plot.tag = element_text(margin = margin(b = 0, l = 15)),
+  plot.background = element_rect(color = "#f8f8f8", fill = "#f8f8f8"),
+  panel.grid.minor = element_blank(),
+  legend.position = "none",
+  axis.title.x = element_text(margin = margin(t = 10)),
+  axis.title.y = element_text(margin = margin(r = 10))
+)
+```
+
+
+
+## Create Bar Plot Species
+
+```{r}
+#| label: exercise-penguins-solution-03
+#| eval: false
+#| purl: false
+p1 <- ggplot(
+    penguins,
+    aes(x = species, fill = species)
+  ) +
+  geom_bar() +
+  stat_count(
+    geom = "text",
+    aes(label = stat(count)),
+    vjust = 1.5, size = 5, color = "white", 
+    family = "Spline Sans Mono", fontface = "bold"
+  ) +
+  scale_y_continuous(
+    expand = c(0, 0),
+    guide = "none",
+    limits = c(0, 168)
+  ) +
+  scale_fill_manual(
+    values = penguin_cols
+  ) +
+  labs(
+    x = "Pygoscelis spec.", y = NULL 
+  ) +
+  theme(
+    panel.grid.major = element_blank(),
+    axis.title.x = element_text(face = "italic")
+  )
+
+p1
+```
+
+
+
+## Create Bar Plot Species
+
+```{r}
+#| label: exercise-penguins-solution-03
+#| echo: false
+#| purl: false
+#| fig-pos: "center"
+#| fig-width: 3.7
+#| fig-height: 3.6
+```
+
+
+
+## Create Bar Plot Islands
+
+```{r}
+#| label: exercise-penguins-solution-04
+#| eval: false
+#| purl: false
+p2 <- ggplot(
+    penguins,
+    aes(x = island, fill = island)
+  ) +
+  geom_bar() +
+  stat_count(
+    geom = "text",
+    aes(label = stat(count)),
+    vjust = 1.5, size = 5, color = "white", 
+    family = "Spline Sans Mono", fontface = "bold"
+  ) +
+  scale_y_continuous(
+    expand = c(0, 0),
+    guide = "none",
+    limits = c(0, 168)
+  ) +
+  scale_fill_manual(
+    values = c("#9294BE", "#D4B7A9", "#CF98A3")
+  ) +
+  labs(
+    x = "Island", y = NULL 
+  ) +
+  theme(panel.grid.major = element_blank())
+
+p2
+```
+
+
+
+## Create Bar Plot Islands
+
+```{r}
+#| label: exercise-penguins-solution-04
+#| echo: false
+#| purl: false
+#| fig-pos: "center"
+#| fig-width: 3.7
+#| fig-height: 3.6
+```
+
+
+
+## Create Scatter Plot
+
+```{r}
+#| label: exercise-penguins-solution-05
+#| eval: false
+#| purl: false
+p3 <- ggplot(
+    penguins,
+    aes(x = flipper_length_mm, y = body_mass_g, 
+        color = species)
+  ) +
+  geom_point(size = 3.5, color = "black") + 
+  geom_point(size = 3, color = "white") + 
+  geom_point(size = 2, alpha = .5) + 
+  stat_smooth(
+    method = "lm", se = FALSE,
+    show.legend = FALSE
+  ) +
+  coord_cartesian(
+    clip = "off", expand = FALSE, xlim = c(171, 232)
+  ) +
+  scale_x_continuous(
+    labels = function(x) paste(x, "mm")
+  ) +
+  scale_y_continuous(
+    labels = function(y) paste(y / 1000, "kg")
+  ) +
+  scale_color_manual(
+    values = `penguin_cols`
+  ) +
+  labs(
+    x = "Flipper length", y = "Body mass" 
+  ) 
+
+p3
+```
+
+
+
+## Create Scatter Plot
+
+```{r}
+#| label: exercise-penguins-solution-05
+#| echo: false
+#| purl: false
+#| fig-pos: "center"
+#| fig-width: 9.3
+#| fig-height: 7.2
+```
+
+
+
+## Create Plot Composition
+
+```{r}
+#| label: exercise-penguins-solution-06
+#| eval: false
+#| purl: false
+library(patchwork)
+
+((p1 / p2) | p3) +
+  plot_layout(widths = c(.4, 1)) + 
+  plot_annotation(
+    title = "Individual counts per species (A) and island (B) as well as the relationship of physiological metrics (C) for adult *Pygoscelis spec.* penguins, measured between 2007 and 2009 near Palmer Station, Antarctica.", caption = "Horst AM, Hill AP, Gorman KB (2020). <span style='font-family:spline sans mono;'>palmerpenguins</span> R package version 0.1.0",
+    tag_levels = "A", tag_suffix = "."
+  )
+```
+
+
+
+## Create Plot Composition
+
+```{r}
+#| label: exercise-penguins-solution-06
+#| fig-width: 13
+#| fig-height: 6.8
+#| fig-pos: "center"
+#| echo: false
+#| purl: false
+```
+
+
+
+## Exercise 3
+
+::: question
+-  **Create a function that plots the famous Gapminder chart, highlighting one of the continents.**
+   -  Extend the following code in to annotate a continent your choice of with {ggforce}.
+   -  Turn the code into a function with the utility to annotate any continent.
+   -  Optional: Create a second function to highlight a country.
+:::
+
+
+
+## Gapminder Bubble Chart
+
+```{r}
+#| label: exercise-function-template
+#| eval: false
+#| purl: false
+#| cache: false
+#| code-line-numbers: "1|3,4,5|7|9,10,11,12|13,14,15,16|17,18,19,20,21|22|23,24"
+# install.packages("gapminder")
+
+library(gapminder)
+library(dplyr)
+library(ggplot2)
+
+gm2007 <- filter(gapminder, year == 2007)
+
+ggplot(gm2007, aes(x = gdpPercap, y = lifeExp)) +
+  geom_point(
+    aes(size = pop), alpha = .5
+  ) +
+  scale_x_log10(
+    breaks = c(500, 2000, 8000, 32000),
+    labels = scales::label_dollar(accuracy = 1)
+  ) +
+  scale_size(
+    range = c(1, 12), name = "Population:", 
+    breaks = c(10, 100, 1000)*1000000, 
+    labels = scales::label_comma(scale = 1 / 10^6, suffix = "M")
+  ) +
+  labs(x = "GDP per capita", y = "Life expectancy") +
+  theme_minimal(base_family = "Spline Sans", base_size = 15) +
+  theme(panel.grid.minor = element_blank())
+```
+
+--------------------------------------------------------------------------------
+
+```{r}
+#| label: exercise-function-template
+#| echo: false
+#| purl: false
+#| fig-width: 10
+#| fig-height: 6.2
+#| fig-align: center
+```
+
+
+## Annotate Continents
+
+```{r}
+#| label: exercise-function-solution-01
+#| eval: false
+#| purl: false
+#| code-line-numbers: "2,3,4|5,6,7,8|6|9,10,11,12,13|10"
+ggplot(gm2007, aes(x = gdpPercap, y = lifeExp)) +
+  geom_point(
+    aes(size = pop), alpha = .5, color = "grey60"
+  ) +
+  geom_point( 
+    data = filter(gm2007, continent == "Americas"),
+    aes(size = pop), shape = 1, stroke = .7
+  ) +
+  ggforce::geom_mark_hull(
+    aes(label = continent, filter = continent == "Americas"),
+    expand = unit(10, "pt"), con.cap = unit(1, "mm"),
+    label.family = "Spline Sans", label.fontsize = 15
+  ) +
+  scale_x_log10(
+    breaks = c(500, 2000, 8000, 32000),
+    labels = scales::label_dollar(accuracy = 1)
+  ) +
+  scale_size(
+    range = c(1, 12), name = "Population:",
+    breaks = c(10, 100, 1000)*1000000,
+    labels = scales::label_comma(scale = 1 / 10^6, suffix = "M")
+  ) +
+  labs(x = "GDP per capita", y = "Life expectancy") +
+  theme_minimal(base_family = "Spline Sans", base_size = 15) +
+  theme(panel.grid.minor = element_blank())
+```
+
+--------------------------------------------------------------------------------
+
+```{r}
+#| label: exercise-function-solution-01
+#| echo: false
+#| purl: false
+#| fig-width: 10
+#| fig-height: 6.2
+#| fig-align: center
+```
+
+
+## Function to Highlight a Continent
+
+```{r}
+#| label: exercise-function-solution-02
+#| cache: false
+#| purl: false
+#| code-line-numbers: "1,29|8,12"
+draw_gp_continent <- function(grp) {
+  
+  ggplot(gm2007, aes(x = gdpPercap, y = lifeExp)) + 
+    geom_point( 
+      aes(size = pop), alpha = .5, color = "grey60"
+    ) +
+    geom_point( 
+      data = filter(gm2007, continent == grp),
+      aes(size = pop), shape = 1, stroke = .7
+    ) +
+    ggforce::geom_mark_hull(
+      aes(label = continent, filter = continent == grp),
+      expand = unit(10, "pt"), con.cap = unit(1, "mm"),
+      label.family = "Spline Sans", label.fontsize = 15
+    ) +
+    scale_x_log10(
+      breaks = c(500, 2000, 8000, 32000),
+      labels = scales::label_dollar(accuracy = 1)
+    ) +
+    scale_size(
+      range = c(1, 12), name = "Population:", 
+      breaks = c(10, 100, 1000)*1000000, 
+      labels = scales::label_comma(scale = 1 / 10^6, suffix = "M")
+    ) +
+    labs(x = "GDP per capita", y = "Life expectancy") +
+    theme_minimal(base_family = "Spline Sans", base_size = 15) +
+    theme(panel.grid.minor = element_blank())
+  
+}
+```
+
+
+--------------------------------------------------------------------------------
+
+```{r}
+#| label: exercise-function-solution-03
+#| purl: false
+#| fig-width: 10
+#| fig-height: 6.2
+#| fig-align: center
+draw_gp_continent("Americas")
+```
+
+
+--------------------------------------------------------------------------------
+
+```{r}
+#| label: exercise-function-solution-04
+#| purl: false
+#| fig-width: 10
+#| fig-height: 6.2
+#| fig-align: center
+draw_gp_continent("Africa")
+```
+
+
+--------------------------------------------------------------------------------
+
+```{r}
+#| label: exercise-function-solution-05
+#| purl: false
+#| fig-width: 10
+#| fig-height: 6.2
+#| fig-align: center
+draw_gp_continent("Europe")
+```
+
+
+## Function to Highlight a Country
+
+```{r}
+#| label: exercise-function-solution-06
+#| cache: false
+#| purl: false
+#| code-line-numbers: "1,30|7,8,9,10,11,12|8|9,10|13,14,15,16|14|15"
+draw_gp_country <- function(grp) {
+  
+  ggplot(gm2007, aes(x = gdpPercap, y = lifeExp)) + 
+    geom_point( 
+      aes(size = pop), alpha = .5, color = "grey60"
+    ) +
+    ggforce::geom_mark_circle(
+      aes(label = country, filter = country == grp),
+      expand = unit(15, "pt"), con.cap = unit(0, "mm"),
+      # expand = unit(0, "pt"), con.cap = unit(0, "mm"),
+      label.family = "Spline Sans", label.fontsize = 15
+    ) +
+    geom_point( 
+      data = filter(gm2007, country == grp),
+      aes(size = pop), color = "#9C55E3", show.legend = FALSE
+    ) +
+    scale_x_log10(
+      breaks = c(500, 2000, 8000, 32000),
+      labels = scales::label_dollar(accuracy = 1)
+    ) +
+    scale_size(
+      range = c(1, 12), name = "Population:", 
+      breaks = c(10, 100, 1000)*1000000, 
+      labels = scales::label_comma(scale = 1 / 10^6, suffix = "M")
+    ) +
+    labs(x = "GDP per capita", y = "Life expectancy") +
+    theme_minimal(base_family = "Spline Sans", base_size = 15) +
+    theme(panel.grid.minor = element_blank())
+  
+}
+```
+
+
+--------------------------------------------------------------------------------
+
+```{r}
+#| label: exercise-function-solution-07
+#| purl: false
+#| fig-width: 10
+#| fig-height: 6.2
+#| fig-align: center
+draw_gp_country("United States")
+```
+
+
+--------------------------------------------------------------------------------
+
+```{r}
+#| label: exercise-function-solution-08
+#| purl: false
+#| fig-width: 10
+#| fig-height: 6.2
+#| fig-align: center
+draw_gp_country("Germany")
+```
+
+
+--------------------------------------------------------------------------------
+
+```{r}
+#| label: exercise-function-solution-09
+#| purl: false
+#| fig-width: 10
+#| fig-height: 6.2
+#| fig-align: center
+draw_gp_country("India")
+```
+
+
+--------------------------------------------------------------------------------
+
+```{r}
+#| label: exercise-function-solution-10
+#| purl: false
+#| fig-width: 10
+#| fig-height: 6.2
+#| fig-align: center
+draw_gp_country("Zambia")
+```
+
+
+
+# <br><b style='color:white;'>Thank You!</b><br><br>{background-color="#292929" background-image="img/bg-blank.png"}
+
+![](img/logo-text-steps-cabinet.png){fig-align="center" width="80%" fig-alt="My logo"}
+
+<div style='text-align:center;font-size:.75em;color:white;'><a style='color:white;'  href="https://cedricscherer.com">www.cedricscherer.com</a>&ensp;//&ensp; <a style='color:white;' href="https://linktr.ee/cedscherer">www.linktr.ee/CedScherer</a><br><br><br>
+</div>
+
+::: footer
+:::

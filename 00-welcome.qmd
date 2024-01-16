@@ -1,0 +1,108 @@
+---
+title: "Engaging & Reproducible Data Visualization"
+subtitle: "<span style='font-size:1.5em;'>From Theory to Implementation with ggplot2</span><br><span style='font-weight:500;font-size:1.3em;'>Welcome!</span></span>"
+author: "<b style='color:#28a87d;'><a href='https://www.cedricscherer.com'>Dr. Cédric Scherer</a></b>&ensp;**//**&ensp;NC<sup>3</sup> Workshop&ensp;**//**&ensp;January 2024"
+format:
+  revealjs:
+    theme: slides.scss
+    logo: img/logo.png
+    footer: '**[Cédric Scherer](https://cedricscherer.com)** // Data Visualization & Information Design'
+    transition: fade
+    progress: true
+    multiplex: false
+    preview-links: true
+    scrollable: false
+    hide-inactive-cursor: true
+    highlight-style: printing
+    chalkboard:
+      theme: whiteboard
+      boardmarker-width: 4
+      buttons: true
+    pause: true
+    mainfont: Asap SemiCondensed
+editor: source
+knitr:
+  opts_chunk:
+    dev: "ragg_png"
+    retina: 3
+    dpi: 200
+execute:
+  freeze: auto
+  cache: true
+  echo: true
+  fig-width: 5
+  fig-height: 6
+---
+
+# Welcome!
+
+
+
+##  {#hello-cedric data-menu-title="Hello Cédric" background-image="img/intro/hello-cedric.png" background-position="center" background-size="62%"}
+
+
+
+##  {#cedric-avatars data-menu-title="Cédric Avatars" background-image="img/intro/avatars-logo.png" background-position="center" background-size="80%"}
+
+
+
+##  {#cedric-dataviz-science data-menu-title="Cédric Projects Science" background-image="img/intro/projects-science.png" background-position="center" background-size="82%" background-color="#ABABAB"}
+
+::: footer
+:::
+
+
+
+##  {#cedric-dataviz-clients data-menu-title="Cédric Projects Clients" background-image="img/intro/projects-clients.png" background-position="center" background-size="77%" background-color="#ABABAB"}
+
+::: footer
+:::
+
+
+
+##  {#cedric-dataviz-personal data-menu-title="Cédric Projects Personal"background-image="img/intro/projects-personal.png" background-position="center" background-size="85%" background-color="#ABABAB"}
+
+::: footer
+:::
+
+
+
+##  {#cedric-blog data-menu-title="Cédric Blog "background-image="img/intro/blog.png" background-position="center" background-size="56%"}
+
+::: footer
+:::
+
+
+
+##  {#cedric-ggplot-tutorial data-menu-title="Cédric Blog Tutorial" background-image="img/intro/blog-tutorial.png" background-position="center" background-size="56%"}
+
+::: footer
+:::
+
+
+
+## {#cedric-ggplot-tutorial-overview data-menu-title="Cédric Blog Tutorial Overview"}
+
+![[cedricscherer.com/2019/08/05/a-ggplot2-tutorial-for-beautiful-plotting-in-r](https://www.cedricscherer.com/2019/08/05/a-ggplot2-tutorial-for-beautiful-plotting-in-r/)](img/intro/ggplot-tutorial-overview.png){fig-align="center" fig-alt="Overview of some exemplary plots included in my ggplot2 tutorial."}
+
+
+
+##  {#cedric-rstudio-conf data-menu-title="Cédric Blog rstudio::conf" background-image="img/intro/blog-rstudioconf.png" background-position="center" background-size="56%"}
+
+::: footer
+:::
+
+
+
+------------------------------------------------------------------------
+
+## Course Materials: Scripts, Data & Font Files
+
+<br>
+<b style='font-family:spline sans mono;font-size:36pt;font-weight:700;'>cedricscherer.com/files/materials-nc3.zip</b>
+
+
+
+# <b style='color:white;'>Let's get started!</b><br>{background-color="#292929" background-image="img/bg-blank.png"}
+::: footer
+:::

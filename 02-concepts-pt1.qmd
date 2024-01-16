@@ -1,0 +1,3955 @@
+---
+title: "Engaging & Reproducible Data Visualization"
+subtitle: "<span style='font-size:1.5em;'>From Theory to Implementation with ggplot2</span><br><span style='font-weight:500;font-size:1.3em;'>Concepts of the Layered Grammar of Graphics (Pt. 1)</span></span>"
+author: "<b style='color:#28a87d;'><a href='https://www.cedricscherer.com'>Dr. Cédric Scherer</a></b>&ensp;**//**&ensp;NC<sup>3</sup> Workshop&ensp;**//**&ensp;January 2024"
+format:
+  revealjs:
+    theme: slides.scss
+    logo: img/logo.png
+    footer: '**[Cédric Scherer](https://cedricscherer.com)** // Data Visualization & Information Design'
+    transition: fade
+    progress: true
+    multiplex: false
+    preview-links: true
+    scrollable: false
+    hide-inactive-cursor: true
+    highlight-style: printing
+    chalkboard:
+      theme: whiteboard
+      boardmarker-width: 4
+      buttons: true
+    pause: true
+    mainfont: Asap SemiCondensed
+editor: source
+knitr:
+  opts_chunk:
+    dev: "ragg_png"
+    retina: 3
+    dpi: 200
+execute:
+  freeze: auto
+  cache: true
+  echo: true
+  fig-width: 5
+  fig-height: 6
+---
+
+
+# The Layered Grammar of Graphics
+
+
+
+## {#ggplot-package data-menu-title="The ggplot2 Package"}
+
+::: footer
+[{ggplot2} package description](https://ggplot2.tidyverse.org/)
+:::
+
+![](img/intro/ggplot2.png){fig-align="center" fig-alt="The ggplot2 hex logo."}
+
+<br>
+
+<div style='text-align:center;'>
+<b style='font-size:30pt;'><code>{ggplot2}</code> is a system for declaratively creating graphics,<br>based on "The Grammar of Graphics" (Wilkinson, 2005).</b>
+</div>
+
+::: fragment
+<div style='text-align:center;'>
+<span style='font-size:24pt;'>You provide the data, tell <code>{ggplot2}</code> how to <span class='circle-highlight'>map variables to aesthetics</span>,<br>what graphical primitives to use, and it takes care of the details.</span>
+</div>
+:::
+
+
+
+------------------------------------------------------------------------
+
+![Illustration by [Allison Horst](https://github.com/allisonhorst/stats-illustrations)](img/intro/ah_ggplot2_exploratory.png){fig-align="center" fig-alt="Allison Horsts monster illustration of explorative plotting with ggplot2."}
+
+::: footer
+:::
+
+------------------------------------------------------------------------
+
+![ggplot2 Examples featured on ggplot2.tidyverse.org](img/intro/basic-ggplots.png){fig-align="center" fig-alt="A collection of the versatility of ggplot2 to create basic graphs. All of them use the default grey ggplot2 theme."}
+
+::: footer
+:::
+
+------------------------------------------------------------------------
+
+![Illustration by [Allison Horst](https://github.com/allisonhorst/stats-illustrations)](img/intro/ah_ggplot2_masterpiece.png){fig-align="center" width="80%" fig-alt="Allison Horsts monster illustration of building data masterpiece ith ggplot2 featuring a little Picasso monster :)"}
+
+
+
+## {#ggplot-masterpieces-examples data-menu-title="ggplot2 Masterpieces" background-color="#E0C9F6"}
+
+![<br>Selection of visualizations created 100% with ggplot2 by Thomas Linn Pedersen,<br>Georgios Karamanis, Tanya Shapiro, Jake Kaupp, Jack Davison, and myself.](img/showcase/showcase-overview.png){fig-align="center" width="80%" fig-alt="A collection of advanced graphics created with ggplot2, showcasing a variety of chart types and designs."}
+
+
+
+## {#cedric-ggplot-evol-gif data-menu-title="Cédric Blog ggplot Evolution GIF"}
+
+![[cedricscherer.com/2019/05/17/the-evolution-of-a-ggplot](https://www.cedricscherer.com/2019/05/17/the-evolution-of-a-ggplot)](img/intro/evol-ggplot-1.gif){fig-align="center" fig-alt="Animated evolution of a jitter-pop plot showing student-teacher ratios per continent. The animation shows iteration through different geometries, theme adjustments, combinations of layers, and additional annotations such as text labels with arrows and an inset tile grid map with colors by region mathing those of the main graphic."}
+
+
+
+## Advantages of {ggplot2}
+
+::: incremental
+-   consistent underlying "grammar of graphics" (Wilkinson 2005)\
+-   very flexible, layered plot specification\
+-   theme system for polishing plot appearance\
+-   lots of additional functionality thanks to extensions\
+-   active and helpful community
+:::
+
+
+
+# A Motivational Example
+
+```{r}
+#| label: load-data-example
+#| include: false
+#| cache: false
+#| purl: false
+library(ggplot2)
+
+bikes <-
+  readr::read_csv(
+    here::here("data", "london-bikes-custom.csv"),
+    col_types = "Dcfffilllddddc"
+  ) |>
+  dplyr::mutate(
+    season = factor(season, levels = c("spring", "summer", "autumn", "winter")),
+    is_workday = factor(is_workday, level = c(TRUE, FALSE),
+                        labels = c("workday", "weekend_or_holiday"))
+  )
+
+theme_set(theme_grey(base_size = 14))
+```
+
+------------------------------------------------------------------------
+
+
+```{r}
+#| label: example-motivation-basic
+#| fig-width: 14
+#| fig-height: 8.3
+#| echo: false
+#| purl: false
+## scatter plot of plot bikes$count versus bikes$count
+ggplot(bikes, aes(temp, count)) +
+  geom_point(size = 2.2)
+```
+
+------------------------------------------------------------------------
+
+```{r}
+#| label: example-motivation-basic-color
+#| fig-width: 14
+#| fig-height: 8.3
+#| echo: false
+#| purl: false
+ggplot(bikes, aes(temp, count)) +
+  ## colored, semi-transparent points
+  geom_point(
+    aes(color = season),
+    size = 2.2, alpha = .55
+  )
+```
+
+------------------------------------------------------------------------
+
+```{r}
+#| label: example-motivation-basic-smooth
+#| fig-width: 14
+#| fig-height: 8.3
+#| echo: false
+#| purl: false
+ggplot(bikes, aes(temp, count)) +
+  geom_point(
+    aes(color = season),
+    size = 2.2, alpha = .55
+  ) +
+  ## add a linear fitting for each time of the day
+  geom_smooth(
+    aes(group = day_night),
+    method = "lm", color = "black"
+  )
+```
+
+------------------------------------------------------------------------
+
+```{r}
+#| label: example-motivation-basic-facet
+#| fig-width: 14
+#| fig-height: 8.3
+#| echo: false
+#| purl: false
+ggplot(bikes, aes(temp, count)) +
+  geom_point(
+    aes(color = season),
+    size = 2.2, alpha = .55
+  ) +
+  geom_smooth(
+    aes(group = day_night),
+    method = "lm", color = "black"
+  ) +
+  ## create small multiples of time of day versus workday
+  facet_grid(day_night ~ is_workday)
+```
+
+------------------------------------------------------------------------
+
+```{r}
+#| label: example-motivation-basic-facet-space
+#| fig-width: 14
+#| fig-height: 8.3
+#| echo: false
+#| purl: false
+ggplot(bikes, aes(temp, count)) +
+  geom_point(
+    aes(color = season),
+    size = 2.2, alpha = .55
+  ) +
+  geom_smooth(
+    aes(group = day_night),
+    method = "lm", color = "black"
+  ) +
+  ## create free-ranging, proportionally sized small multiples
+  facet_grid(
+    day_night ~ is_workday,
+    scales = "free_y", space = "free_y"
+  )
+```
+
+------------------------------------------------------------------------
+
+```{r}
+#| label: example-motivation-styling
+#| fig-width: 14
+#| fig-height: 8.3
+#| echo: false
+#| purl: false
+ggplot(bikes, aes(temp, count)) +
+  geom_point(
+    aes(color = season),
+    size = 2.2, alpha = .55
+  ) +
+  geom_smooth(
+    aes(group = day_night),
+    method = "lm", color = "black"
+  ) +
+  facet_grid(
+    day_night ~ is_workday,
+    scales = "free_y", space = "free_y"
+  ) +
+  ## add labels + titles
+  labs(
+    x = "Temperature", y = NULL,
+    caption = "Data: TfL (Transport for London), Jan 2015 — Dec 2016",
+    title = "Reported bike rents versus temperature in London per time of day, period, and season."
+  )
+```
+
+------------------------------------------------------------------------
+
+```{r}
+#| label: example-motivation-styling-2
+#| fig-width: 14
+#| fig-height: 8.3
+#| echo: false
+#| purl: false
+ggplot(bikes, aes(temp, count)) +
+  geom_point(
+    aes(color = season),
+    size = 2.2, alpha = .55
+  ) +
+  geom_smooth(
+    aes(group = day_night),
+    method = "lm", color = "black"
+  ) +
+  facet_grid(
+    day_night ~ is_workday,
+    scales = "free_y", space = "free_y"
+  ) +
+  ## add custom colors + legend styling
+  scale_color_manual(
+    values = c("#3c89d9", "#1ec99b", "#F7B01B", "#a26e7c"), name = "Season:",
+    guide = guide_legend(override.aes = list(size = 5))
+  ) +
+  labs(
+    x = "Temperature", y = NULL,
+    caption = "Data: TfL (Transport for London), Jan 2015 — Dec 2016",
+    title = "Reported bike rents versus temperature in London per time of day, period, and season."
+  ) +
+  ## use different theme and typeface
+  theme_light(base_size = 18, base_family = "Spline Sans")
+```
+
+------------------------------------------------------------------------
+
+```{r}
+#| label: example-motivation-advanced
+#| fig-width: 14
+#| fig-height: 8.3
+#| echo: false
+#| purl: false
+## coding for facet strip text
+codes <- c(
+  workday = "Workday",
+  weekend_or_holiday = "Weekend or Holiday"
+)
+
+ggplot(bikes, aes(temp, count)) +
+  ## format seasons
+  geom_point(
+    aes(color = forcats::fct_relabel(season, stringr::str_to_title)),
+    size = 2.2, alpha = .55
+  ) +
+  geom_smooth(
+    aes(group = day_night),
+    method = "lm", color = "black"
+  ) +
+  ## format facet strip text
+  facet_grid(
+    day_night ~ is_workday,
+    scales = "free_y", space = "free_y",
+    labeller = labeller(
+      day_night = stringr::str_to_title,
+      is_workday = codes
+    )
+  ) +
+  ## customize x axis
+  scale_x_continuous(
+    expand = c(.02, .02),
+    breaks = 0:6*5, labels = function(x) paste0(x, "°C")
+  ) +
+  ## customize y axis
+  scale_y_continuous(
+    expand = c(.1, .1), limits = c(0, NA),
+    breaks = 0:5*10000, labels = scales::comma_format()
+  ) +
+  scale_color_manual(
+    values = c("#3c89d9", "#1ec99b", "#F7B01B", "#a26e7c"), name = NULL,
+    guide = guide_legend(override.aes = list(size = 5))
+  ) +
+  labs(
+    x = "Temperature", y = NULL,
+    caption = "Data: TfL (Transport for London), Jan 2015 — Dec 2016",
+    title = "Reported bike rents versus temperature in London per time of day, period, and season."
+  ) +
+  theme_light(
+    base_size = 18, base_family = "Spline Sans"
+  ) +
+  ## theme adjustments
+  theme(
+    plot.title.position = "plot",
+    plot.caption.position = "plot",
+    plot.title = element_text(face = "bold"),
+    strip.text = element_text(face = "bold"),
+    legend.position = "top"
+  )
+```
+
+------------------------------------------------------------------------
+
+```{r}
+#| label: example-motivation-advanced-2
+#| fig-width: 14
+#| fig-height: 8.3
+#| echo: false
+#| purl: false
+codes <- c(
+  workday = "Workday",
+  weekend_or_holiday = "Weekend or Holiday"
+)
+
+ggplot(bikes, aes(temp, count)) +
+  ## point outline
+  geom_point(
+    color = "black", fill = "white",
+    shape = 21, size = 2.8
+  ) +
+  ## opaque point background
+  geom_point(
+    color = "white", size = 2.2
+  ) +
+  ## colored, semi-transparent points
+  geom_point(
+    aes(color = forcats::fct_relabel(season, stringr::str_to_title)),
+    size = 2.2, alpha = .55
+  ) +
+  geom_smooth(
+    aes(group = day_night), method = "lm", color = "black"
+  ) +
+  facet_grid(
+    day_night ~ is_workday,
+    scales = "free_y", space = "free_y",
+    labeller = labeller(
+      day_night = stringr::str_to_title,
+      is_workday = codes
+    )
+  ) +
+  scale_x_continuous(
+    expand = c(.02, .02),
+    breaks = 0:6*5, labels = function(x) paste0(x, "°C")
+  ) +
+  scale_y_continuous(
+    expand = c(.1, .1), limits = c(0, NA),
+    breaks = 0:5*10000, labels = scales::comma_format()
+  ) +
+  scale_color_manual(
+    values = c("#3c89d9", "#1ec99b", "#F7B01B", "#a26e7c"), name = NULL,
+    guide = guide_legend(override.aes = list(size = 5))
+  ) +
+  labs(
+    x = "Temperature", y = NULL,
+    caption = "Data: TfL (Transport for London), Jan 2015 — Dec 2016",
+    title = "Reported bike rents versus temperature in London per time of day, period, and season."
+  ) +
+  theme_light(
+    base_size = 18, base_family = "Spline Sans"
+  ) +
+  ## more theme adjustments
+  theme(
+    plot.title.position = "plot",
+    plot.caption.position = "plot",
+    plot.title = element_text(face = "bold", size = rel(1.35)),
+    axis.text = element_text(family = "Spline Sans Mono"),
+    axis.title.x = element_text(hjust = 0, color = "grey30", margin = margin(t = 12)),
+    strip.text = element_text(face = "bold" , size = rel(1.15)),
+    panel.grid.major.x = element_blank(),
+    panel.grid.minor = element_blank(),
+    panel.spacing = unit(2.5, "lines"),
+    legend.position = "top",
+    legend.text = element_text(size = rel(1)),
+    ## for fitting my slide background
+    legend.key = element_rect(color = "#f8f8f8", fill = "#f8f8f8"),
+    legend.background = element_rect(color = "#f8f8f8", fill = "#f8f8f8"),
+    plot.background = element_rect(color = "#f8f8f8", fill = "#f8f8f8")
+  )
+```
+
+
+
+# Setup
+
+
+
+##  {background-image="img/ggplot/tidyverse-packages.png" background-position="center" background-size="100%"}
+
+::: footer
+:::
+
+
+
+##  {background-image="img/ggplot/tidyverse-packages-ggplot.png" background-position="center" background-size="100%"}
+
+::: footer
+:::
+
+
+
+## The ggplot2 Package
+
+<br>
+
+... is an **R package to visualize data** created by Hadley Wickham in 2005
+
+```{r}
+#| label: ggplot-package-install-2
+#| eval: false
+# install.packages("ggplot2")
+library(ggplot2)
+```
+
+<br>
+
+::: fragment
+... is part of the [`{tidyverse}`](https://www.tidyverse.org/)
+
+```{r}
+#| label: tidyverse-package-install-2
+#| eval: false
+# install.packages("tidyverse")
+library(tidyverse)
+```
+:::
+
+
+
+# The Components of {ggplot2}
+
+
+
+## The Components of a ggplot
+
+<br>
+<table style='width:100%;font-size:16pt;'>
+  <tr>
+    <th>Component</th>
+    <th>Function</th>
+    <th>Explanation</th>
+  </tr>
+  <tr>
+    <td><b style='color:#67676;'>Data</b></td>
+    <td><code>ggplot(data)</code>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+    <td>*The raw data that you want to visualize (initializing a plot).*</td>
+  </tr>
+  <tr>
+    <td><b style='color:#67676;'>Aesthetics&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</b></td>
+    <td><code>aes()</code></td>
+    <td>*The mapping between variables and visual properties.*</td>
+  <tr>
+    <td><b style='color:#67676;'>Geometries</b></td>
+    <td><code>geom_*()</code></td>
+    <td>*The geometric shape of a layer representing the data.*</td>
+  </tr>
+</table>
+
+
+
+## The Components of a ggplot
+
+
+<br>
+<table style='width:100%;font-size:16pt;'>
+  <tr>
+    <th>Component</th>
+    <th>Function</th>
+    <th>Explanation</th>
+  </tr>
+  <tr>
+    <td><b style='color:#67676;'>Data</b></td>
+    <td><code>ggplot(data)</code>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+    <td>*The raw data that you want to visualize (initialising a plot).*</td>
+  </tr>
+  <tr>
+    <td><b style='color:#67676;'>Aesthetics&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</b></td>
+    <td><code>aes()</code></td>
+    <td>*The mapping between variables and visual properties.*</td>
+  <tr>
+    <td><b style='color:#67676;'>Geometries</b></td>
+    <td><code>geom_*()</code></td>
+    <td>*The geometric shape of a layer representing the data.*</td>
+  </tr>
+  <tr>
+    <td><b style='color:#67676;'>Statistics</b></td>
+    <td><code>stat_*()</code></td>
+    <td>*The statistical transformation of a layer applied to the data.*</td>
+  </tr>
+  <tr>
+    <td><b style='color:#67676;'>Scales</b></td>
+    <td><code>scale_*()</code></td>
+    <td>*The representation of mapped aesthetic attributes.*</td>
+  </tr>
+  <tr>
+    <td><b style='color:#67676;'>Coordinate System</b></td>
+    <td><code>coord_*()</code></td>
+    <td>*The transformation to map data coordinates into the plot plane.*</td>
+  </tr>
+  <tr>
+    <td><b style='color:#67676;'>Facets</b></td>
+    <td><code>facet_*()</code></td>
+    <td>*The arrangement of the data into a set of small multiples.*</td>
+  </tr>
+  <tr>
+    <td><b style='color:#67676;'>Visual Themes</b></td>
+    <td><code>theme() | theme_*()</code></td>
+    <td>*The overall visual defaults of non-data elements of the graphic.*</td>
+  </tr>
+</table>
+
+
+
+# A Basic ggplot Example
+
+
+
+## The Data
+
+<b style='font-size:2.3rem;'>Bike sharing counts in London, UK, powered by [TfL Open Data](https://tfl.gov.uk/modes/cycling/santander-cycles)</b>
+
+::: incremental
+-   covers the years 2015 and 2016
+-   incl. weather data acquired from [freemeteo.com](https://freemeteo.com)
+-   prepared by Hristo Mavrodiev for [Kaggle](https://www.kaggle.com/hmavrodiev/london-bike-sharing-dataset)
+-   further modification by myself
+:::
+
+<br>
+
+::: fragment
+```{r}
+#| label: data-import
+bikes <- readr::read_csv(
+  "data/london-bikes-custom.csv",
+  ## or: here::here("data", "london-bikes-custom.csv")
+  ## or: "https://cedricscherer.com/data/london-bikes-custom.csv"
+  col_types = "Dcfffilllddddc"
+)
+```
+:::
+
+------------------------------------------------------------------------
+
+```{r}
+#| label: data-table
+#| echo: false
+#| purl: false
+tibble::tibble(
+    Variable = names(bikes),
+    Description = c(
+      "Date encoded as `YYYY-MM-DD`", "`day` (6:00am–5:59pm) or `night` (6:00pm–5:59am)", "`2015` or `2016`", "`1` (January) to `12` (December)", "`winter`, `spring`, `summer`, or `autumn`", "Sum of reported bikes rented", "`TRUE` being Monday to Friday and no bank holiday", "`TRUE` being Saturday or Sunday", "`TRUE` being a bank holiday in the UK", "Average air temperature (°C)", "Average feels like temperature (°C)", "Average air humidity (%)", "Average wind speed (km/h)", "Most common weather type"
+    ),
+    Class = c(
+      "date", "character", "factor", "factor", "factor", "integer", "logical", "logical", "logical", "double", "double", "double", "double", "character"
+    )
+  ) |>
+  kableExtra::kbl(
+    booktabs = TRUE, longtable = TRUE
+  ) |>
+  kableExtra::kable_styling(
+    font_size = 24
+  ) |>
+  kableExtra::kable_minimal(
+    "hover", full_width = TRUE, position = "left", html_font = "Asap SemiCondensed"
+  )
+```
+
+
+
+## `ggplot2::ggplot()`
+
+```{r}
+#| label: ggplot-function
+#| eval: false
+#| echo: false
+#?ggplot
+```
+
+![](img/ggplot/ggplot-fun-help.png){fig-alt="The help page of the ggplot() function." fig-width="175%"}
+
+
+
+## Data
+
+```{r}
+#| label: setup-ggplot-slides
+#| include: false
+#| cache: false
+#| purl: false
+library(ggplot2)
+theme_set(theme_grey(base_size = 14, base_family = "Asap SemiCondensed"))
+theme_update(panel.background = element_rect(fill = "grey95", colour = NA),
+             panel.grid.minor = element_blank())
+```
+
+```{r}
+#| label: ggplot-data
+#| output-location: column
+ggplot(data = bikes)
+```
+
+
+
+## Aesthetic Mapping
+
+<br>
+
+<b class='simple-highlight-grn' style='font-size:2.6rem;'>= link variables to graphical properties</b><br><br>
+
+::: incremental
+-   positions (`x`, `y`)
+-   colors (`color`, `fill`)
+-   shapes (`shape`, `linetype`)
+-   size (`size`)
+-   transparency (`alpha`)
+-   groupings (`group`)
+:::
+
+
+
+## Aesthetic Mapping
+
+```{r}
+#| label: ggplot-aesthetics-outside
+#| output-location: column
+#| code-line-numbers: "2|1,2"
+ggplot(data = bikes) +
+  aes(x = temp, y = count)
+```
+
+
+
+## <span style='color:#4758AB;'>aes</span>thetics
+
+`aes()` outside as component
+
+```{r}
+#| label: ggplot-aesthetics-outside-comp
+#| eval: false
+ggplot(data = bikes) +
+  aes(x = temp, y = count)
+```
+
+<br>
+
+::: fragment
+`aes()` inside, explicit matching
+
+```{r}
+#| label: ggplot-aesthetics-inside
+#| eval: false
+ggplot(data = bikes, mapping = aes(x = temp, y = count))
+```
+
+<br>
+:::
+
+::: fragment
+`aes()` inside, implicit matching
+
+```{r}
+#| label: ggplot-aesthetics-inside-implicit
+#| eval: false
+ggplot(bikes, aes(temp, count))
+```
+
+<br>
+:::
+
+::: fragment
+`aes()` inside, mixed matching
+
+```{r}
+#| label: ggplot-aesthetics-inside-mix
+#| eval: false
+ggplot(bikes, aes(x = temp, y = count))
+```
+:::
+
+
+
+# Geometrical Layers
+
+
+
+## Geometries
+
+<br>
+
+<b class='simple-highlight-grn' style='font-size:2.6rem;'>= interpret aesthetics as graphical representations</b><br><br>
+
+::: incremental
+-   points
+-   lines
+-   polygons
+-   text labels
+-   ...
+:::
+
+
+
+## Geometries
+
+```{r}
+#| label: geom-point
+#| output-location: column
+#| code-line-numbers: "1,2,3,4|5"
+ggplot(
+    bikes,
+    aes(x = temp, y = count)
+  ) +
+  geom_point()
+```
+
+
+
+## Visual Properties of Layers
+
+```{r}
+#| label: geom-point-properties
+#| output-location: column
+#| code-line-numbers: "5,6,7,8,9,10,11|6,7,8,9,10"
+ggplot(
+    bikes,
+    aes(x = temp, y = count)
+  ) +
+  geom_point(
+    color = "#28a87d",
+    alpha = .5,
+    shape = "X",
+    stroke = 1,
+    size = 4
+  )
+```
+
+
+
+## Setting vs Mapping of Visual Properties
+
+::: {layout-ncol="2"}
+```{r}
+#| label: geom-point-properties-set
+#| fig-height: 3.5
+#| code-line-numbers: "6"
+ggplot(
+    bikes,
+    aes(x = temp, y = count)
+  ) +
+  geom_point(
+    color = "#28a87d",
+    alpha = .5
+  )
+```
+
+::: fragment
+```{r}
+#| label: geom-point-properties-map
+#| fig-height: 3.5
+#| code-line-numbers: "6"
+ggplot(
+    bikes,
+    aes(x = temp, y = count)
+  ) +
+  geom_point(
+    aes(color = season),
+    alpha = .5
+  )
+```
+:::
+:::
+
+
+
+## Mapping Expressions
+
+```{r}
+#| label: geom-point-aes-expression
+#| output-location: column
+#| code-line-numbers: "6"
+ggplot(
+    bikes,
+    aes(x = temp, y = count)
+  ) +
+  geom_point(
+    aes(color = temp > 20),
+    alpha = .5
+  )
+```
+
+
+
+# Exercise
+
+
+
+## Your Turn!
+
+:::: question
+::: incremental
+-   **Explore the `mpg` data set that is contained in `{ggplot2}`.**
+-   **Create a scatter plot of city miles per gallon vs displacement.**
+    -   Map the color of the points to the class.
+    -   Turn the points into larger, semi-transparent diamonds.
+    -   Now, use color to indicate if the model is an SUV or not.
+    -   [Bonus: How could you highlight SUVs and pick-ups together?]{style="color:#1D785A;"}
+    -   [Bonus: What if we only want to show data from 2008?]{style="color:#1D785A;"}
+:::
+::::
+
+
+
+# Solution Exercise {background-color="#e6d9f2"}
+
+
+
+## Mapping Class to Color
+
+```{r}
+#| label: exercise-mpg-0-scatter-plot
+#| output-location: column
+#| code-line-numbers: "1,2,3|4"
+ggplot(
+    mpg, aes(x = displ, y = cty)
+  ) +
+  geom_point()
+```
+
+
+
+## Mapping Class to Color
+
+```{r}
+#| label: exercise-mpg-1-aes-class
+#| output-location: column
+#| code-line-numbers: "4,5,6|5"
+ggplot(
+    mpg, aes(x = displ, y = cty)
+  ) +
+  geom_point(
+    aes(color = class)
+  )
+```
+
+
+
+## Setting Properties
+
+```{r}
+#| label: exercise-mpg-2-aes-setting-properties
+#| output-location: column
+#| code-line-numbers: "6,7,8"
+ggplot(
+    mpg, aes(x = displ, y = cty)
+  ) +
+  geom_point(
+    aes(color = class),
+    size = 3,
+    alpha = .3,
+    shape = "diamond"
+  )
+```
+
+
+
+## Setting Properties
+
+```{r}
+#| label: exercise-mpg-3-aes-setting-shape-number
+#| output-location: column
+#| code-line-numbers: "8"
+ggplot(
+    mpg, aes(x = displ, y = cty)
+  ) +
+  geom_point(
+    aes(color = class),
+    size = 3,
+    alpha = .3,
+    shape = 18
+  )
+```
+
+
+
+------------------------------------------------------------------------
+
+![Source: [Albert's Blog](https://blog.albertkuo.me/post/point-shape-options-in-ggplot/)](img/ggplot/shapes-type.png){fig-alt="An overview of a set of available shapes, ordered by their type of shape (e.g. points, triangles etc)." fig-width="150%"}
+
+
+
+## Setting Properties
+
+```{r}
+#| label: exercise-mpg-4-aes-setting-shape-23
+#| output-location: column
+#| code-line-numbers: "8"
+ggplot(
+    mpg, aes(x = displ, y = cty)
+  ) +
+  geom_point(
+    aes(color = class),
+    size = 3,
+    alpha = .3,
+    shape = 23
+  )
+```
+
+
+
+## Setting Properties
+
+```{r}
+#| label: exercise-mpg-5-aes-setting-shape-23
+#| output-location: column
+#| code-line-numbers: "5,8"
+ggplot(
+    mpg, aes(x = displ, y = cty)
+  ) +
+  geom_point(
+    aes(fill = class),
+    size = 3,
+    alpha = .3,
+    shape = 23
+  )
+```
+
+
+
+## Mapping Expressions
+
+```{r}
+#| label: exercise-mpg-6-aes-expression
+#| output-location: column
+#| code-line-numbers: "5"
+ggplot(
+    mpg, aes(x = displ, y = cty)
+  ) +
+  geom_point(
+    aes(fill = class == "suv"),
+    size = 3,
+    alpha = .3,
+    shape = 23
+  )
+```
+
+
+
+## Mapping Expressions
+
+```{r}
+#| label: exercise-mpg-7-aes-expression-multiple
+#| output-location: column
+#| code-line-numbers: "5"
+ggplot(
+    mpg, aes(x = displ, y = cty)
+  ) +
+  geom_point(
+    aes(fill = class %in% c("pickup", "suv")),
+    size = 3,
+    alpha = .3,
+    shape = 23
+  )
+```
+
+
+
+## Filter Data
+
+```{r}
+#| label: exercise-mpg-8-filter-data
+#| output-location: column
+#| code-line-numbers: "2,3,4"
+ggplot(
+    dplyr::filter(
+      mpg, year == 2008
+    ), 
+    aes(x = displ, y = cty)
+  ) +
+  geom_point(
+    aes(fill = class == "suv"),
+    size = 3,
+    alpha = .3,
+    shape = 23
+  )
+```
+
+
+
+## Filter Data
+
+```{r}
+#| label: exercise-mpg-9-filter-data-pipe
+#| output-location: column
+#| code-line-numbers: "1|2,3,4|5,6,7"
+mpg |>
+  dplyr::filter(
+    year == 2008
+  ) |> 
+  ggplot(
+    aes(x = displ, y = cty)
+  ) +
+  geom_point(
+    aes(fill = class == "suv"),
+    size = 3,
+    alpha = .3,
+    shape = 23
+  )
+```
+
+
+
+## Filter Data
+
+```{r}
+#| label: exercise-mpg-10-filter-data-pipe-base
+#| output-location: column
+#| code-line-numbers: "1,4"
+mpg |>
+  dplyr::filter(
+    year == 2008
+  ) |> 
+  ggplot(
+    aes(x = displ, y = cty)
+  ) +
+  geom_point(
+    aes(fill = class == "suv"),
+    size = 3,
+    alpha = .3,
+    shape = 23
+  )
+```
+
+
+
+# More geom's
+
+
+## Histogram
+
+```{r}
+#| label: geom-histogram
+#| output-location: column
+#| code-line-numbers: "3|5"
+ggplot(
+    bikes, 
+    aes(x = humidity)
+  ) +
+  geom_histogram()
+```
+
+
+
+## Histogram
+
+```{r}
+#| label: geom-histogram-bins
+#| output-location: column
+#| code-line-numbers: "5,6,7,8"
+ggplot(
+    bikes, 
+    aes(x = humidity)
+  ) +
+  geom_histogram(
+    bins = 100 
+    # binwidth = 1
+  )
+```
+
+
+
+## Histogram
+
+```{r}
+#| label: geom-histogram-groups
+#| output-location: column
+#| code-line-numbers: "5,6,7"
+ggplot(
+    bikes, 
+    aes(x = humidity)
+  ) +
+  geom_histogram(
+    aes(fill = day_night)
+  )
+```
+
+
+
+## Density Curve
+
+```{r}
+#| label: geom-density
+#| output-location: column
+#| code-line-numbers: "5,6,7"
+ggplot(
+    bikes, 
+    aes(x = humidity)
+  ) +
+  geom_density(
+    aes(color = day_night)
+  )
+```
+
+
+
+## Density Curve
+
+```{r}
+#| label: geom-density-area
+#| output-location: column
+#| code-line-numbers: "6,7|6,7,8"
+ggplot(
+    bikes, 
+    aes(x = humidity)
+  ) +
+  geom_density(
+    aes(color = day_night,
+        fill = day_night),
+    alpha = .3
+  )
+```
+
+
+
+## Density Curve
+
+```{r}
+#| label: geom-density-stack
+#| output-location: column
+#| code-line-numbers: "9"
+ggplot(
+    bikes, 
+    aes(x = humidity)
+  ) +
+  geom_density(
+    aes(color = day_night,
+        fill = day_night),
+    alpha = .3,
+    position = "stack"
+  )
+```
+
+
+
+## Density Curve
+
+```{r}
+#| label: geom-density-fill
+#| output-location: column
+#| code-line-numbers: "9"
+ggplot(
+    bikes, 
+    aes(x = humidity)
+  ) +
+  geom_density(
+    aes(color = day_night,
+        fill = day_night),
+    alpha = .3,
+    position = "fill"
+  )
+```
+
+
+
+## Scatterplot
+
+```{r}
+#| label: geom-point-overplotting
+#| output-location: column
+#| code-line-numbers: "5"
+ggplot(
+    bikes, 
+    aes(x = temp, y = count)
+  ) +
+  geom_point()
+```
+
+
+
+## Tile Bins
+
+```{r}
+#| label: geom-bin2d
+#| output-location: column
+#| code-line-numbers: "5"
+ggplot(
+    bikes, 
+    aes(x = temp, y = count)
+  ) +
+  geom_bin2d()
+```
+
+
+
+## Hexagonal Bins
+
+```{r}
+#| label: geom-hex
+#| output-location: column
+#| code-line-numbers: "5"
+ggplot(
+    bikes, 
+    aes(x = temp, y = count)
+  ) +
+  geom_hex()
+```
+
+
+
+## Density Contours
+
+```{r}
+#| label: geom-density-contours
+#| output-location: column
+#| code-line-numbers: "5"
+ggplot(
+    bikes, 
+    aes(x = temp, y = count)
+  ) +
+  geom_density2d()
+```
+
+
+
+## Density Contours
+
+```{r}
+#| label: geom-density-contours-group
+#| output-location: column
+#| code-line-numbers: "6"
+ggplot(
+    bikes, 
+    aes(x = temp, y = count)
+  ) +
+  geom_density2d(
+    aes(color = day_night)
+  )
+```
+
+
+
+## Density Contours
+
+```{r}
+#| label: geom-density-contours-filled
+#| output-location: column
+#| code-line-numbers: "5"
+ggplot(
+    bikes,
+    aes(x = temp, y = count)
+  ) +
+  geom_density2d_filled()
+```
+
+
+
+# Local vs. Global Encoding
+
+
+
+## Local vs. Global Encoding
+
+::: {layout-ncol="2"}
+```{r}
+#| label: geom-point-aes-geom
+#| code-line-numbers: "3,6"
+#| fig-height: 3.2
+ggplot(
+    bikes,
+    aes(x = temp, y = count)
+  ) +
+  geom_point(
+    aes(color = season),
+    alpha = .5
+  )
+```
+
+::: fragment
+```{r}
+#| label: geom-point-aes-global
+#| code-line-numbers: "3,4"
+#| fig-height: 3.2
+ggplot(
+    bikes,
+    aes(x = temp, y = count,
+        color = season)
+  ) +
+  geom_point(
+    alpha = .5
+  )
+```
+:::
+:::
+
+
+
+## Adding More Layers
+
+```{r}
+#| label: geom-smooth
+#| output-location: column
+#| code-line-numbers: "9,10,11"
+ggplot(
+    bikes,
+    aes(x = temp, y = count,
+        color = season)
+  ) +
+  geom_point(
+    alpha = .5
+  ) +
+  geom_smooth(
+    method = "lm"
+  )
+```
+
+
+
+## Global Color Encoding
+
+```{r}
+#| label: geom-smooth-aes-global
+#| output-location: column
+#| code-line-numbers: "3,4,9,10,11"
+ggplot(
+    bikes,
+    aes(x = temp, y = count,
+        color = season)
+  ) +
+  geom_point(
+    alpha = .5
+  ) +
+  geom_smooth(
+    method = "lm"
+  )
+```
+
+
+
+## Local Color Encoding
+
+```{r}
+#| label: geom-smooth-aes-fixed
+#| output-location: column
+#| code-line-numbers: "6,9,10,11"
+ggplot(
+    bikes,
+    aes(x = temp, y = count)
+  ) +
+  geom_point(
+    aes(color = season),
+    alpha = .5
+  ) +
+  geom_smooth(
+    method = "lm"
+  )
+```
+
+
+
+## The \`group\` Aesthetic
+
+```{r}
+#| label: geom-smooth-aes-grouped
+#| output-location: column
+#| code-line-numbers: "10"
+ggplot(
+    bikes,
+    aes(x = temp, y = count)
+  ) +
+  geom_point(
+    aes(color = season),
+    alpha = .5
+  ) +
+  geom_smooth(
+    aes(group = day_night),
+    method = "lm"
+  )
+```
+
+
+
+## Set Both as Global Aesthetics
+
+```{r}
+#| label: geom-smooth-aes-global-grouped
+#| output-location: column
+#| code-line-numbers: "4,5"
+ggplot(
+    bikes,
+    aes(x = temp, y = count,
+        color = season,
+        group = day_night)
+  ) +
+  geom_point(
+    alpha = .5
+  ) +
+  geom_smooth(
+    method = "lm"
+  )
+```
+
+
+
+## Overwrite Global Aesthetics
+
+```{r}
+#| label: geom-smooth-aes-global-grouped-overwrite
+#| output-location: column
+#| code-line-numbers: "4,12"
+ggplot(
+    bikes,
+    aes(x = temp, y = count,
+        color = season,
+        group = day_night)
+  ) +
+  geom_point(
+    alpha = .5
+  ) +
+  geom_smooth(
+    method = "lm",
+    color = "black"
+  )
+```
+
+
+
+# Statistical Layers
+
+
+
+--------------------------------------------------------------------------------
+
+<br><br><br><br>
+
+<code style='font-size:1.38em;font-weight:800;'>layer(data, mapping, geom, stat, position)</code>
+
+
+
+## \`stat_\` and \`geom_\`
+
+::: {layout-ncol="2"}
+```{r}
+#| label: geom-stat-1
+#| fig-height: 5.1
+#| code-line-numbers: "2"
+ggplot(bikes, aes(x = date, y = temp)) +
+  geom_point(stat = "identity") # default
+```
+
+::: fragment
+
+```{r}
+#| label: stat-geom-1
+#| fig-height: 5.1
+#| code-line-numbers: "2"
+ggplot(bikes, aes(x = date, y = temp)) +
+  stat_identity(geom = "point") # default
+```
+:::
+:::
+
+
+
+## \`stat_\` and \`geom_\`
+
+::: {layout-ncol="2"}
+```{r}
+#| label: geom-stat-2
+#| fig-height: 5.1
+#| code-line-numbers: "2"
+ggplot(bikes, aes(x = weather_type)) +
+  geom_bar(stat = "count") # default
+```
+
+```{r}
+#| label: stat-geom-2
+#| fig-height: 5.1
+#| code-line-numbers: "2"
+ggplot(bikes, aes(x = weather_type)) +
+  stat_count(geom = "bar") # default
+```
+:::
+
+
+
+## \`stat_\` and \`geom_\`
+
+::: {layout-ncol="2"}
+```{r}
+#| label: geom-stat-3
+#| fig-height: 5.1
+#| code-line-numbers: "2"
+ggplot(bikes, aes(x = temp, y = count)) +
+  geom_smooth(stat = "smooth") # default
+```
+
+```{r}
+#| label: stat-geom-3
+#| fig-height: 5.1
+#| code-line-numbers: "2"
+ggplot(bikes, aes(x = temp, y = count)) +
+  stat_smooth(geom = "smooth") # default
+```
+:::
+
+
+
+## Statistical Summaries
+
+```{r}
+#| label: stat-summary
+#| output-location: column
+#| code-line-numbers: "5|3"
+ggplot(
+    bikes, 
+    aes(x = season, y = temp)
+  ) +
+  stat_summary() 
+```
+
+
+
+
+## Statistical Summaries
+
+```{r}
+#| label: stat-summary-defaults
+#| output-location: column
+#| code-line-numbers: "6,7"
+ggplot(
+    bikes, 
+    aes(x = season, y = temp)
+  ) +
+  stat_summary(
+    fun.data = mean_se, # default
+    geom = "pointrange"  # default
+  ) 
+```
+
+
+
+
+## Statistical Summaries
+
+```{r}
+#| label: stat-summary-median
+#| output-location: column
+#| code-line-numbers: "5|5,6,11|6,7,8,9,10,11|7,8"
+ggplot(
+    bikes, 
+    aes(x = season, y = temp)
+  ) +
+  geom_boxplot() +
+  stat_summary(
+    fun = mean,
+    geom = "point",
+    color = "#28a87d",
+    size = 3
+  ) 
+```
+
+
+
+## Statistical Summaries
+
+```{r}
+#| label: stat-summary-custom
+#| output-location: column
+#| code-line-numbers: "5,6,7,8,9|7,8"
+ggplot(
+    bikes, 
+    aes(x = season, y = temp)
+  ) +
+  stat_summary(
+    fun = mean, 
+    fun.max = function(y) mean(y) + sd(y), 
+    fun.min = function(y) mean(y) - sd(y) 
+  ) 
+```
+
+
+
+
+## Statistical Summaries
+
+```{r}
+#| label: stat-summary-custom-foo
+#| output-location: column
+#| code-line-numbers: "7,8"
+ggplot(
+    bikes, 
+    aes(x = season, y = temp)
+  ) +
+  stat_summary(
+    fun = mean, 
+    fun.max = function(foo) mean(foo) + sd(foo), 
+    fun.min = function(foo) mean(foo) - sd(foo)
+  ) 
+```
+
+
+
+## Statistical Summaries
+
+```{r}
+#| label: stat-summary-custom-mean-sdl
+#| output-location: column
+#| code-line-numbers: "7,8"
+ggplot(
+    bikes, 
+    aes(x = season, y = temp)
+  ) +
+  stat_summary(
+    fun.data = mean_sdl, 
+    fun.args = list(mult = 1)
+  )
+```
+
+
+
+## Statistical Summaries
+
+```{r}
+#| label: stat-summary-custom-errorbars
+#| output-location: column
+#| code-line-numbers: "6|6,7,8|6,7,8,9|11,12,13,14,15|12,13|12,13,14"
+ggplot(
+    bikes, 
+    aes(x = season, y = temp)
+  ) +
+  stat_summary(
+    geom = "errorbar", 
+    fun.max = function(y) mean(y) + sd(y), 
+    fun.min = function(y) mean(y) - sd(y),
+    width = .3
+  ) +
+  stat_summary(
+    geom = "point",
+    fun = mean,
+    size = 2
+  ) 
+```
+
+
+
+## Statistical Summaries
+
+```{r}
+#| label: stat-summary-custom-annotate
+#| output-location: column
+#| code-line-numbers: "16,17,18,19,20|17,18|17,18,19"
+ggplot(
+    bikes, 
+    aes(x = season, y = temp)
+  ) +
+  stat_summary(
+    geom = "errorbar", 
+    fun.max = function(y) mean(y) + sd(y), 
+    fun.min = function(y) mean(y) - sd(y),
+    width = .3
+  ) +
+  stat_summary(
+    geom = "point",
+    fun = mean,
+    size = 2
+  ) +
+  stat_summary(
+    geom = "text",
+    fun = mean,
+    aes(label = after_stat(y))
+  ) 
+```
+
+
+
+## Statistical Summaries
+
+```{r}
+#| label: stat-summary-custom-annotate-adjust
+#| output-location: column
+#| code-line-numbers: "19,20,21|20|22"
+ggplot(
+    bikes, 
+    aes(x = season, y = temp)
+  ) +
+  stat_summary(
+    geom = "errorbar", 
+    fun.max = function(y) mean(y) + sd(y), 
+    fun.min = function(y) mean(y) - sd(y),
+    width = .3
+  ) +
+  stat_summary(
+    geom = "point",
+    fun = mean,
+    size = 2
+  ) +
+  stat_summary(
+    geom = "text",
+    fun = mean,
+    aes(label = after_stat(
+      sprintf("%2.1f", y)
+    )),
+    hjust = -.3
+  ) 
+```
+
+
+
+## Statistical Summaries
+
+```{r}
+#| label: stat-summary-2d
+#| output-location: column
+#| code-line-numbers: "3,4|3,4,5|7"
+ggplot(
+    bikes, 
+    aes(x = season,  
+        y = weather_type, 
+        z = count)
+  ) +
+  stat_summary_2d() 
+```
+
+
+
+## Statistical Summaries
+
+```{r}
+#| label: stat-summary-2d-styling
+#| output-location: column
+#| code-line-numbers: "8|9|10,11"
+ggplot(
+    bikes, 
+    aes(x = season,  
+        y = weather_type, 
+        z = count)
+  ) +
+  stat_summary_2d(
+    geom = "tile", 
+    fun = "sum", 
+    color = "white", 
+    linewidth = .7
+  ) 
+```
+
+
+
+# Extending a ggplot
+
+
+
+## Store a ggplot as Object
+
+```{r}
+#| label: ggplot-object
+#| code-line-numbers: "1,16"
+g <-
+  ggplot(
+    bikes,
+    aes(x = temp, y = count,
+        color = season,
+        group = day_night)
+  ) +
+  geom_point(
+    alpha = .5
+  ) +
+  geom_smooth(
+    method = "lm",
+    color = "black"
+  )
+
+class(g)
+```
+
+
+
+## Inspect a ggplot Object
+
+```{r}
+#| label: ggplot-object-data
+#| class-output: hscroll
+g$data
+```
+
+
+
+
+## Inspect a ggplot Object
+
+```{r}
+#| label: ggplot-object-mapping
+g$mapping
+```
+
+
+
+## Inspect Layer Data
+
+```{r}
+#| label: ggplot-build-data
+gbuilt <- ggplot_build(g)
+names(gbuilt)
+```
+
+. . .
+
+```{r}
+#| label: ggplot-build-data-view-point
+#| class-output: hscroll
+head(gbuilt$data[[1]])
+```
+
+. . .
+
+```{r}
+#| label: ggplot-build-data-view-smooth
+#| class-output: hscroll
+head(gbuilt$data[[2]])
+```
+
+
+
+## Extend a ggplot Object: Add Layers
+
+```{r}
+#| label: ggplot-object-extend-geom
+#| output-location: column
+g +
+  geom_rug(
+    alpha = .2
+  )
+```
+
+
+
+## Remove a Layer from the Legend
+
+```{r}
+#| label: geom-guide-none
+#| output-location: column
+#| code-line-numbers: "4"
+g +
+  geom_rug(
+    alpha = .2,
+    show.legend = FALSE
+  )
+```
+
+
+
+## Extend a ggplot Object: Add Labels
+
+```{r}
+#| label: ggplot-labs-individual
+#| output-location: column
+#| code-line-numbers: "2,3,4"
+g +
+  xlab("Temperature (°C)") +
+  ylab("Reported bike shares") +
+  ggtitle("TfL bike sharing trends")
+```
+
+
+
+## Extend a ggplot Object: Add Labels
+
+```{r}
+#| label: ggplot-labs-bundled
+#| output-location: column
+#| code-line-numbers: "2,3,4,5,6"
+g +
+  labs(
+    x = "Temperature (°C)",
+    y = "Reported bike shares",
+    title = "TfL bike sharing trends"
+  )
+```
+
+
+
+## Extend a ggplot Object: Add Labels
+
+```{r}
+#| label: ggplot-labs-bundled-color
+#| output-location: column
+#| code-line-numbers: "6"
+g <- g +
+  labs(
+    x = "Temperature (°C)",
+    y = "Reported bike shares",
+    title = "TfL bike sharing trends",
+    color = "Season:"
+  )
+
+g
+```
+
+
+
+## Extend a ggplot Object: Add Labels
+
+```{r}
+#| label: ggplot-labs-bundled-extended
+#| output-location: column
+#| code-line-numbers: "6,7,9"
+g +
+  labs(
+    x = "Temperature (°C)",
+    y = "Reported bike shares",
+    title = "TfL bike sharing trends",
+    subtitle = "Reported bike rents versus temperature in London",
+    caption = "Data: TfL",
+    color = "Season:",
+    tag = "Fig. 1"
+  )
+```
+
+
+
+## Extend a ggplot Object: Add Labels
+
+::: {layout-ncol="2"}
+```{r}
+#| label: ggplot-labs-empty-vs-null-A
+#| fig-height: 3.6
+#| code-line-numbers: "3"
+g +
+  labs(
+    x = "",
+    caption = "Data: TfL"
+  )
+```
+
+```{r}
+#| label: ggplot-labs-empty-vs-null-B
+#| fig-height: 3.6
+#| code-line-numbers: "3"
+g +
+  labs(
+    x = NULL,
+    caption = "Data: TfL"
+  )
+```
+:::
+
+
+
+# A Polished ggplot Example
+
+
+
+## Extend a ggplot Object: Themes
+
+::: {layout-ncol="2"}
+```{r}
+#| label: ggplot-object-extend-theme-light
+#| fig-height: 5.5
+g + theme_light()
+```
+
+::: fragment
+```{r}
+#| label: ggplot-object-extend-theme-minimal
+#| fig-height: 5.5
+g + theme_minimal()
+```
+:::
+:::
+
+
+
+## Change the Theme Base Settings
+
+```{r}
+#| label: ggplot-theme-extend-theme-base
+#| output-location: column
+#| code-line-numbers: "2,3|1,2,3,4"
+g + theme_light(
+  base_size = 14,
+  base_family = "Asap SemiCondensed"
+)
+```
+
+
+
+## Set a Theme Globally
+
+```{r}
+#| label: ggplot-theme-global
+#| output-location: column
+theme_set(theme_light())
+
+g
+```
+
+
+
+## Change the Theme Base Settings
+
+```{r}
+#| label: ggplot-theme-global-base
+#| cache: false
+#| output-location: column
+#| code-line-numbers: "2,3|1,2,3,4"
+theme_set(theme_light(
+  base_size = 14,
+  base_family = "Asap SemiCondensed"
+))
+
+g
+```
+
+
+
+## The {systemfonts} Package
+
+<span class='simple-highlight-grn' style='font-size:2.1rem;'>locates installed fonts and provides font-related utilities to graphic devices</span>
+<br>
+
+::: fragment
+
+```{r}
+#| label: systemfonts-load
+#| cache: false
+library(systemfonts)
+```
+
+:::
+
+::: fragment
+
+```{r}
+#| label: systemfonts-match-font-a
+match_font("Asap", bold = TRUE)
+```
+
+:::
+
+
+
+## Use Non-Default Typefaces
+
+```{r}
+#| label: systemfonts-table
+#| class-output: hscroll
+#| cache: false
+system_fonts()
+```
+
+
+
+## Use Non-Default Typefaces
+
+```{r}
+#| label: systemfonts-filter-a
+#| code-line-numbers: "1,2,3,4,5|2"
+system_fonts() |>
+  dplyr::filter(stringr::str_detect(family, "Asap")) |>
+  dplyr::select(family) |>
+  unique() |> 
+  dplyr::arrange(family)
+```
+
+
+
+
+## Use Non-Default Typefaces
+
+```{r}
+#| label: systemfonts-custom-font
+#| output-location: column
+#| code-line-numbers: "2,3,4,5|3"
+g +
+  theme_minimal(
+    base_family = "Asap SemiCondensed",
+    base_size = 13
+  )
+```
+
+
+
+## Use Font Features
+
+```{r}
+#| label: systemfonts-filter-b
+#| class-output: hscroll
+#| code-line-numbers: "2,3,4"
+system_fonts() |>
+  dplyr::filter(family == "Asap SemiCondensed") |>
+  dplyr::select(name) |>
+  dplyr::arrange(name)
+```
+
+
+
+## Use Font Features
+
+```{r}
+#| label: systemfonts-register
+#| cache: false
+#| code-line-numbers: "1,2,3,4,5,6|1,6|2,3|2,4|2,5"
+register_variant(
+  name = "Asap SemiCondensed Semibold S1",
+  family = "Asap SemiCondensed",
+  weight = "semibold",
+  features = font_feature(letters = "stylistic")
+)
+```
+
+
+
+## Use Font Features
+
+```{r}
+#| label: systemfonts-register-plot
+#| output-location: column
+#| code-line-numbers: "3"
+g + 
+  theme_minimal(
+    base_family = "Asap SemiCondensed Semibold S1",
+    base_size = 13
+  )
+```
+
+
+
+## Use Font Features
+
+::: {layout-ncol="2"}
+```{r}
+#| label: systemfonts-font-variants-compare-1
+#| echo: false
+#| purl: false
+#| fig-width: 5.5
+#| fig-height: 6.5
+g + 
+  ggtitle("You're boring... 😪") + 
+  theme_minimal(base_family = "Asap SemiCondensed", base_size = 13) + 
+  theme(plot.title = element_text(size = rel(2.2)), 
+        plot.title.position = "plot",
+        plot.margin = margin(rep(15, 4)))
+```
+
+```{r}
+#| label: systemfonts-font-variants-compare-2
+#| echo: false
+#| purl: false
+#| fig-width: 5.5
+#| fig-height: 6.5
+g + 
+  ggtitle("Yikes, that's exciting! 🤩") + 
+  theme_minimal(base_family = "Asap SemiCondensed Semibold S1", base_size = 13) + 
+  theme(plot.title = element_text(size = rel(2.2)), 
+        plot.title.position = "plot",
+        plot.margin = margin(rep(15, 4)))
+```
+:::
+
+
+
+## Use Font Features
+
+```{r}
+#| label: systemfonts-register-tabular
+#| cache: false
+#| code-line-numbers: "1,2,3,4,5,6|5"
+register_variant(
+  name = "Spline Sans Tabular",
+  family = "Spline Sans",
+  weight = "normal",
+  features = font_feature(numbers = "tabular")
+)
+```
+
+
+
+## Use Font Features
+
+::: {layout-ncol="2"}
+```{r}
+#| label: systemfonts-font-variants-compare-proportional
+#| echo: false
+#| cache: false
+#| purl: false
+#| fig-width: 5.5
+#| fig-height: 6.5
+label <- "1,509.67\n710.13\n498.30\n11.11\n8.57"
+
+register_variant(
+  name = "Spline Sans Proportional",
+  family = "Spline Sans",
+  weight = "normal",
+  features = font_feature(numbers = "proportional")
+)
+
+ggplot() + 
+  geom_text(
+    aes(x = 0, y = 0, label = label), 
+    family = "Spline Sans Proportional", hjust = 1, size = 22, lineheight = .9
+  ) +
+  scale_x_continuous(limits = c(-.5, .1)) +
+  ggtitle("Proportional") +
+  theme_void(base_size = 40) +
+  theme(plot.title = element_text(family = "Spline Sans", hjust = .5, face = "bold"))
+```
+
+::: fragment
+
+```{r}
+#| label: systemfonts-font-variants-compare-tabular
+#| echo: false
+#| purl: false
+#| fig-width: 5.5
+#| fig-height: 6.5
+ggplot() +
+ geom_text( 
+    aes(x = 0, y = 0, label = label),
+    family = "Spline Sans Tabular", hjust = 1, size = 22, lineheight = .9
+  ) +
+  scale_x_continuous(limits = c(-.5, .1)) +
+  ggtitle("Tabular") +
+  theme_void(base_size = 40) +
+  theme(plot.title = element_text(family = "Spline Sans", hjust = .5, face = "bold"))
+```
+:::
+:::
+
+
+
+## Overwrite Specific Theme Settings
+
+```{r}
+#| label: ggplot-theme-settings-individual-1
+#| output-location: column
+#| code-line-numbers: "2|3"
+g +
+  theme(
+    panel.grid.minor = element_blank()
+  )
+```
+
+
+
+## Overwrite Specific Theme Settings
+
+```{r}
+#| label: ggplot-theme-settings-individual-2
+#| output-location: column
+#| code-line-numbers: "4"
+g +
+  theme(
+    panel.grid.minor = element_blank(),
+    plot.title = element_text(face = "bold")
+  )
+```
+
+
+
+## Overwrite Specific Theme Settings
+
+```{r}
+#| label: ggplot-theme-settings-individual-3
+#| output-location: column
+#| code-line-numbers: "5"
+g +
+  theme(
+    panel.grid.minor = element_blank(),
+    plot.title = element_text(face = "bold"),
+    legend.position = "top"
+  )
+```
+
+
+
+## Overwrite Specific Theme Settings
+
+```{r}
+#| label: ggplot-theme-settings-individual-legend-none
+#| output-location: column
+#| code-line-numbers: "5"
+g +
+  theme(
+    panel.grid.minor = element_blank(),
+    plot.title = element_text(face = "bold"),
+    legend.position = "none"
+  )
+```
+
+
+
+## Overwrite Specific Theme Settings
+
+```{r}
+#| label: ggplot-theme-settings-individual-4
+#| output-location: column
+#| code-line-numbers: "6|2,3,4,5,6,7"
+g +
+  theme(
+    panel.grid.minor = element_blank(),
+    plot.title = element_text(face = "bold"),
+    legend.position = "top",
+    plot.title.position = "plot"
+  )
+```
+
+
+
+## Overwrite Theme Settings Globally
+
+```{r}
+#| label: ggplot-theme-settings-global
+#| output-location: column
+#| code-line-numbers: "1|2,3,4,5|1,2,3,4,5,6"
+theme_update(
+  panel.grid.minor = element_blank(),
+  plot.title = element_text(face = "bold"),
+  legend.position = "top",
+  plot.title.position = "plot"
+)
+
+g
+```
+
+
+# Saving Plots
+
+
+## Save the Graphic
+
+<br>
+
+```{r}
+#| label: ggplot-save
+#| eval: false
+ggsave(filename = "my_plot.png", plot = g)
+```
+
+::: fragment
+```{r}
+#| label: ggplot-save-implicit
+#| eval: false
+ggsave("my_plot.png")
+```
+:::
+
+<br>
+
+::: fragment
+```{r}
+#| label: ggplot-save-aspect
+#| eval: false
+ggsave("my_plot.png", width = 6, height = 5, dpi = 600)
+```
+:::
+
+
+## Plot Resolution
+
+```{r}
+#| label: resolution-dpi-save
+#| include: false
+#| purl: false
+g_res <- 
+  ggplot(bikes, aes(x = temp, y = count, color = day_night)) +
+  geom_point(alpha = .3, size = 2) +
+  scale_color_manual(values = c(day = "#FFA200", night = "#757BC7")) +
+  theme_minimal(base_size =                         18, base_family = "Asap SemiCondensed") +
+  theme(panel.grid.minor = element_blank(),
+        plot.title = element_text(family = "Spline Sans Mono", size = rel(.95), face = "bold", hjust = .5),
+        plot.subtitle = element_text(size = rel(1.1), hjust = .5, margin = margin(b = 20)),
+        plot.title.position = "plot")
+
+ggsave(here::here("img", "ggplot", "example-plot.svg"), 
+       width = 6, height = 5, bg = "white")
+
+g_res + labs(title = "width = 5, height = 6, dpi = 100", subtitle = "500 px × 600 px  |  ~ 75 KB")
+ggsave(here::here("img", "ggplot", "resolution-dpi-100.png"), 
+       width = 5, height = 6, dpi = 100, bg = "white")
+
+g_res + labs(title = "width = 5, height = 6, dpi = 600", subtitle = "2500 px × 3000 px  |  ~ 910 KB")
+ggsave(here::here("img", "ggplot", "resolution-dpi-600.png"), 
+       width = 5, height = 6, dpi = 500, bg = "white")
+```
+
+::: {layout-ncol="2"}
+![](img/ggplot/resolution-dpi-100.png)
+
+![](img/ggplot/resolution-dpi-600.png)
+:::
+
+
+## Plot Resolution
+
+::: {layout-ncol="2"}
+![](img/ggplot/resolution-dpi-100-zoom.png)
+
+![](img/ggplot/resolution-dpi-600-zoom.png)
+:::
+
+
+## Save the Graphic
+
+<br>
+
+```{r}
+#| label: ggplot-save
+#| eval: false
+#| purl: false
+```
+
+```{r}
+#| label: ggplot-save-implicit
+#| eval: false
+#| purl: false
+```
+
+<br>
+
+```{r}
+#| label: ggplot-save-aspect
+#| eval: false
+#| purl: false
+```
+
+::: fragment
+```{r}
+#| label: ggplot-save-unit
+#| eval: false
+ggsave("my_plot.png", width = 6*2.54, height = 5*2.54, unit = "cm", dpi = 600)
+```
+:::
+
+<br>
+
+::: fragment
+```{r}
+#| label: ggplot-save-raster-agg
+#| eval: false
+ggsave("my_plot.png", device = agg_png)
+```
+:::
+
+::: fragment
+```{r}
+#| label: ggplot-save-cairo
+#| eval: false
+ggsave("my_plot.pdf", device = cairo_pdf)
+```
+:::
+
+
+--------------------------------------------------------------------------------
+
+<br>
+
+![Modified from canva.com](img/ggplot/vector-raster-canva.png){fig-alt="A comparison of vector and raster graphics." fig-width="150%"}
+
+
+
+## The {ragg} Package
+
+<span class='simple-highlight-grn' style='font-size:2.1rem;'>provides drop-in replacements for the default raster graphic devices</span>
+
+::: incremental
+* faster
+* direct access to all system fonts
+* advanced text rendering
+  * including support for right-to-left text, emojis, and font fallback
+* high quality anti-aliasing
+* high quality rotated text
+* supports 16-bit output
+* system independent rendering
+:::
+
+
+
+## The {ragg} Package
+
+<br>
+
+![Source: [tidyverse.org/blog/2021/02/modern-text-features](https://www.tidyverse.org/blog/2021/02/modern-text-features/)](img/ggplot/ragg-left-and-right.png){fig-align="center" fig-alt="A comparison of different graphic devices in R comparing the rendering of right-to-left text (and mixing left-to-right and right-to-left text)."}
+
+
+
+## The {ragg} Package
+
+<br>
+
+![Source: [tidyverse.org/blog/2021/02/modern-text-features](https://www.tidyverse.org/blog/2021/02/modern-text-features/)](img/ggplot/ragg-ligatures.png){fig-align="center" fig-alt="A comparison of different graphic devices in R comparing the rendering of font ligatures."}
+
+
+
+## The {ragg} Package
+
+<br>
+
+![Source: [tidyverse.org/blog/2021/02/modern-text-features](https://www.tidyverse.org/blog/2021/02/modern-text-features/)](img/ggplot/ragg-emojis.png){fig-align="center" fig-alt="A comparison of different graphic devices in R comparing the rendering of emojis."}
+
+
+
+## The {ragg} Package
+
+<br>
+
+![Source: [tidyverse.org/blog/2021/02/modern-text-features](https://www.tidyverse.org/blog/2021/02/modern-text-features/)](img/ggplot/ragg-fallback.png){fig-align="center" fig-alt="A comparison of different graphic devices in R comparing the rendering missing glyphs, partly making use of fallback fonts."}
+
+
+
+## The {ragg} Package
+
+::: incremental
+* use {ragg} when saving ggplots by passing agg device function: `ggsave(device = agg_png))` ([used by default if installed](https://github.com/tidyverse/ggplot2/pull/4388))
+* use {ragg} in the *Rstudio Plots* pane be setting the backend to AGG: ![](img/ggplot/ragg-rstudio.png){fig-alt="How to set the AGG device as the default in RStudio via Global Options > > General > Graphics > Backend."}
+* use {ragg} when knitting Rmarkdown files by setting `dev="ragg_png"` in the code chunk options.
+
+:::
+
+
+
+## Save the Graphic
+
+<br>
+
+```{r}
+#| label: ggplot-save
+#| eval: false
+#| purl: false
+```
+
+```{r}
+#| label: ggplot-save-implicit
+#| eval: false
+#| purl: false
+```
+
+<br>
+
+```{r}
+#| label: ggplot-save-aspect
+#| eval: false
+#| purl: false
+```
+
+```{r}
+#| label: ggplot-save-unit
+#| eval: false
+#| purl: false
+```
+<br>
+
+```{r}
+#| label: ggplot-save-raster-agg
+#| eval: false
+#| purl: false
+```
+
+```{r}
+#| label: ggplot-save-cairo
+#| eval: false
+#| purl: false
+```
+
+::: fragment
+```{r}
+#| label: ggplot-save-svg
+#| eval: false
+ggsave("my_plot.svg")
+```
+:::
+
+
+
+--------------------------------------------------------------------------------
+
+![](img/ggplot/figma-svg.png){fig-align="center"}
+
+
+
+## How to Work with Aspect Ratios
+
+::: incremental
+-   don't rely on the Rstudio viewer pane!
+-   once you have a *"it's getting close"* prototype, settle on a plot size<br><br>
+-   **Approach 1:** save the file and inspect it—go back to your IDE—repeat
+    -   tedious and time-consuming...<br><br>
+-   **Approach 2:** use a qmd or rmd with inline output and chunk settings
+    -   set `fig-width` / `fig.width` and `fig-height` / `fig.height`<br>per chunk or globally<br><br>
+:::
+
+
+
+## Setting Plot Sizes in Quarto and Rmarkdown
+
+![](img/ggplot/plot-size-chunk-yaml.png){fig-alt="A screenshot of an exemplary Qmd file with two chunks with different settings of fig-width and fig-height as YAML-styled options using the hashpipe. Unfortunately, these are not respected when the chunk output is printed inline." fig-width="60%"}
+
+
+
+## Setting Plot Sizes in Quarto and Rmarkdown
+
+![](img/ggplot/plot-size-chunk-inline.png){fig-alt="A screenshot of an exemplary Qmd file with two chunks with different settings of fig.width and fig.height set as inline chunk options." fig-width="60%"}
+
+
+
+## How to Work with Aspect Ratios
+
+-   don't rely on the Rstudio viewer pane!
+-   once you have a *"it's getting close"* prototype, settle on a plot size<br><br>
+-   **Approach 1:** save the file and inspect it—go back to your IDE—repeat
+    -   tedious and time-consuming...<br><br>
+-   **Approach 2:** use a qmd or rmd with inline output and chunk settings
+    -   set `fig-width` / `fig.width` and `fig-height` / `fig.height`<br>per chunk or globally<br><br>
+-   **Approach 3:** use our [{camcorder} package](https://github.com/thebioengineer/camcorder)
+    -   saves output from all `ggplot()` calls and displays it in the viewer pane
+
+
+
+## Setting Plot Sizes via {camcorder}
+
+<br>
+
+![](img/ggplot/plot-size-camcorder-a.png){fig-alt="A screenshot of an exemplary R script with a plot automatically saved and isplayed in correct aspect ratio thanks to the camcorder package." fig-width="120%"}
+
+
+## Setting Plot Sizes via {camcorder}
+
+<br>
+
+![](img/ggplot/plot-size-camcorder-b.png){fig-alt="A screenshot of an exemplary R script with a plot automatically saved and isplayed in correct aspect ratio thanks to the camcorder package." fig-width="120%"}
+
+
+## Setting Plot Sizes via {camcorder}
+
+```{r}
+#| label: camcorder-record
+#| eval: false
+#| purl: false
+#| code-line-numbers: "1,2,3,4,5,6,7|9,10,11,12,13,15"
+camcorder::gg_record(
+  dir = here::here("temp"),  # path for plot files
+  device = "png",            # device to use
+  width = 10,                # figure width
+  height = 5,                # figure height
+  dpi = 600                  # plot resolution
+)
+
+g <- ggplot(bikes, aes(x = temp, y = count, color = day_night)) +
+  geom_point(alpha = .3, size = 2) +
+  scale_color_manual(values = c(day = "#FFA200", night = "#757BC7")) +
+  theme_minimal(base_size = 14, base_family = "Asap SemiCondensed") +
+  theme(panel.grid.minor = element_blank())
+
+g
+```
+
+
+## Setting Plot Sizes via {camcorder}
+
+```{r}
+#| label: camcorder-resize
+#| eval: false
+#| code-line-numbers: "17,19"
+camcorder::gg_record(
+  dir = here::here("temp"),  # path for plot files
+  device = "png",            # device to use
+  width = 10,                # figure width
+  height = 5,                # figure height
+  dpi = 600                  # plot resolution
+)
+
+g <- ggplot(bikes, aes(x = temp, y = count, color = day_night)) +
+  geom_point(alpha = .3, size = 2) +
+  scale_color_manual(values = c(day = "#FFA200", night = "#757BC7")) +
+  theme_minimal(base_size = 14, base_family = "Asap SemiCondensed") +
+  theme(panel.grid.minor = element_blank())
+
+g
+
+camcorder::gg_resize_film(width = 20) # update figure width
+
+g
+```
+
+
+
+## <b style='color:#663399;'>Recap</b>
+
+::: recap
+::: incremental
+-   `{ggplot2}` is a powerful library for reproducible graphic design
+-   the components follow a consistent syntax
+-   each ggplot needs at least **data**, some **aesthetics**, and a **layer**
+-   we **set** constant propeties outside `aes()`
+-   ... and **map** data-related properties inside `aes()`
+-   local settings and mappings override global properties
+-   grouping allows applying layers for subsets
+-   we can store a ggplot object and extend it afterwards
+-   we can change the appearance for all plots with `theme_set()`<br>and `theme_update()`
+:::
+:::
+
+
+
+# Exercises
+
+
+
+## Exercise 1
+
+::: question
+-   Explore the TfL bike share data visually:<br>**create a timeseries of reported bike shares on weekend days**
+    -   Highlight day and night encoded by colors and shapes.
+    -   Connect the points of each period with lines.
+        -   What is the difference between `geom_line()` and `geom_path()`?
+    -   Apply your favorite theme to the plot.
+    -   Add meaningful labels.
+-   Save the plot as a vector graphic with a decent plot size.
+:::
+
+
+
+## Exercise 2
+
+::: question
+-   Explore the TfL bike sharing data visually:<br>**create a boxplot of counts per weather type**
+    -   Turn the plot into a jitter strips plot (random noise across the x axis)
+    -   Combine both chart types (jittered points on top of the boxplots)
+    -   [Bonus: Sort the boxplot-jitter hybrid by median counts]{style="color:#1D785A;"}
+    -   Apply your favorite theme to the plot.
+    -   Add meaningful labels.
+    -   [Bonus: Explore other chart types to visualize the distributions.]{style="color:#1D785A;"}
+-   Save the plot as a vector graphic with a decent plot size.
+:::
+
+
+
+# Solution Exercise 1 {background-color="#e6d9f2"}
+
+
+
+## Exercise 1
+
+::: question
+-   Explore the TfL bike share data visually:<br>**create a timeseries of reported bike shares on weekend days**
+    -   Highlight day and night encoded by colors and shapes.
+    -   Connect the points of each period with lines.
+        -   What is the difference between `geom_line()` and `geom_path()`?
+    -   Apply your favorite theme to the plot.
+    -   Add meaningful labels.
+    -   [Bonus: use shape to encode Saturday vs Sunday instead.]{style="color:#1D785A;"}
+-   Save the plot as a vector graphic with a decent plot size.
+:::
+
+
+
+## Import the Data Set
+
+```{r}
+#| label: import-data-exercise-1
+#| cache: false
+library(ggplot2)
+library(dplyr)
+
+bikes <- readr::read_csv(
+  "data/london-bikes-custom.csv",
+  col_types = "Dcfffilllddddc"
+)
+```
+
+
+
+## Scatterplot Counts vs. Date
+
+```{r}
+#| label: concepts-pt1-exercise-1-1
+#| output-location: column
+ggplot(
+    filter(bikes, is_weekend == TRUE),
+    aes(x = date, y = count)
+  ) +
+  geom_point()
+```
+
+
+
+## Encode Day Period by Colors and Shapes
+
+```{r}
+#| label: concepts-pt1-exercise-1-2
+#| output-location: column
+#| code-line-numbers: "6,7"
+ggplot(
+    filter(bikes, is_weekend == TRUE),
+    aes(x = date, y = count)
+  ) +
+  geom_point(
+    aes(color = day_night,
+        shape = day_night)
+  )
+```
+
+
+
+## Add Line
+
+```{r}
+#| label: concepts-pt1-exercise-1-3
+#| output-location: column
+#| code-line-numbers: "9,10,11"
+ggplot(
+    filter(bikes, is_weekend == TRUE),
+    aes(x = date, y = count)
+  ) +
+  geom_point(
+    aes(color = day_night,
+        shape = day_night)
+  ) +
+  geom_line(
+    color = "grey"
+  )
+```
+
+
+
+## Group Lines by Day Period
+
+```{r}
+#| label: concepts-pt1-exercise-1-4
+#| output-location: column
+#| code-line-numbers: "10"
+ggplot(
+    filter(bikes, is_weekend == TRUE),
+    aes(x = date, y = count)
+  ) +
+  geom_point(
+    aes(color = day_night,
+        shape = day_night)
+  ) +
+  geom_line(
+    aes(group = day_night),
+    color = "grey"
+  )
+```
+
+
+
+## Order Layers
+
+```{r}
+#| label: concepts-pt1-exercise-1-5
+#| output-location: column
+#| code-line-numbers: "5,6,7,8"
+ggplot(
+    filter(bikes, is_weekend == TRUE),
+    aes(x = date, y = count)
+  ) +
+  geom_line(
+    aes(group = day_night),
+    color = "grey"
+  ) +
+  geom_point(
+    aes(color = day_night,
+        shape = day_night)
+  )
+```
+
+
+
+## Use \`geom_path()\` instead
+
+```{r}
+#| label: concepts-pt1-exercise-1-6
+#| output-location: column
+#| code-line-numbers: "5"
+ggplot(
+    filter(bikes, is_weekend == TRUE),
+    aes(x = date, y = count)
+  ) +
+  geom_path(
+    aes(group = day_night),
+    color = "grey"
+  ) +
+  geom_point(
+    aes(color = day_night,
+        shape = day_night)
+  )
+```
+
+
+
+## \`geom_line()\` vs. \`geom_path()\`
+
+::: {layout-ncol="2"}
+```{r}
+#| label: concepts-pt1-exercise-1-comp-path
+#| fig-height: 3.2
+#| code-line-numbers: "3|5,6,7"
+ggplot(
+    filter(bikes, is_weekend == TRUE),
+    aes(x = temp_feel, y = count)
+  ) +
+  geom_path(
+    aes(color = day_night)
+  )
+```
+
+::: fragment
+```{r}
+#| label: concepts-pt1-exercise-1-comp-line
+#| fig-height: 3.2
+#| code-line-numbers: "5,6,7"
+ggplot(
+    filter(bikes, is_weekend == TRUE),
+    aes(x = temp_feel, y = count)
+  ) +
+  geom_line(
+    aes(color = day_night)
+  )
+```
+:::
+:::
+
+
+
+## Apply a Theme
+
+```{r}
+#| label: concepts-pt1-exercise-1-8
+#| output-location: column
+#| code-line-numbers: "1|1,14|14,15,16,17,18,19,20,21|15,16,17,18|19,20,21"
+g <- ggplot(
+    filter(bikes, is_weekend == TRUE),
+    aes(x = date, y = count)
+  ) +
+  geom_line(
+    aes(group = day_night),
+    color = "grey"
+  ) +
+  geom_point(
+    aes(color = day_night,
+        shape = day_night)
+  )
+
+g +
+  theme_minimal(
+    base_size = 15,
+    base_family = "Lora"
+  ) +
+  theme(
+    legend.position = "top",
+    panel.grid.minor = element_blank()
+  )
+```
+
+
+
+## Add Meaningful Labels
+
+```{r}
+#| label: concepts-pt1-exercise-1-9
+#| output-location: column
+#| code-line-numbers: "2,3,4,5,6,7"
+g +
+  labs(
+    x = "Weekend date",
+    y = "Reported bike shares",
+    color = "Part of the Day:"
+  ) +
+  theme_minimal(
+    base_size = 15,
+    base_family = "Lora"
+  ) +
+  theme(
+    legend.position = "top",
+    panel.grid.minor = element_blank()
+  )
+```
+
+
+
+## Add Meaningful Labels
+
+```{r}
+#| label: concepts-pt1-exercise-1-10
+#| output-location: column
+#| code-line-numbers: "6"
+g +
+  labs(
+    x = "Weekend date",
+    y = "Reported bike shares",
+    color = "Part of the Day:",
+    shape = "Part of the Day:"
+  ) +
+  theme_minimal(
+    base_size = 15,
+    base_family = "Lora"
+  ) +
+  theme(
+    legend.position = "top",
+    panel.grid.minor = element_blank()
+  )
+```
+
+
+
+## Add Meaningful Labels
+
+```{r}
+#| label: concepts-pt1-exercise-1-11
+#| output-location: column
+#| code-line-numbers: "5,6"
+g +
+  labs(
+    x = "Weekend date",
+    y = "Reported bike shares",
+    color = NULL,
+    shape = NULL
+  ) +
+  theme_minimal(
+    base_size = 15,
+    base_family = "Lora"
+  ) +
+  theme(
+    legend.position = "top",
+    panel.grid.minor = element_blank()
+  )
+```
+
+
+
+## Save the Plot
+
+```{r}
+#| label: concepts-pt1-exercise-1-12
+#| eval: false
+#| code-line-numbers: "1,2|1|2"
+ggsave("02_concepts_pt1_ex1.pdf",
+       width = 9, height = 5, device = cairo_pdf)
+```
+
+```{r}
+#| label: concepts-pt1-exercise-1-12-png
+#| include: false
+#| eval: false
+ggsave("02_concepts_pt1_ex1.png",
+       width = 9, height = 5, dpi = 350, bg = "white")
+```
+
+![](plots/02_concepts_pt1_ex1.png){fig-align="center" fig-alt="The final plot with an aspect ratio of 9 x 5 inches while using a base_size of 15."}
+
+::: footer
+:::
+
+
+
+## Bonus: Use Shape to Encode Sat vs Sun
+
+```{r}
+#| label: concepts-pt1-exercise-1-bonus
+#| output-location: column
+#| code-line-numbers: "11"
+ggplot(
+    filter(bikes, is_weekend == TRUE),
+    aes(x = date, y = count)
+  ) +
+  geom_line(
+    aes(group = day_night),
+    color = "grey"
+  ) +
+  geom_point(
+    aes(color = day_night,
+        shape = lubridate::day(date) == 6)
+  ) +
+  labs(
+    x = "Weekend date",
+    y = "Reported bike shares",
+    color = NULL,
+    shape = NULL
+  ) +
+  theme_minimal(
+    base_size = 15,
+    base_family = "Lora"
+  ) +
+  theme(
+    legend.position = "top",
+    panel.grid.minor = element_blank()
+  )
+```
+
+
+
+## Bonus: Use Shape to Encode Sat vs Sun
+
+```{r}
+#| label: concepts-pt1-exercise-1-bonus-1
+#| output-location: column
+#| code-line-numbers: "11"
+ggplot(
+    filter(bikes, is_weekend == TRUE),
+    aes(x = date, y = count)
+  ) +
+  geom_line(
+    aes(group = day_night),
+    color = "grey"
+  ) +
+  geom_point(
+    aes(color = day_night,
+        shape = lubridate::wday(date, label = TRUE))
+  ) +
+  labs(
+    x = "Weekend date",
+    y = "Reported bike shares",
+    color = NULL,
+    shape = NULL
+  ) +
+  theme_minimal(
+    base_size = 15,
+    base_family = "Lora"
+  ) +
+  theme(
+    legend.position = "top",
+    panel.grid.minor = element_blank()
+  )
+```
+
+
+
+## Bonus: Use Shape to Encode Sat vs Sun
+
+```{r}
+#| label: concepts-pt1-exercise-1-bonus-2
+#| output-location: column
+#| code-line-numbers: "2"
+invisible(
+  Sys.setlocale("LC_TIME", "C")
+)
+
+ggplot(
+    filter(bikes, is_weekend == TRUE),
+    aes(x = date, y = count)
+  ) +
+  geom_line(
+    aes(group = day_night),
+    color = "grey"
+  ) +
+  geom_point(
+    aes(color = day_night,
+        shape = lubridate::wday(date, label = TRUE))
+  ) +
+  labs(
+    x = "Weekend date",
+    y = "Reported bike shares",
+    color = NULL,
+    shape = NULL
+  ) +
+  theme_minimal(
+    base_size = 15,
+    base_family = "Lora"
+  ) +
+  theme(
+    legend.position = "top",
+    panel.grid.minor = element_blank()
+  )
+```
+
+
+
+## Save the Plot
+
+```{r}
+#| label: concepts-pt1-exercise-1-bonus-save
+#| eval: false
+#| code-line-numbers: "1,2|1|2"
+ggsave("02_concepts_pt1_ex1_bonus.pdf",
+       width = 9, height = 5, device = cairo_pdf)
+```
+
+```{r}
+#| label: concepts-pt1-exercise-1-bonus-png
+#| include: false
+#| eval: false
+ggsave("02_concepts_pt1_ex1_bonus.png",
+       width = 9, height = 5, dpi = 350, bg = "white")
+```
+
+![](plots/02_concepts_pt1_ex1_bonus.png){fig-align="center" fig-alt="The final plot with the bonus encoding saved with an aspect ratio of 9 x 5 inches."}
+
+::: footer
+:::
+
+
+
+# Solution Exercise 2 {background-color="#e6d9f2"}
+
+
+
+## Exercise 2
+
+::: question
+* Explore the TfL bike sharing data visually:<br>**create a boxplot of counts per weather type**
+    - Turn the plot into a jitter strips plot (random noise across the x axis)
+    - Combine both chart types (jittered points on top of the boxplots)
+    - <span style='color:#5DB699;'>Bonus: Sort the boxplot-jitter hybrid by median counts</span>
+    - Apply your favorite theme to the plot.
+    - Add meaningful labels.
+    - <span style='color:#5DB699;'>Bonus: Explore other chart types to visualize the distributions.</span>
+* Save the plot as a vector graphic with a decent plot size.
+:::
+
+
+
+## Import Data (if not yet)
+
+```{r}
+#| label: import-data-exercise-2
+#| eval: false
+library(ggplot2)
+
+bikes <- readr::read_csv(
+  "data/london-bikes-custom.csv"),
+  col_types = "Dcfffilllddddc"
+)
+```
+
+
+
+## Boxplot of Counts vs. Weather Type
+
+```{r}
+#| label: concepts-pt1-exercise-2-1
+#| output-location: column
+ggplot(
+    bikes,
+    aes(x = weather_type, y = count)
+  ) +
+  geom_boxplot()
+```
+
+
+
+## Avoid Overlapping Axis Labels
+
+```{r}
+#| label: concepts-pt1-exercise-2-2
+#| output-location: column
+#| code-line-numbers: "3"
+ggplot(
+    bikes,
+    aes(x = count, y = weather_type)
+  ) +
+  geom_boxplot()
+```
+
+
+
+## Avoid Overlapping Axis Labels
+
+```{r}
+#| label: concepts-pt1-exercise-2-3
+#| output-location: column
+#| code-line-numbers: "3,4"
+ggplot(
+    bikes,
+    aes(x = stringr::str_wrap(weather_type, 6),
+        y = count)
+  ) +
+  geom_boxplot()
+```
+
+
+
+## Apply a Theme
+
+```{r}
+#| label: concepts-pt1-exercise-2-4
+#| output-location: column
+#| code-line-numbers: "1,2,3,4"
+theme_set(theme_minimal(
+  base_size = 14,
+  base_family = "Asap SemiCondensed"
+))
+
+ggplot(
+    bikes,
+    aes(x = stringr::str_wrap(weather_type, 6),
+        y = count)
+  ) +
+  geom_boxplot()
+```
+
+
+
+## Customize the Theme
+
+```{r}
+#| label: concepts-pt1-exercise-2-5
+#| output-location: column
+#| code-line-numbers: "6,7,8,9"
+theme_set(theme_minimal(
+  base_size = 14,
+  base_family = "Asap SemiCondensed"
+))
+
+theme_update(
+  panel.grid.major.x = element_blank(),
+  panel.grid.minor = element_blank()
+)
+
+ggplot(
+    bikes,
+    aes(x = stringr::str_wrap(weather_type, 6),
+        y = count)
+  ) +
+  geom_boxplot()
+```
+
+
+
+## Add Meaningful Labels
+
+```{r}
+#| label: concepts-pt1-exercise-2-6
+#| output-location: column
+#| code-line-numbers: "3,4"
+ggplot(
+    bikes,
+    aes(x = stringr::str_wrap(weather_type, 6),
+        y = count)
+  ) +
+  geom_boxplot() +
+  labs(x = NULL, y = "Reported bike shares")
+```
+
+
+
+## Add Meaningful Labels
+
+```{r}
+#| label: concepts-pt1-exercise-2-7
+#| output-location: column
+#| code-line-numbers: "8,9"
+ggplot(
+    bikes,
+    aes(x = stringr::str_wrap(weather_type, 6),
+        y = count)
+  ) +
+  geom_boxplot() +
+  labs(
+    x = NULL, y = NULL,
+    title = "Reported bike shares by weather type"
+  )
+```
+
+
+
+## Add Meaningful Labels
+
+```{r}
+#| label: concepts-pt1-exercise-2-8
+#| output-location: column
+#| code-line-numbers: "1,2,3,4|2|3|12"
+theme_update(
+  plot.title.position = "plot",
+  axis.title = element_blank()
+)
+
+ggplot(
+    bikes,
+    aes(x = stringr::str_wrap(weather_type, 6),
+        y = count)
+  ) +
+  geom_boxplot() +
+  ggtitle("Reported bike shares by weather type")
+```
+
+
+## Jitter Strips of Counts per Weather Type
+
+```{r}
+#| label: concepts-pt1-exercise-2-9
+#| output-location: column
+#| code-line-numbers: "5,6,7"
+ggplot(
+    bikes,
+    aes(x = stringr::str_wrap(weather_type, 6),
+        y = count)
+  ) +
+  geom_jitter(
+    alpha = .2
+  ) +
+  ggtitle("Reported bike shares by weather type")
+```
+
+
+## Jitter Strips of Counts per Weather Type
+
+```{r}
+#| label: concepts-pt1-exercise-2-10
+#| output-location: column
+#| code-line-numbers: "6,7,9"
+ggplot(
+    bikes,
+    aes(x = stringr::str_wrap(weather_type, 6),
+        y = count)
+  ) +
+  geom_point(
+    position = "jitter",
+    alpha = .2
+  )
+```
+
+
+## Jitter Strips of Counts per Weather Type
+
+```{r}
+#| label: concepts-pt1-exercise-2-11
+#| output-location: column
+#| code-line-numbers: "7"
+ggplot(
+    bikes,
+    aes(x = stringr::str_wrap(weather_type, 6),
+        y = count)
+  ) +
+  geom_point(
+    position = position_jitter(),
+    alpha = .2
+  )
+```
+:::
+
+
+## Jitter Strips of Counts vs. Weather Type
+
+```{r}
+#| label: concepts-pt1-exercise-2-12
+#| output-location: column
+#| code-line-numbers: "7,8,9,10,11"
+ggplot(
+    bikes,
+    aes(x = stringr::str_wrap(weather_type, 6),
+        y = count)
+  ) +
+  geom_point(
+    position = position_jitter(
+      seed = 2022,
+      width = .2,
+      height = 0
+    ),
+    alpha = .2
+  ) +
+  ggtitle("Reported bike shares by weather type")
+```
+
+
+
+## Boxplot + Jitter Strip Hybrid
+
+```{r}
+#| label: concepts-pt1-exercise-2-13
+#| output-location: column
+#| code-line-numbers: "6"
+ggplot(
+    bikes,
+    aes(x = stringr::str_wrap(weather_type, 6),
+        y = count)
+  ) +
+  geom_boxplot() +
+  geom_point(
+    position = position_jitter(
+      seed = 2022,
+      width = .2,
+      height = 0
+    ),
+    alpha = .1
+  ) +
+  ggtitle("Reported bike shares by weather type")
+```
+
+
+
+## Boxplot + Jitter Strip Hybrid
+
+```{r}
+#| label: concepts-pt1-exercise-2-14
+#| output-location: column
+#| code-line-numbers: "7,8,9"
+ggplot(
+    bikes,
+    aes(x = stringr::str_wrap(weather_type, 6),
+        y = count)
+  ) +
+  geom_boxplot(
+     outlier.shape = NA
+     # outlier.color = "transparent"
+     # outlier.alpha = 0
+  ) +
+  geom_point(
+    position = position_jitter(
+      seed = 2022,
+      width = .2,
+      height = 0
+    ),
+    alpha = .1
+  ) +
+  ggtitle("Reported bike shares by weather type")
+```
+
+
+
+## Bonus: Sort Weather Types
+
+```{r}
+#| label: concepts-pt1-exercise-2-15
+#| output-location: column
+#| code-line-numbers: "4,5,6"
+ggplot(
+    bikes,
+    aes(
+      x = forcats::fct_reorder(
+        stringr::str_wrap(weather_type, 6), -count
+      ),
+      y = count)
+  ) +
+  geom_boxplot(
+     outlier.shape = NA
+     # outlier.color = "transparent"
+     # outlier.alpha = 0
+  ) +
+  geom_point(
+    position = position_jitter(
+      seed = 2022,
+      width = .2,
+      height = 0
+    ),
+    alpha = .2
+  ) +
+  ggtitle("Reported bike shares by weather type")
+```
+
+
+
+## Save the Plot
+
+```{r}
+#| label: concepts-pt1-exercise-2-16
+#| eval: false
+ggsave("02_concepts_pt1_ex2.pdf",
+       width = 5, height = 6.5, device = cairo_pdf)
+```
+
+```{r}
+#| label: concepts-pt1-exercise-2-16-png
+#| include: false
+ggsave("02_concepts_pt1_ex2.png",
+       width = 5, height = 6.5, dpi = 350, bg = "white")
+```
+
+![](plots/02_concepts_pt1_ex2.png){fig-align="center" fig-alt="The final plot with an aspect ratio of 5 x 7 inches."}
+
+:::footer
+:::
+
+
+
+# Alternatives to Visualize Distributions
+
+
+
+## Let's Update our Data Set
+
+```{r}
+#| label: sort-weather-type
+bikes <-
+  bikes |>
+  mutate(
+    weather_type_fct = stringr::str_wrap(
+      weather_type, 6
+    ),
+    weather_type_fct = forcats::fct_reorder(
+      weather_type_fct, -count
+    )
+  )
+
+levels(bikes$weather_type_fct)
+```
+
+
+
+## Let's Store Our ggplot Setup
+
+```{r}
+#| label: store-basic-setup
+g <-
+  ggplot(
+    bikes,
+    aes(x = weather_type_fct,
+        y = count)
+  ) +
+  ggtitle(
+    "Reported bike shares by weather type"
+  )
+```
+
+
+
+## Beeswarm Plots with {ggbeeswarm}
+
+```{r}
+#| label: boxplot-beeswarm-hybrid
+#| output-location: column
+#| code-line-numbers: "5,6,7,8,9|5|6,7,8"
+g +
+  geom_boxplot(
+     outlier.shape = NA
+  ) +
+  ggbeeswarm::geom_beeswarm(
+    size = .3,
+    alpha = .2,
+    cex = .6
+  )
+```
+
+
+
+## Beeswarm Plots with {ggbeeswarm}
+
+```{r}
+#| label: boxplot-beeswarm-hybrid-quasirandom
+#| output-location: column
+#| code-line-numbers: "5,6,7,8,9"
+g +
+  geom_boxplot(
+     outlier.shape = NA
+  ) +
+  ggbeeswarm::geom_quasirandom(
+    size = .3,
+    alpha = .2,
+    width = .3,
+    varwidth = TRUE
+  )
+```
+
+
+
+## Sina Plots with {ggforce}
+
+```{r}
+#| label: boxplot-sina-hybrid
+#| output-location: column
+#| code-line-numbers: "5,6,7,8,9"
+g +
+  geom_boxplot(
+     outlier.shape = NA
+  ) +
+  ggforce::geom_sina(
+    size = .5,
+    alpha = .2,
+    maxwidth = 1.2
+  )
+```
+
+
+
+## Barcode Strips
+
+```{r}
+#| label: boxplot-barcode-hybrid
+#| output-location: column
+#| code-line-numbers: "6,7|6,7,8|6,7,8,9|6,7,8,9,10|3,|10"
+g +
+  geom_boxplot(
+     position = position_nudge(x = .15),
+     width = .35
+  ) +
+  geom_point(
+    shape = "-",
+    size = 8,
+    alpha = .1,
+    position = position_nudge(x = -.15)
+  )
+```
+
+
+
+## Violin Plots
+
+```{r}
+#| label: violin-ggplot
+#| output-location: column
+#| code-line-numbers: "2"
+g +
+  geom_violin()
+```
+
+
+
+## Violin Plots
+
+```{r}
+#| label: violin-ggplot-custom
+#| output-location: column
+#| code-line-numbers: "3,4,5"
+g +
+  geom_violin(
+    scale = "count",
+    draw_quantiles = c(.5),
+    fill = "grey80"
+  )
+```
+
+
+
+## Violin Plots
+
+```{r}
+#| label: violin-ggplot-custom-2
+#| output-location: column
+#| code-line-numbers: "3,4,5,6,7"
+g +
+  geom_violin(
+    scale = "width",
+    draw_quantiles = c(.5),
+    trim = FALSE,
+    bw = 250,
+    fill = "grey80"
+  )
+```
+
+
+
+## Violin Plots with {ggdist}
+
+```{r}
+#| label: violin-ggdist
+#| output-location: column
+#| code-line-numbers: "2"
+g +
+  ggdist::stat_eye()
+```
+
+
+
+## Violin Plots with {ggdist}
+
+```{r}
+#| label: violin-ggdist-custom-1
+#| output-location: column
+#| code-line-numbers: "3,4,5"
+g +
+  ggdist::stat_eye(
+    .width = c(0.5, 0.95),
+    width = 1.5,
+    adjust = .33
+  )
+```
+
+
+
+## Violin Plots with {ggdist}
+
+```{r}
+#| label: violin-ggdist-custom-2
+#| output-location: column
+#| code-line-numbers: "3"
+g +
+  ggdist::stat_eye(
+    aes(thickness = stat(f*n)),
+    .width = c(0.5, 0.95),
+    adjust = .33
+  )
+```
+
+
+
+## Violin Plots with {ggdist}
+
+```{r}
+#| label: violin-ggdist-custom-3
+#| output-location: column
+#| code-line-numbers: "6,7,8"
+g +
+  ggdist::stat_eye(
+    aes(thickness = stat(f*n)),
+    .width = c(0.5, 0.95),
+    adjust = .5,
+    interval_size_range = c(.4, 2.5),
+    point_size = 1.2,
+    point_color = "white"
+  )
+```
+
+
+
+## Raincloud Plots with {ggdist}
+
+```{r}
+#| label: raincloud-ggdist-rain
+#| output-location: column
+#| code-line-numbers: "2,6,7,8,9,10"
+g +
+  ggdist::stat_halfeye(
+    aes(thickness = stat(f*n)),
+    .width = 0,
+    width = .5,
+    position = position_nudge(x = .2)
+  ) +
+  geom_jitter(
+    width = .1,
+    size = .5,
+    alpha = .1
+  )
+```
+
+
+
+## Raincloud Plots with {ggdist}
+
+```{r}
+#| label: raincloud-ggdist-boxplot
+#| output-location: column
+#| code-line-numbers: "7,8,9,10"
+g +
+  ggdist::stat_halfeye(
+    aes(thickness = stat(f*n)),
+    color = NA,
+    width = .5,
+    position = position_nudge(x = .2)
+  ) +
+  geom_boxplot(
+    width = .3,
+    outlier.color = NA
+  ) +
+  geom_jitter(
+    width = .1,
+    size = .5,
+    alpha = .1
+  )
+```
+
+
+
+## Raincloud Plots with {gghalves}
+
+```{r}
+#| label: raincloud-ggdist-rain-gghalves
+#| output-location: column
+#| code-line-numbers: "12,13,14,15,16,17"
+g +
+  ggdist::stat_halfeye(
+    aes(thickness = stat(f*n)),
+    color = NA,
+    width = .5,
+    position = position_nudge(x = .1)
+  ) +
+  geom_boxplot(
+    width = .1,
+    outlier.size = .2
+  ) +
+  gghalves::geom_half_point(
+    side = "l",
+    range_scale = .4,
+    size = .3,
+    alpha = .1
+  )
+```
+
+
+
+## Raincloud Plots with {gghalves}
+
+```{r}
+#| label: raincloud-ggdist-rain-gghalves-flipped
+#| output-location: column
+#| code-line-numbers: "18"
+g +
+  ggdist::stat_halfeye(
+    aes(thickness = stat(f*n)),
+    color = NA,
+    width = .5,
+    position = position_nudge(x = .1)
+  ) +
+  geom_boxplot(
+    width = .1,
+    outlier.size = .2
+  ) +
+  gghalves::geom_half_point(
+    side = "l",
+    range_scale = .4,
+    size = .3,
+    alpha = .1
+  ) +
+  coord_flip()
+```
+
+
+
+# <br><b style='color:white;'>Thank You!</b><br><br>{background-color="#292929" background-image="img/bg-blank.png"}
+
+![](img/logo-text-steps-cabinet.png){fig-align="center" width="80%" fig-alt="My logo"}
+
+<div style='text-align:center;font-size:.75em;color:white;'><a style='color:white;'  href="https://cedricscherer.com">www.cedricscherer.com</a>&ensp;//&ensp; <a style='color:white;' href="https://linktr.ee/cedscherer">www.linktr.ee/CedScherer</a><br><br><br>
+</div>
+
+::: footer
+:::

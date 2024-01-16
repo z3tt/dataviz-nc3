@@ -1,0 +1,2995 @@
+---
+title: "Engaging & Reproducible Data Visualization"
+subtitle: "<span style='font-size:1.5em;'>From Theory to Implementation with ggplot2</span><br><span style='font-weight:500;font-size:1.3em;'>Principles & Best Practices to Tell a Story with Data</span></span>"
+author: "<b style='color:#28a87d;'><a href='https://www.cedricscherer.com'>Dr. Cédric Scherer</a></b>&ensp;**//**&ensp;NC<sup>3</sup> Workshop&ensp;**//**&ensp;January 2024"
+format:
+  revealjs:
+    theme: slides.scss
+    logo: img/logo.png
+    footer: '**[Cédric Scherer](https://cedricscherer.com)** // Data Visualization & Information Design'
+    transition: fade
+    progress: true
+    multiplex: false
+    preview-links: true
+    scrollable: false
+    hide-inactive-cursor: true
+    highlight-style: printing
+    chalkboard:
+      theme: whiteboard
+      boardmarker-width: 4
+      buttons: true
+    pause: true
+    mainfont: Asap SemiCondensed
+editor: source
+knitr:
+  opts_chunk:
+    dev: "ragg_png"
+    retina: 3
+    dpi: 200
+execute:
+  freeze: auto
+  cache: true
+  echo: true
+  fig-width: 5
+  fig-height: 6
+---
+
+# Data Visualization<br>{background-color="#000000"}
+
+<div span style='color:#e2e2e2;font-size:1.5em;font-family:Asap;font-stretch:87.5%;font-weight:500;font-style:italic;text-align:center;padding-top:.2em;line-height:1;'>is any graphical representation<br>of information and data.</div>
+
+
+
+# Data Visualization<br>{background-color="#000000"}
+
+<div span style='color:#e2e2e2;font-size:1.5em;font-family:Asap;font-stretch:87.5%;font-weight:500;font-style:italic;text-align:center;padding-top:.2em;line-height:1;'>helps to amplify cognition, gain insights, discover, explain, and make decisions.</div>
+
+
+
+# Data Visualization<br>{background-color="#000000"}
+
+<div span style='color:#e2e2e2;font-size:1.5em;font-family:Asap;font-stretch:87.5%;font-weight:500;font-style:italic;text-align:center;padding-top:.2em;line-height:1;'>converts information into visual forms<br>as quantifiable features.</div>
+
+
+
+# Data Visualization<br>{background-color="#000000"}
+
+<div span style='color:#e2e2e2;font-size:1.5em;font-family:Asap;font-stretch:87.5%;font-weight:500;font-style:italic;text-align:center;padding-top:.2em;line-height:1;'>is part art and part science.<br><span style='color:#000000;'>.</span></div>
+
+
+
+## {#dataviz-office data-menu-title="DataViz Office"}
+
+<br><br>
+
+![Source: eazybi](img/principles/dataviz-office-eazybi.png)
+
+
+
+## {#dataviz-science data-menu-title="DataViz Science"}
+
+<br>
+
+![Source: [Ranganathan et al. 2014](https://www.researchgate.net/figure/Country-based-correlation-scatter-plot-for-log-GDP-per-capita-and-Democracy-for-the-year_fig1_259920542)](img/principles/scatterplot-ranganathan-2014.png)
+
+
+
+## {#dataviz-dashboard data-menu-title="DataViz Dashboard"}
+
+![Source: [datameer.com](https://www.datameer.com/blog/data-visualization/ )](img/principles/dashboard-datameer.png)
+
+
+
+## {#dataviz-beach data-menu-title="DataViz Beach"}
+
+![Source: [“Perpetual Plastic”](https://perpetual-plastic.net/) by Liina Klauss, Skye Morét & Moritz Stefaner](img/principles/perpetual-plastic.png)
+
+
+
+## {#dataviz-artistic data-menu-title="DataViz Artistic"}
+
+![Source: [“Patchwork Kingdoms”](https://www.visualcinnamon.com/collection/patchwork-kingdoms/) by Nadieh Bremer](img/principles/patchwork-kingdom.png)
+
+
+
+## {#dataviz-history-minard-napoleon data-menu-title="DataViz History"}
+
+<br>
+
+![“Carte figurative des pertes successives en hommes de l'Armée Française dans la campagne de Russie 1812–1813” by Charles Joseph Minard (1869)](img/principles/minard-napoleon.png)
+
+
+
+## {#dataviz-history-minard-napoleon-hannibal data-menu-title="DataViz History"}
+
+![“Carte figurative des pertes successives en hommes de l'Armée qu'Annibal conduisit d'Espagne en Italie en traversant les Gaules (selon Polybe)” (top) and “Carte figurative des pertes successives en hommes de l'Armée Française dans la campagne de Russie 1812–1813” (bottom) by Charles Joseph Minard (1869)](img/principles/minard-full.png)
+
+<ul>
+<li style='font-size:.6em;'>shows the force levels of the armies of Hannibal (218 BC) and Napoleon (1812-1813), respectively</li>
+<li style='font-size:.6em;'>some data visualization practioners call it (one of) <b>the best statistical drawings ever created</b></li>
+</ul>
+
+
+
+## {#dataviz-history-minard-paris data-menu-title="DataViz History"}
+
+![“Carte figurative et approximative des poids des bestiaux venus á Paris sur les chemins de fer en 1862” by Charles Joseph Minard (1864)](img/principles/minard-paris.jpg)
+
+
+
+## {#dataviz-history-minard-canal data-menu-title="DataViz History"}
+
+![“Tableau figuratif du mouvement commercial du Canal du Centre en 1844” by Charles Joseph Minard (1845)](img/principles/minard-canal.jpg)
+
+
+
+## {#dataviz-history-minard-canal-quote data-menu-title="DataViz History"}
+
+![“Tableau figuratif du mouvement commercial du Canal du Centre en 1844” by Charles Joseph Minard (1845)](img/principles/minard-canal-quote.jpg)
+
+
+
+# Mental Exercise {background-color="#e6d9f2"}
+
+
+
+## {#mental-calendar-exercise data-menu-title="Exercise: Mental Calender"}
+
+<br>
+
+<blockquote style="font-size:1.3em;font-weight:600;font-family:literata;font-style:italic;">If the year is a circle—where’s March and December in your mind?</blockquote>
+
+. . .
+
+<br>
+
+::: incremental
+::: question
+-  Imagine you had to create a polar representation of the months.
+-  Draw a circle and indicate the position of March and December.
+-  Use an arrow to illustrate the direction of time.
+-  Compare the results with your neighbors.
+:::
+:::
+
+
+
+## {#mental-calendar-results-1 data-menu-title="Mental Calender: Results"}
+
+<br>
+
+![Wheel diagram of 76,922 placements of the months of December and March on the circumference of an empty circle.<br>Graphics by Henrik Lied at NRKbeta. [Laeng & Hofseth, *Front Psychol.* 2019](https://www.frontiersin.org/articles/10.3389/fpsyg.2019.02634/full)](img/principles/mental-calendars-results-position.png)
+
+
+
+## {#mental-calendar-results-2 data-menu-title="Mental Calender: Results"}
+
+<br>
+
+![Proportion of respondents choosing opposite direction of time on the year’s wheel.<br> Graphics by Vidar Kvien, NRK. [Laeng & Hofseth, *Front Psychol.* 2019](https://www.frontiersin.org/articles/10.3389/fpsyg.2019.02634/full)](img/principles/mental-calendars-results-direction.png)
+
+
+
+## {#dataviz-history-nightingale-coxcomb data-menu-title="DataViz History"}
+
+<br>
+
+![“Diagram of the causes and mortality in the army in the East” (a so-called *coxcomb diagram*) by Florence Nightingale (1858)](img/principles/nightingale-mortality.jpg)
+
+
+
+## {#dataviz-history-nightingale-bars data-menu-title="DataViz History"}
+
+<br>
+
+![“Relative mortality of the army at home and of the English male population at corresponding ages” by Florence Nightingale (1858)](img/principles/nightingale-bars.png)
+
+
+
+# Visualize Your Data
+
+
+
+# {#quote-anscombe data-menu-title="Quote Anscombe" background-color="#000000"}
+
+<div style='color:#e2e2e2;font-size:1.4em;font-family:literata;color:#BBBBBB;line-height:.8;font-weight:500;font-style:italic;text-align:center;padding-top:.2em;line-height:1.2;'>... make both <b style='color:#EDCBA0;font-weight:700;'>calculations and graphs</b>.<br>Both sorts of output should be studied;<br>each will <b style='color:#EDCBA0;font-weight:700;'>contribute to understanding</b>.<br><br><span style='font-size:.7em;font-weight:300;'>F. J. Anscombe (1973)</span></div>
+
+
+
+## {#datasaurus-dots data-menu-title="Datasaurus Dozen"}
+
+<br>
+
+```{r}
+#| label: datasaurus-dozen-prep
+#| include: false
+#| cache: false
+library(ggplot2)
+library(patchwork)
+
+theme_set(theme_light(base_family = "Asap SemiCondensed"))
+theme_update(
+  strip.text = element_blank(),
+  panel.grid = element_blank(),
+  panel.spacing = unit(.8, "lines"),
+  plot.title = ggtext::element_markdown(
+    family = "Asap", size = 36, hjust = .5, face = "bold", 
+    margin = margin(t = 10)
+  ),
+  plot.subtitle = ggtext::element_markdown(
+    size = 20, hjust = .5, face = "italic", lineheight = 1.2, 
+    margin = margin(t = 15, b = 25)
+  ),
+  plot.caption = element_text(color = "grey35", size = 12, hjust = .5),
+  plot.background = element_rect(fill = "#f8f8f8", color = NA),
+  panel.border = element_rect(linewidth = rel(1.5))
+)
+
+saurus <- readr::read_csv(here::here("data", "datasaurus.csv"))
+
+facet <- 
+  saurus |> 
+  dplyr::filter(dataset != "dino") |> 
+  dplyr::mutate(dataset = factor(
+    dataset, levels = c("h_lines", "v_lines", "high_lines", 
+                        "wide_lines", "slant_up", "slant_down", 
+                        "dots", "away", "circle", 
+                        "bullseye", "x_shape", "star")
+  )) |> 
+  ggplot(aes(x, y)) +
+    facet_wrap(~ dataset, nrow = 2) +
+    scale_x_continuous(guide = "none", name = NULL) + 
+    scale_y_continuous(guide = "none", name = NULL)
+
+dino <-
+  ggplot(dplyr::filter(saurus, dataset == "dino"), aes(x, y)) +
+    facet_wrap(~ dataset) + 
+    scale_x_continuous(guide = "none", name = NULL) + 
+    scale_y_continuous(guide = "none", name = NULL)
+
+title <- "The Datasaurus (*Anscombosaurus spec.*) Dozen</b>"
+subtitle <- "is a set of 13 different datasets with nigh-identical summary statistics, which could lead one to believe the<br>datasets are quite similar. After visualizing the data, it becomes clear that the datasets are markedly different."
+caption <- "Source: “Same Stats, Different Graphs: Generating Datasets with Varied Appearance and Identical Statistics through Simulated Annealing” by Justin Matejka & George Fitzmaurice (2017)"
+```
+
+```{r}
+#| label: datasaurus-dozen-dots
+#| fig-width: 16
+#| fig-height: 7.2
+#| echo: false
+dino + 
+    geom_point(size = 3) +
+  facet +
+    geom_point(size = 1.8) +
+  plot_layout(widths = c(1, 3)) +
+  plot_annotation(title = title, subtitle = subtitle, caption = caption)
+```
+
+
+
+## {#datasaurus-correlation data-menu-title="Datasaurus Dozen"}
+
+<br>
+
+```{r}
+#| label: datasaurus-dozen-trends
+#| fig-width: 16
+#| fig-height: 7.2
+#| echo: false
+dino +
+    geom_point(color = "grey75", size = 3) + 
+    geom_smooth(method = "lm", linewidth = 3, color = "#28A87D", se = FALSE) +
+  facet +
+    geom_point(color = "grey75", size = 1.8) +
+    geom_smooth(method = "lm", linewidth = 2.2, color = "#28A87D", se = FALSE) +
+  plot_layout(widths = c(1, 3)) +
+  plot_annotation(title = title, subtitle = subtitle, caption = caption) 
+```
+
+
+
+## Anscombe's Quartet {.center}
+
+<br>
+
+![Source: [Matejka & Fitzmaurice (2017)](https://www.research.autodesk.com/publications/same-stats-different-graphs/)](img/principles/anscombes-quartet.png)
+
+
+
+## Visualize Your Data! {background-color="#000000"}
+
+:::: {.columns}
+
+::: {.column width="57%"}
+![[“Russian elections once again had a suspiciously neat result”](https://www.economist.com/graphic-detail/2021/10/11/russian-elections-once-again-had-a-suspiciously-neat-result) by The Economist](img/principles/kobak-shpilkin.png)
+:::
+
+::: {.column width="35%"}
+<br><br>
+When Dmitry Kobak and Sergey Shpilkin [...] analysed the results, they found that <em style='color:#EDCBA0;'>an unusually high number of turnout and vote-share results were multiples of five</em> (eg, 50%, 55%, 60%), a tell-tale <b style='color:#EB4B41;'>sign of manipulation</b>.
+:::
+
+::::
+
+
+
+## Visualize Your Data! {background-color="#000000"}
+
+:::: {.columns}
+
+::: {.column width="57%"}
+![[“Russian elections once again had a suspiciously neat result”](https://www.economist.com/graphic-detail/2021/10/11/russian-elections-once-again-had-a-suspiciously-neat-result) by The Economist](img/principles/kobak-shpilkin-zoom.png)
+:::
+
+::: {.column width="35%"}
+<br><br>
+When Dmitry Kobak and Sergey Shpilkin [...] analysed the results, they found that <em style='color:#EDCBA0;'>an unusually high number of turnout and vote-share results were multiples of five</em> (eg, 50%, 55%, 60%), a tell-tale <b style='color:#EB4B41;'>sign of manipulation</b>.
+:::
+
+::::
+
+
+
+## <em style='font-size:.9em;line-height:.7;font-weight:500;font-family:literata;color:#000000;'>A good data visualization can mean the difference between <b style='color:#28A87D;font-weight:800;'>success</b> and <b style='color:#B48200;font-weight:800;'>failure</b>.</em>{#success-failure data-menu-title="Success or Failure"}
+
+<br>
+
+::: incremental
+-  Communicating complex findings and phenomena
+-  Raising money for an organization, event or department
+-  Presenting at a board or conference
+-  Helping businesses and institutions to make informed decisions
+-  Providing guidance for improvement
+-  ...
+-  <b>Getting your point across!</b>
+:::
+
+
+
+#  {background-image="img/principles/good-evil-avengers.jpg" background-position="center"}
+
+::: footer
+© AVENGERS Trademark of Marvel Characters, Inc.
+:::
+
+
+
+# <span style='color:#EDCBA0;text-shadow: #000 5px 0px 10px;'><br><br><br><br>Good vs Bad</span> {background-image="img/principles/good-evil-avengers.jpg" background-position="center"}
+
+::: footer
+© AVENGERS Trademark of Marvel Characters, Inc.
+:::
+
+
+
+## What Makes a Good Data Visualization?
+
+<br>
+
+. . .
+
+<span style='font-size:1.8em;font-family:Literata;'><b>&emsp;&emsp;&rarr; <em>Integrity</b> (information)</em></span>
+
+. . .
+
+<span style='font-size:1.8em;font-family:Literata;'><b>&emsp;&emsp;&rarr; <em>Story</b> (interestingness)</em></span>
+
+. . .
+
+<span style='font-size:1.8em;font-family:Literata;'><b>&emsp;&emsp;&rarr; <em>Goal</b> (usefulness)</em></span>
+
+. . .
+
+<span style='font-size:1.8em;font-family:Literata;'><b>&emsp;&emsp;&rarr; <em>Visual Form</b> (beauty)</em></span>
+
+
+
+## {#what-makes-a-good-dataviz data-menu-title="What Makes a Good Data Visualization?"}
+
+![](img/principles/what-makes-a-good-dataviz.png)
+
+
+
+# <span style='line-height:1.3;'>Data Integrity<br></span> {background-color="#FFD166"}
+
+<div style='font-family:Asap;font-stretch:87.5%;font-size:2em;font-weight:700;font-style:normal;color:#B48200;text-align:center;'>and Potential Pitfalls...</div>
+
+
+
+## Integrity of Information
+
+<br>
+<span style='font-size:1.2em;line-height:1.5;'>
+<b>&ensp;—&ensp;data quality:</b><br>
+&emsp;&emsp;→&ensp;guesstimation, precision, and failures<br>
+&emsp;&emsp;→&ensp;miscalculations and errors<br>
+&emsp;&emsp;→&ensp;incomplete data and missing values<br>
+&emsp;&emsp;→&ensp;summaries and aggregations
+</span>
+
+. . .
+
+<br>
+<span style='font-size:1.2em;line-height:1.5;'>
+<b>&ensp;—&ensp;only a subset:</b><br>
+&emsp;&emsp;→&ensp;not crime but <u>reported</u> crime<sup>*</sup><br>
+&emsp;&emsp;→&ensp;historical or present state<br>
+</span>
+
+<span style='font-size:.65em;color:#808080;'><br>* or rats, UFO sightings, ...</span>
+
+
+
+# <span style='font-family:Asap;font-stretch:87.5%;font-size:.85em;line-height:1;font-weight:500;font-style:normal;'>Our data is <u style='font-weight:800;'>never</u> a perfect<br>reflection of the real world.</span>{background-color="#FFD166"}
+
+
+
+## {#meteorites data-menu-title="Information: Completeness" background-color="#171717"}
+
+<br><br>
+
+![](img/principles/meteorites-full.png){width="150%"}
+
+
+
+## {#guesstimation-and-precision-histogram data-menu-title="Guesstimation & Precision"}
+
+```{r}
+#| label: example-guesstimation-precision-raw
+#| echo: false
+#| cache: false
+#| fig-width: 10
+#| fig-height: 6.4
+library(ggplot2)
+library(palmerpenguins)
+
+g <- 
+  ggplot(penguins, aes(x = flipper_length_mm)) +
+  coord_cartesian(expand = FALSE, clip = "off") +
+  scale_x_continuous(breaks = seq(170, 230, by = 5)) +
+  scale_y_continuous(guide = "none") +
+  labs(x = "Flipper length (mm)", y = NULL) +
+  theme_minimal(base_size = 24, base_family = "Asap SemiCondensed") +
+  theme(panel.grid = element_blank(),
+        axis.ticks.x = element_line(color = "grey30"),
+        axis.text = element_text(size = rel(.9)),
+        axis.title.x = element_text(margin = margin(t = 12)))
+
+g + 
+  geom_histogram(fill = "grey65", color = "grey65", binwidth = 1) +
+  geom_hline(yintercept = 0, linewidth = 1.2, color = "grey30")
+```
+
+
+
+## {#guesstimation-and-precision-histogram-highlight data-menu-title="Guesstimation & Precision"}
+
+```{r}
+#| label: example-guesstimation-precision-highlight
+#| echo: false
+#| fig-width: 10
+#| fig-height: 6.4
+g + 
+  geom_histogram(aes(fill = flipper_length_mm %% 5 == 0,
+                     #color = after_scale(fill)), binwidth = 1) +
+                     color = flipper_length_mm %% 5 == 0), binwidth = 1) +
+  geom_hline(yintercept = 0, linewidth = 1.2, color = "grey30") +
+  scale_fill_manual(values = c("grey85", "#EFAC00"), guide = "none")  +
+  scale_color_manual(values = c("grey85", "grey30"), guide = "none") 
+```
+
+
+
+## {#rats data-menu-title="Information: Collection"}
+
+:::: {.columns}
+
+::: {.column width="50%"}
+<br><br>
+![](img/principles/rats-andy-kriebel.png)
+:::
+
+::: {.column width="50%"}
+:::: fragment
+![](img/principles/rats-robert-janezic.jpg)
+::::
+:::
+
+::::
+
+
+
+# Context
+
+
+
+## Typology of Information Graphics
+
+<br>
+
+<b style='font-size:1.3em;'>Is the information <b class="simple-highlight-grn">conceptual</b> or <b class="simple-highlight-grn">measurable</b>?</b>
+
+<span style='color:#666666;font-size:.85em;'><b>&ensp;&rarr; Type of information:</b> depict information schematically <> convert information into visual forms</span>
+
+. . .
+
+<br>
+
+<b style='font-size:1.3em;'>Is the aim to <b class="simple-highlight-grn">explore</b> or to <b class="simple-highlight-grn">explain</b> the information?</b>
+
+<span style='color:#666666;font-size:.85em;'><b>&ensp;&rarr; Purpose of the graphic:</b> facilitate discovery <> communicate information</span>
+
+
+
+## {#viz-vertices-1 data-menu-title="Vertices of Data Visualization" .center}
+
+<br>
+
+![“Vertices of Visualization” by Alberto Cairo, personal communication (modified version)](img/principles/viz-vertices-1.png)
+
+
+
+## {#viz-vertices-2 data-menu-title="Vertices of Data Visualization" .center}
+
+<br>
+
+![“Vertices of Visualization” by Alberto Cairo, personal communication (modified version)](img/principles/viz-vertices-2.png)
+
+
+
+## {#viz-vertices-3 data-menu-title="Vertices of Data Visualization" .center}
+
+<br>
+
+![“Vertices of Visualization” by Alberto Cairo, personal communication (modified version)](img/principles/viz-vertices-3.png)
+
+
+
+## {#who-what-how data-menu-title="The Importance of Context"}
+
+<b class="simple-highlight-grn" style='font-size:1.3em;'>Audience (who)</b>
+
+-  To whom are you communicating?
+-  What do they already know?
+-  What is your position and relationship?
+
+
+
+## {#audience-1 data-menu-title="Who's My Audience?" background-image="img/principles/audience-1.png" background-position="center"}
+
+
+
+## {#audience-2 data-menu-title="Who's My Audience?" background-image="img/principles/audience-2.png" background-position="center"}
+
+
+
+## {#audience-3 data-menu-title="Who's My Audience?" background-image="img/principles/audience-3.png" background-position="center"}
+
+
+
+## {#audience-4 data-menu-title="Who's My Audience?" background-image="img/principles/audience-4.png" background-position="center"}
+
+
+
+## {#who-what-how-2 data-menu-title="The Importance of Context"}
+
+<b class="simple-highlight-grn" style='font-size:1.3em;'>Audience (who)</b>
+
+-  To whom are you communicating?
+-  What do they already know?
+-  What is your position and relationship?
+
+<b class="simple-highlight-grn" style='font-size:1.3em;'>Content (what)</b>
+
+-  What do you want them to know or do?
+-  How will you communicate with them?
+-  What tone do you want your communication to set?
+
+
+
+## {#perception-0 data-menu-title="Perceive, Interpret, Comprehend"}
+
+<br>
+
+![<br><br>Scheme by Andy Kirk (modified)](img/principles/perceive-interpret-comprehend-0.png)
+
+
+
+## {#perception-1 data-menu-title="Perceive, Interpret, Comprehend"}
+
+<br>
+
+![<br><br>Scheme by Andy Kirk (modified)](img/principles/perceive-interpret-comprehend-1.png)
+
+
+## {#perception-2 data-menu-title="Perceive, Interpret, Comprehend"}
+
+<br>
+
+![<br><br>Scheme by Andy Kirk (modified)](img/principles/perceive-interpret-comprehend-2.png)
+
+
+
+## {#perception-3 data-menu-title="Perceive, Interpret, Comprehend"}
+
+<br>
+
+![<br><br>Scheme by Andy Kirk (modified)](img/principles/perceive-interpret-comprehend-3.png)
+
+
+
+## {#chart-choice-story-migrants-arrows-color data-menu-title="Context: Story Focus"}
+
+<br>
+
+![[“How maps in the media make us more negative about migrants
+”](https://thecorrespondent.com/664/how-maps-in-the-media-make-us-more-negative-about-migrants/738023272448-bac255ba) by Maite Vermeulen, Leon de Korte & Henk van Houtum](img/principles/chart-choice-migrants-2.png)
+
+
+
+## {#chart-choice-story-migrants-title data-menu-title="Context: Story Focus"}
+
+<br>
+
+![[“How maps in the media make us more negative about migrants
+”](https://thecorrespondent.com/664/how-maps-in-the-media-make-us-more-negative-about-migrants/738023272448-bac255ba) by Maite Vermeulen, Leon de Korte & Henk van Houtum](img/principles/chart-choice-migrants-2b.png)
+
+
+
+## {#chart-choice-story-migrants-arrows-smaller data-menu-title="Context: Story Focus"}
+
+<br><br><br>
+
+![[“How maps in the media make us more negative about migrants
+”](https://thecorrespondent.com/664/how-maps-in-the-media-make-us-more-negative-about-migrants/738023272448-bac255ba) by Maite Vermeulen, Leon de Korte & Henk van Houtum](img/principles/chart-choice-migrants-encoding-scale.png)
+
+
+
+## {#chart-choice-story-migrants-scale data-menu-title="Context: Story Focus"}
+
+<br><br><br>
+
+![[“How maps in the media make us more negative about migrants
+”](https://thecorrespondent.com/664/how-maps-in-the-media-make-us-more-negative-about-migrants/738023272448-bac255ba) by Maite Vermeulen, Leon de Korte & Henk van Houtum](img/principles/chart-choice-migrants-data-scale.png)
+
+
+
+## {#who-what-how-3 data-menu-title="The Importance of Context"}
+
+<b class="simple-highlight-grn" style='font-size:1.3em;'>Audience (who)</b>
+
+-  To whom are you communicating?
+-  What do they already know?
+-  What is your position and relationship?
+
+<b class="simple-highlight-grn" style='font-size:1.3em;'>Content (what)</b>
+
+-  What do you want them to know or do?
+-  How will you communicate with them?
+-  What tone do you want your communication to set?
+
+<b class="simple-highlight-grn" style='font-size:1.3em;'>Evidence (how)</b>
+
+-  What data is available to make my point?
+
+
+
+## Context: Prepare Yourself
+
+<br>
+
+::: incremental
+-  What is the one key massage they should take home?
+-  What (background) information is essential? What's irrelevant?
+-  What are potential biases of (some of) the audience?
+-  What factors could weaken your case? Can we address them proactively?
+:::
+
+
+# <span style='line-height:1.3;'>Encodings<br></span> {background-color="#e6d9f2"}
+
+<div style='font-family:Asap;font-stretch:87.5%;font-size:1.3em;font-weight:700;font-style:normal;color:#663399;text-align:center;'>Mapping data values to visual attributes.</div>
+
+
+
+## Same Data, Different Encodings
+
+```{r}
+#| label: encodings-shapes-text
+#| echo: false
+#| cache: false
+#| fig-width: 14
+#| fig-height: 1.2
+library(ggplot2)
+
+data <- data.frame(
+  id = factor(1:20),
+  value = c(4, 3, 0, 7, 9, 6, 3, 2, 5, 1, 3, 8, 3, 6, 2, 1, 3, 5, 8, 3)
+)
+
+ggplot(data, aes(x = id, y = 1)) +
+  geom_text(aes(label = value), family = "Spline Sans Mono", size = 7, color = "grey20") +
+  theme_void()
+```
+
+. . .
+
+```{r}
+#| label: encodings-shapes-length
+#| echo: false
+#| fig-width: 14
+#| fig-height: 1.2
+ggplot(data, aes(x = id)) +
+  geom_col(aes(y = value), fill = "grey65", width = .7) +
+  theme_void()
+```
+
+. . .
+
+```{r}
+#| label: encodings-shapes-position
+#| echo: false
+#| fig-width: 14
+#| fig-height: 1.2
+ggplot(data, aes(x = id)) +
+  geom_point(aes(y = value), color = "grey65", size = 3) +
+  scale_y_continuous(expand = c(.1, .1)) +
+  theme_void()
+```
+
+. . .
+
+```{r}
+#| label: encodings-shapes-size
+#| echo: false
+#| fig-width: 14
+#| fig-height: 1.2
+ggplot(data, aes(x = id, y = 1)) +
+  geom_point(aes(size = value), shape = 21, color = "white", fill = "grey65") +
+  scale_size_area(max_size = 20, guide = "none") +
+  theme_void()
+```
+
+. . .
+
+```{r}
+#| label: encodings-shapes-color
+#| echo: false
+#| fig-width: 14
+#| fig-height: 1.2
+ggplot(data, aes(x = id, y = 1)) +
+  geom_point(aes(fill = value), shape = 22, size = 15) +
+  scale_fill_gradient(low = "grey90", high = "grey20", guide = "none") +
+  theme_void()
+```
+
+
+
+## Same Data, Different Encodings
+
+```{r}
+#| label: encodings-shapes-text-label
+#| echo: false
+#| fig-width: 14
+#| fig-height: 1.2
+ggplot(data, aes(x = id, y = 1)) +
+  geom_text(aes(label = value), family = "Spline Sans Mono", size = 7, color = "grey20") +
+  annotate(geom = "rect", xmin = -Inf, xmax = 3.5, ymin = -Inf, ymax = Inf, fill = "white") +
+  annotate(geom = "text", x = 1, y = 1, label = "Text", hjust = 0, size = 12, 
+           family = "Asap SemiCondensed", fontface = "bold", label.size = 0) +
+  theme_void()
+```
+
+```{r}
+#| label: encodings-shapes-length-label
+#| echo: false
+#| fig-width: 14
+#| fig-height: 1.2
+ggplot(data, aes(x = id)) +
+  geom_col(aes(y = value), fill = "grey65", width = .7) +
+  annotate(geom = "rect", xmin = -Inf, xmax = 3.5, ymin = -Inf, ymax = Inf, fill = "white") +
+  annotate(geom = "text", x = 1, y = 5, label = "Length", hjust = 0, size = 12, 
+           family = "Asap SemiCondensed", fontface = "bold", label.size = 0) +
+  theme_void()
+```
+
+```{r}
+#| label: encodings-shapes-position-label
+#| echo: false
+#| fig-width: 14
+#| fig-height: 1.2
+ggplot(data, aes(x = id)) +
+  geom_point(aes(y = value), color = "grey65", size = 3) +
+  scale_y_continuous(expand = c(.1, .1)) +
+  annotate(geom = "rect", xmin = -Inf, xmax = 3.5, ymin = -Inf, ymax = Inf, fill = "white") +
+  annotate(geom = "text", x = 1, y = 5, label = "Position", hjust = 0, size = 12, 
+           family = "Asap SemiCondensed", fontface = "bold", label.size = 0) +
+  theme_void()
+```
+
+```{r}
+#| label: encodings-shapes-size-label
+#| echo: false
+#| fig-width: 14
+#| fig-height: 1.2
+ggplot(data, aes(x = id, y = 1)) +
+  geom_point(aes(size = value), shape = 21, color = "white", fill = "grey65") +
+  scale_size_area(max_size = 20, guide = "none") +
+  annotate(geom = "rect", xmin = -Inf, xmax = 3.5, ymin = -Inf, ymax = Inf, fill = "white") +
+  annotate(geom = "text", x = 1, y = 1, label = "Size", hjust = 0, size = 12, 
+           family = "Asap SemiCondensed", fontface = "bold", label.size = 0) +
+  theme_void()
+```
+
+```{r}
+#| label: encodings-shapes-color-label
+#| echo: false
+#| fig-width: 14
+#| fig-height: 1.2
+ggplot(data, aes(x = id, y = 1)) +
+  geom_point(aes(fill = value), shape = 22, size = 15) +
+  scale_fill_gradient(low = "grey90", high = "grey20", guide = "none") +
+  annotate(geom = "rect", xmin = -Inf, xmax = 3.5, ymin = -Inf, ymax = Inf, fill = "white") +
+  annotate(geom = "text", x = 1, y = 1, label = "Color", hjust = 0, size = 12, 
+           family = "Asap SemiCondensed", fontface = "bold", label.size = 0) +
+  theme_void()
+```
+
+
+
+## {#encodings-judgements-yau data-menu-title="Scale of Perpetual Elementary Tasks"} 
+
+<br><br><br><br>
+
+![Source: “Data Points” by Nathan Yau (p. 104)](img/principles/encodings-yau.png)
+
+
+
+## {#encodings-judgements-cairo data-menu-title="Scale of Perpetual Elementary Tasks"}
+
+![Cleveland’s and McGill’s Scale of Perpetual Elementary Tasks<br>Source: “The Functional Art” by Alberto Cairo (p. 120)](img/principles/encodings-cleveland-mcgill.png)
+
+
+
+## {#encodings-judgements-accurate data-menu-title="Scale of Perpetual Elementary Tasks"}
+
+![Cleveland’s and McGill’s Scale of Perpetual Elementary Tasks<br>Source: “The Functional Art” by Alberto Cairo (p. 120)](img/principles/encodings-cleveland-mcgill-accurate.png)
+
+
+
+## Always Start at Zero?
+
+<br>
+
+![Source: [“Hands-On Data Visualization”](https://handsondataviz.org/chart-design.html) by Jack Dougherty & Ilya Ilyankou](img/principles/baseline-bars-handsondataviz.png)
+
+. . .
+
+<br>More on the topic: [Correl, Bertini & Francoeri 2020](https://arxiv.org/pdf/1907.02035.pdf) and [Witt (2019)](https://amplab.colostate.edu/reprints/Witt_Graphs_YaxisRange.pdf)
+
+
+
+
+## Always Start at Zero?
+
+<br>
+
+![](img/principles/encoding-bars.png)
+
+
+
+
+## Always Start at Zero?
+
+<br>
+
+![](img/principles/encoding-bars-fox.png)
+
+
+
+## Always Start at Zero?
+
+<br>
+
+![Source: [“Hands-On Data Visualization”](https://handsondataviz.org/chart-design.html) by Jack Dougherty & Ilya Ilyankou](img/principles/baseline-lines-handsondataviz.png)
+
+
+
+## {#encodings-position-baseline-golden-ratio data-menu-title="Golden Ratio Approach for Line Charts"}
+
+![Source: [Francis Gagnon](https://chezvoila.com/blog/yaxis/)](img/principles/baseline-line-golden-ratio.png) 
+
+
+
+## {#encodings-judgements-generic data-menu-title="Scale of Perpetual Elementary Tasks"}
+
+![Cleveland’s and McGill’s Scale of Perpetual Elementary Tasks<br>Source: “The Functional Art” by Alberto Cairo (p. 120)](img/principles/encodings-cleveland-mcgill-generic.png)
+
+
+
+## {#scmp-area-fail-1 data-menu-title="The Area Problem"}
+
+![[“Russia attacks Ukraine”](https://multimedia.scmp.com/infographics/news/world/article/3168280/ukraine-crisis/) by SCMP Graphic (South China Morning Post)](img/principles/scmp-russia-ukraine-area.png)
+
+
+
+## {#scmp-area-fail-2 data-menu-title="The Area Problem"}
+
+![[“Russia attacks Ukraine”](https://multimedia.scmp.com/infographics/news/world/article/3168280/ukraine-crisis/) by SCMP Graphic (South China Morning Post)](img/principles/scmp-russia-ukraine-area-hl2.png)
+
+
+
+## {#scmp-area-fail-3 data-menu-title="The Area Problem"}
+
+![[“Russia attacks Ukraine”](https://multimedia.scmp.com/infographics/news/world/article/3168280/ukraine-crisis/) by SCMP Graphic (South China Morning Post)](img/principles/scmp-russia-ukraine-area-fixed.png)
+
+
+
+## {#scmp-area-fix data-menu-title="The Area Problem"}
+
+<br>
+
+```{r}
+#| label: scmp-area-fix-bars
+#| fig-width: 10.4
+#| fig-height: 4.5
+#| fig-align: center
+#| echo: false
+ggplot(
+    data.frame(budget = c(4.3, 60.6), country = c("UKRAINE", "RUSSIA")),
+    aes(x = budget, y = country)
+  ) +
+  geom_col(width = .75, fill = "#3e9c35", alpha = .8) +
+  annotate(
+    x = c(4.3, 4.3*1:15), y = c("UKRAINE", rep("RUSSIA", 15)), 
+    geom = "bar", fill = NA, color = "white", width = .75, linewidth = .7
+  ) +
+  #geom_vline(xintercept = 0, linewidth = 1.2) +
+  ggtext::geom_richtext(
+    aes(label = paste0("<b>", country, "</b><br>US$", budget, " billion")), 
+    family = "Asap SemiCondensed", size = 7.5, hjust = 0, nudge_x = 1, fill = NA, label.color = NA
+  ) +
+  coord_cartesian(clip = "off") +
+  scale_x_continuous(expand = c(0, 0), guide = "none", limits = c(0, 76)) +
+  scale_y_discrete(expand = c(.22, .22), guide = "none") +
+  labs(x = NULL, y = NULL, title = "Ukraine's military spending was less than a 14<sup>th</sup> of Russia's in 2020") +
+  theme_minimal(base_family = "Asap SemiCondensed", base_size = 22) +
+  theme(
+    panel.grid = element_blank(),
+    plot.title = ggtext::element_markdown(face = "bold", margin = margin(b = 30)),
+    plot.title.position = "plot",
+    plot.margin = margin(rep(25, 4))
+  )
+```
+
+
+
+## {#scmp-area-fix-2 data-menu-title="The Area Problem" .center}
+
+<b class='simple-highlight-ylw' style='font-size:1.29em;'>Ukraine's military spending was less than a 14<sup>th</sup> of Russia's in 2020.</b><br><br>
+
+
+
+## Same Data, Different Palettes
+
+```{r}
+#| label: encodings-colors-values
+#| echo: false
+#| fig-width: 14
+#| fig-height: 1.2
+ggplot(data, aes(x = id, y = 1)) +
+  geom_text(aes(label = value), family = "Spline Sans Mono", size = 7, color = "grey20") +
+  theme_void()
+```
+
+. . .
+
+```{r}
+#| label: encodings-colors-grey
+#| echo: false
+#| fig-width: 14
+#| fig-height: 1.2
+ggplot(data, aes(x = id, y = 1)) +
+  geom_point(aes(fill = value), shape = 22, size = 15) +
+  scale_fill_gradient(low = "grey90", high = "grey20", guide = "none") +
+  theme_void()
+```
+
+. . .
+
+```{r}
+#| label: encodings-colors-seq-single
+#| echo: false
+#| fig-width: 14
+#| fig-height: 1.2
+ggplot(data, aes(x = id, y = 1)) +
+  geom_point(aes(fill = value), shape = 22, size = 15) +
+  scale_fill_distiller(palette = "Blues", guide = "none", direction = 1) +
+  theme_void()
+```
+
+. . .
+
+```{r}
+#| label: encodings-colors-seq-multi
+#| echo: false
+#| fig-width: 14
+#| fig-height: 1.2
+ggplot(data, aes(x = id, y = 1)) +
+  geom_point(aes(fill = value), shape = 22, size = 15) +
+  #scale_fill_viridis_c(direction = -1, guide = "none") +
+  scico::scale_fill_scico(palette = "batlowW", guide = "none", end = .97, direction = -1) +
+  theme_void()
+```
+
+. . .
+
+```{r}
+#| label: encodings-colors-div
+#| echo: false
+#| fig-width: 14
+#| fig-height: 1.2
+ggplot(data, aes(x = id, y = 1)) +
+  geom_point(aes(fill = value), shape = 22, size = 15) +
+  scale_fill_distiller(palette = "PRGn", guide = "none", direction = 1) +
+  theme_void()
+```
+
+
+
+
+## Same Data, Different Palettes
+
+```{r}
+#| label: encodings-colors-values-label
+#| echo: false
+#| fig-width: 14
+#| fig-height: 1.2
+ggplot(data, aes(x = id, y = 1)) +
+  geom_text(aes(label = value), family = "Spline Sans Mono", size = 7, color = "grey20") +
+  annotate(geom = "rect", xmin = -Inf,xmax = 8.5, ymin = -Inf, ymax = Inf, fill = "white") +
+  annotate(geom = "text", x = 1, y = 1, label = "Values", hjust = 0, size = 12, 
+           family = "Asap SemiCondensed", label.size = 0) +
+  theme_void()
+```
+
+```{r}
+#| label: encodings-colors-grey-label
+#| echo: false
+#| fig-width: 14
+#| fig-height: 1.2
+ggplot(data, aes(x = id, y = 1)) +
+  geom_point(aes(fill = value), shape = 22, size = 15) +
+  scale_fill_gradient(low = "grey90", high = "grey20", guide = "none") +
+  annotate(geom = "rect", xmin = -Inf,xmax = 8.5, ymin = -Inf, ymax = Inf, fill = "white") +
+  annotate(geom = "text", x = 1, y = 1, label = "Sequential (desaturated)", hjust = 0, size = 12, 
+           family = "Asap SemiCondensed", fontface = "bold", label.size = 0) +
+  theme_void()
+```
+
+```{r}
+#| label: encodings-colors-seq-single-label
+#| echo: false
+#| fig-width: 14
+#| fig-height: 1.2
+ggplot(data, aes(x = id, y = 1)) +
+  geom_point(aes(fill = value), shape = 22, size = 15) +
+  scale_fill_distiller(palette = "Blues", guide = "none", direction = 1) +
+  annotate(geom = "rect", xmin = -Inf,xmax = 8.5, ymin = -Inf, ymax = Inf, fill = "white") +
+  annotate(geom = "text", x = 1, y = 1, label = "Sequential (single-hue)", hjust = 0, size = 12, 
+           family = "Asap SemiCondensed", fontface = "bold", label.size = 0) +
+  theme_void()
+```
+
+```{r}
+#| label: encodings-colors-seq-multi-label
+#| echo: false
+#| fig-width: 14
+#| fig-height: 1.2
+ggplot(data, aes(x = id, y = 1)) +
+  geom_point(aes(fill = value), shape = 22, size = 15) +
+  #scale_fill_viridis_c(direction = -1, guide = "none") +
+  scico::scale_fill_scico(palette = "batlowW", guide = "none", end = .97, direction = -1) +
+  annotate(geom = "rect", xmin = -Inf,xmax = 8.5, ymin = -Inf, ymax = Inf, fill = "white") +
+  annotate(geom = "text", x = 1, y = 1, label = "Sequential (multi-hue)", hjust = 0, size = 12, 
+           family = "Asap SemiCondensed", fontface = "bold", label.size = 0) +
+  theme_void()
+```
+
+```{r}
+#| label: encodings-colors-div-label
+#| echo: false
+#| fig-width: 14
+#| fig-height: 1.2
+ggplot(data, aes(x = id, y = 1)) +
+  geom_point(aes(fill = value), shape = 22, size = 15) +
+  scale_fill_distiller(palette = "PRGn", guide = "none", direction = 1) +
+  annotate(geom = "rect", xmin = -Inf,xmax = 8.5, ymin = -Inf, ymax = Inf, fill = "white") +
+  annotate(geom = "text", x = 1, y = 1, label = "Diverging", hjust = 0, size = 12, 
+           family = "Asap SemiCondensed", fontface = "bold", label.size = 0) +
+  theme_void()
+```
+
+
+
+## Same Data, Different Palettes
+
+```{r}
+#| label: encodings-colors-sorted
+#| echo: false
+#| fig-width: 14
+#| fig-height: 1.2
+g <- ggplot(data.frame(x = 0:9), aes(x = x, y = 1)) + theme_void()
+g + geom_text(aes(label = x), family = "Spline Sans Mono", size = 7, color = "grey20")
+
+gp <- g + geom_point(aes(fill = x), shape = 22, size = 25)
+gp + scale_fill_gradient(low = "grey90", high = "grey20", guide = "none")
+gp + scale_fill_distiller(palette = "Blues", guide = "none", direction = 1)
+gp + scico::scale_fill_scico(palette = "batlowW", guide = "none", direction = -1, end = .97)
+gp + scale_fill_distiller(palette = "PRGn", guide = "none", direction = 1)
+```
+
+
+
+## Color Palette Types
+
+<br>
+
+![](img/principles/color-palette-types-seq.png)
+
+
+
+## Color Palette Types: Dark Equals More (?)
+
+<br><br>
+
+![](img/principles/color-palettes-example-seq-direction.png)
+
+
+
+## Color Palette Types: Dark Equals More (?) {background-color="#171717"}
+
+<br><br>
+
+![](img/principles/color-palettes-example-seq-direction-dark.png)
+
+
+
+## Color Palette Types
+
+<br>
+
+![](img/principles/color-palette-types-seq-div.png)
+
+
+
+## Color Palette Types: Sequential or Diverging?
+
+<br><br>
+
+![](img/principles/color-palettes-example-seq-or-div.png)
+
+
+
+## Color Palette Types: Diverging on Dark {background-color="#171717"}
+
+<br><br>
+
+![](img/principles/color-palettes-example-div-dark-light.png)
+
+
+
+## Color Palette Types: Midpoint {background-color="#171717"}
+
+<br><br>
+
+![](img/principles/color-palettes-example-div-midpoint.png)
+
+
+
+## Color Palette Types
+
+<br>
+
+![](img/principles/color-palette-types.png)
+
+
+
+## {#color-palette-viridis-issues-1 data-menu-title="The Viridis Problem"}
+
+<br>
+
+```{r}
+#| label: color-palette-cat-viridis-prep
+#| echo: false
+#| cache: false
+data1 <- data.frame(
+  cat = factor(c("Africa", "Americas", "Asia", "Europe")),
+  value = c(5.7, 11.2, 9.1, 15.4)
+)
+
+theme_set(theme_minimal(base_size = 22, base_family = "Asap SemiCondensed"))
+theme_update(panel.grid = element_blank())
+
+
+g1 <- ggplot(data1, aes(x = cat, y = value, fill = cat)) + 
+  geom_col(width = .8) + 
+  geom_hline(yintercept = 0, color = "grey30", linewidth = 3) +
+  scale_y_continuous(expand = c(0, 0), breaks = 0:3*5) +
+  labs(x = NULL, y = NULL) +
+  theme(panel.grid.major.x = element_blank(), legend.position = "none",
+        axis.text.y = element_blank())
+
+set.seed(123)
+
+data2 <- data.frame(cat = rep(data1$cat, 10)) |> 
+  dplyr::rowwise() |>
+  dplyr::mutate(x = rnorm(n = 1, mean = as.numeric(cat)), 
+                y = rnorm(n = 1, mean = as.numeric(cat)))
+
+g2 <- ggplot(data2, aes(x = x, y = y, color = cat)) +
+  labs(x = NULL, y = NULL, shape = NULL, color = NULL) +
+  coord_cartesian(clip = "off") +
+  theme(legend.position = "top", legend.justification = "left",
+        axis.text.x = element_blank(), axis.text.y = element_blank())
+```
+
+:::: {.columns}
+
+::: {.column width="50%"}
+```{r}
+#| label: color-palette-bars-viridis
+#| echo: false
+#| fig-width: 5.5
+#| fig-height: 6.3
+g1 +
+  scale_fill_viridis_d(direction = -1, end = .97, guide = "none")
+```
+:::
+
+::: {.column width="50%"}
+::: fragment
+```{r}
+#| label: color-palette-bars-viridis-desaturated
+#| echo: false
+#| fig-width: 5.5
+#| fig-height: 6.3
+g1 + 
+  geom_col(width = .8, 
+           aes(fill = cat, fill = after_scale(colorspace::desaturate(fill, 1)))) +
+  scale_fill_viridis_d(direction = -1, end = .97, guide = "none") + 
+  geom_hline(yintercept = 0, color = "grey30", linewidth = 3)
+```
+:::
+:::
+
+::::
+
+
+
+## {#color-palette-viridis-issues-2 data-menu-title="The Viridis Problem"}
+
+<br>
+
+:::: {.columns}
+
+::: {.column width="50%"}
+```{r}
+#| label: color-palette-bars-viridis
+#| echo: false
+#| fig-width: 5.5
+#| fig-height: 6.3
+```
+:::
+
+::: {.column width="50%"}
+```{r}
+#| label: color-palette-bars-viridis-c
+#| echo: false
+#| fig-width: 5.5
+#| fig-height: 6.3
+ggplot(data1, aes(x = cat, y = value, fill = value)) + 
+  geom_col(width = .8) + 
+  geom_hline(yintercept = 0, color = "grey30", linewidth = 3) +
+  scale_y_continuous(expand = c(0, 0), breaks = 0:3*5) +
+  scale_fill_viridis_c(direction = -1, end = .97, guide = "none") +
+  labs(x = NULL, y = NULL) +
+  theme(panel.grid.major.x = element_blank(), legend.position = "none",
+        axis.text.y = element_blank())
+```
+:::
+
+::::
+
+
+
+## {#color-palette-viridis-issues-3 data-menu-title="The Viridis Problem"}
+
+<br>
+
+:::: {.columns}
+
+::: {.column width="50%"}
+```{r}
+#| label: color-palette-bars-viridis
+#| echo: false
+#| fig-width: 5.5
+#| fig-height: 6.3
+```
+:::
+
+::: {.column width="50%"}
+```{r}
+#| label: color-palette-bars-grey
+#| echo: false
+#| fig-width: 5.5
+#| fig-height: 6.3
+g1 + 
+  geom_col(width = .8, fill = "grey60") + 
+  geom_hline(yintercept = 0, color = "grey30", linewidth = 3)
+```
+:::
+
+::::
+
+
+
+## {#color-palette-viridis-issues-4 data-menu-title="The Viridis Problem"}
+
+<br>
+
+:::: {.columns}
+
+::: {.column width="50%"}
+```{r}
+#| label: color-palette-bars-viridis
+#| echo: false
+#| fig-width: 5.5
+#| fig-height: 6.3
+```
+
+:::
+
+::: {.column width="50%"}
+```{r}
+#| label: color-palette-scatter-viridis
+#| echo: false
+#| fig-width: 5.5
+#| fig-height: 6.3
+g2 + 
+  geom_point(size = 6) + 
+  scale_color_viridis_d(direction = -1, end = .97)
+```
+:::
+
+::::
+
+
+
+## {#color-palette-viridis-issues-5 data-menu-title="The Viridis Problem"}
+
+<br>
+
+:::: {.columns}
+
+::: {.column width="50%"}
+```{r}
+#| label: color-palette-bars-grey
+#| echo: false
+#| fig-width: 5.5
+#| fig-height: 6.3
+```
+
+:::
+
+::: {.column width="50%"}
+```{r}
+#| label: color-palette-scatter-grey-shape
+#| echo: false
+#| fig-width: 5.5
+#| fig-height: 6.3
+g2 + 
+  geom_point(size = 6, aes(shape = cat), color = "grey30", fill = "grey60") +
+  scale_shape_manual(values = c(23, 24, 22, 21))
+```
+:::
+
+::::
+
+
+
+## {#color-palette-viridis-issues-6 data-menu-title="The Viridis Problem"}
+
+<br>
+
+:::: {.columns}
+
+::: {.column width="50%"}
+```{r}
+#| label: color-palette-bars-cat
+#| echo: false
+#| fig-width: 5.5
+#| fig-height: 6.3
+g1 + 
+  scale_fill_manual(values = c("#c37e1c", "#008bc5", "#d965eb", "#22a77d"), 
+                    guide = "none")
+```
+
+:::
+
+::: {.column width="50%"}
+```{r}
+#| label: color-palette-scatter-cat
+#| echo: false
+#| fig-width: 5.5
+#| fig-height: 6.3
+g2 + 
+  geom_point(size = 6) + 
+  scale_color_manual(values = c("#c37e1c", "#008bc5", "#d965eb", "#22a77d"))
+```
+:::
+
+::::
+
+
+
+# Chart Type Choice
+
+
+
+## {#chart-selection-helpers-1 data-menu-title="Chart Selection Helpers"}
+
+![](img/principles/chart-selection-diagram.png){fig-align="center"}
+
+
+
+## {#chart-selection-helpers-2 data-menu-title="Chart Selection Helpers"}
+
+<br><br>
+
+![](img/principles/chart-selection-webpages.png){fig-align="center"}
+
+
+
+## {#chart-selection-helpers-3 data-menu-title="Chart Selection Helpers"}
+
+![Source: [Data to Viz](https://www.data-to-viz.com/)](img/principles/chart-selection-datatoviz-poster.png){fig-align="center"}
+
+
+
+## {#chart-selection-helpers-4 data-menu-title="Chart Selection Helpers"}
+
+![Source: [Data to Viz](https://www.data-to-viz.com/)](img/principles/chart-selection-datatoviz-details.png){fig-align="center"}
+
+
+
+## {#barbar-charts-raincloud-plots data-menu-title="Dynamite Plots and Alternatives"}
+
+![](img/principles/shrek-barbar-raincloud.png){fig-align="center"}
+
+
+
+## {#barbar-charts-weissgerber-0 data-menu-title="Dynamite Plots and Alternatives"}
+
+![[Weissgerber et al. (2015) PLoS Biology](https://doi.org/10.1371/journal.pbio.1002128)](img/principles/weissgerber-title.png)
+
+
+
+## {#barbar-charts-weissgerber-1 data-menu-title="Dynamite Plots and Alternatives"}
+
+![Modified from [Weissgerber et al. (2015) PLoS Biology](https://doi.org/10.1371/journal.pbio.1002128)](img/principles/weissgerber-bars-1.png)
+
+
+
+## {#barbar-charts-weissgerber-2 data-menu-title="Dynamite Plots and Alternatives"}
+
+![Modified from [Weissgerber et al. (2015) PLoS Biology](https://doi.org/10.1371/journal.pbio.1002128)](img/principles/weissgerber-bars-2.png)
+
+
+
+## {#barbar-charts-weissgerber-3 data-menu-title="Dynamite Plots and Alternatives"}
+
+![Modified from [Weissgerber et al. (2015) PLoS Biology](https://doi.org/10.1371/journal.pbio.1002128)](img/principles/weissgerber-bars-3.png)
+
+
+
+## {#barbar-charts-weissgerber-4 data-menu-title="Dynamite Plots and Alternatives"}
+
+![Modified from [Weissgerber et al. (2015) PLoS Biology](https://doi.org/10.1371/journal.pbio.1002128)](img/principles/weissgerber-bars-4.png)
+
+
+
+## {#barbar-charts-weissgerber-5 data-menu-title="Dynamite Plots and Alternatives"}
+
+![Modified from [Weissgerber et al. (2015) PLoS Biology](https://doi.org/10.1371/journal.pbio.1002128)](img/principles/weissgerber-bars-6.png)
+
+
+
+# <span style='line-height:.97;'>Solving Common Chart Issues</span>
+
+
+
+## Overplotting Issue
+
+```{r}
+#| label: chart-types-relationships-scatter-overplotting
+#| cache: false
+#| echo: false
+#| fig-width: 8
+#| fig-height: 5.7
+#| fig-align: center
+theme_set(theme_classic(base_family = "Asap SemiCondensed", base_size = 16))
+
+theme_update(
+  plot.margin = margin(rep(15, 4)),
+  axis.text = element_blank(),
+  panel.grid = element_blank(),
+  plot.title = element_text(face = "bold", margin = margin(b = 20), size = rel(1.35)),
+  plot.title.position = "plot",
+  axis.line = element_line(color = "grey45", linewidth = 1),
+  axis.title.x = element_text(color = "grey45", margin = margin(t = 10)),
+  axis.title.x.top = element_text(color = "grey45", margin = margin(b = 10)),
+  axis.title.y = element_text(color = "grey45", margin = margin(r = 10)),
+  axis.ticks = element_line(color = "grey45"),
+  legend.position = "top",
+  legend.title = element_text(color = "grey45"),
+  legend.text = element_text(margin = margin(t = 3, b = 3), color = "grey45"),
+  legend.background = element_rect(fill = NA, color = NA),
+  legend.justification = "left"
+)
+
+set.seed(2023) 
+
+data1 <- 
+    data.frame(
+        x = rnorm(n = 5000, mean = 2, sd = 3),
+        y = rnorm(n = 5000, mean = 20, sd = 10)
+    )
+
+data2 <- 
+    data.frame(
+        x = rnorm(n = 8000, mean = 15, sd = 10),
+        y = rnorm(n = 8000, mean = 2, sd = 20)
+    )
+
+data3 <- 
+    data.frame(
+        x = rnorm(n = 3000, mean = 15, sd = 5),
+        y = rnorm(n = 3000, mean = 2, sd = 10)
+    )
+
+data <- data1 |> 
+  dplyr::bind_rows(data2) |>
+  dplyr::bind_rows(data3)
+
+g <- 
+  data |> 
+  ggplot(aes(x = x, y = y)) +
+  coord_cartesian(xlim = c(-20, 51), ylim = c(-90, 80)) +
+  scale_fill_gradientn(
+    colors = c("grey90", "#8ae3c5", "#28A87D", "#0a291f"), name = "Count",
+    guide = guide_colorbar(ticks = FALSE, title.position = "top", title.hjust = .5)
+  ) +
+  scale_color_gradientn(
+    colors = c("grey90", "#8ae3c5", "#28A87D", "#0a291f"), name = "Count",
+    guide = guide_colorbar(ticks = FALSE, title.position = "top", title.hjust = .5)
+  ) +
+  theme(legend.text = element_blank(), legend.key.width = unit(3, "lines"),
+        legend.key.height = unit(.6, "lines"), legend.justification = "center")
+
+g + 
+  geom_point(color = "#28A87D", size = 2, alpha = .2) +
+  labs(x = "Numeric Variable", y = "Numeric Variable")
+```
+
+
+
+## Overplotting Issue
+
+```{r}
+#| label: chart-types-relationships-scatter-overplotting-pd
+#| echo: false
+#| fig-width: 8
+#| fig-height: 5.7
+#| fig-align: center
+g + 
+  ggpointdensity::geom_pointdensity() +
+  labs(x = "Numeric Variable", y = "Numeric Variable", fill = "Density")
+```
+
+
+
+## Overplotting Issue
+
+```{r}
+#| label: chart-types-relationships-scatter-overplotting-bin
+#| echo: false
+#| fig-width: 8
+#| fig-height: 5.7
+#| fig-align: center
+g + 
+  geom_bin2d(color = "white", binwidth = c(2, 10), linewidth = .5) +
+  labs(x = "Numeric Variable", y = "Numeric Variable")
+```
+
+
+## Overplotting Issue
+
+```{r}
+#| label: chart-types-relationships-scatter-overplotting-hex
+#| echo: false
+#| fig-width: 8
+#| fig-height: 5.7
+#| fig-align: center
+g + 
+  geom_hex(color = "white", binwidth = c(2, 10)) +
+  labs(x = "Numeric Variable", y = "Numeric Variable")
+```
+
+
+
+## Overplotting Issue
+
+```{r}
+#| label: chart-types-relationships-scatter-overplotting-dens
+#| echo: false
+#| fig-width: 8
+#| fig-height: 5.7
+#| fig-align: center
+g + 
+  geom_point(size = .1, color = "grey85") +
+  geom_density_2d(color = "#28A87D") +
+  labs(x = "Numeric Variable", y = "Numeric Variable")
+```
+
+
+
+## Spaghetti Plot Issue
+
+![](img/principles/2_jpmorgan_line_orig.png){fig-align="center"}
+
+
+
+## Spaghetti Plot Issue
+
+```{r}
+#| label: spaghetti-plot-gapminder-prep
+#| echo: false
+#| cache: false
+library(gapminder)
+
+theme_set(theme_minimal(base_size = 22, base_family = "Asap SemiCondensed"))
+theme_update(
+  panel.grid.minor = element_blank(),
+  plot.margin = margin(rep(20, 4)),
+  strip.text = element_text(size = rel(1)),
+  panel.spacing.x = unit(3.5, "lines"),
+  panel.spacing.y = unit(1.5, "lines")
+)
+
+countries_g7 <- c("Japan", "United States", "Canada", "France", "Germany", "Italy", "United Kingdom")
+
+gm_g7 <- 
+  gapminder |> 
+  dplyr::filter(country %in% countries_g7) |> 
+  dplyr::group_by(country) |> 
+  dplyr::mutate(lifeExp_last = lifeExp[which(year == 2007)]) |> 
+  dplyr::ungroup()
+
+colors <- RColorBrewer::brewer.pal(name = "Dark2", n = 7)
+names(colors) <- countries_g7
+
+g <- 
+  ggplot(data = gm_g7, aes(x = year, y = lifeExp)) +
+  coord_cartesian(expand = FALSE, clip = "off") +
+  scale_x_continuous(breaks = seq(1952, 2007, by = 5)) +
+  scale_y_continuous(limits = c(59, 85)) +
+  scale_color_manual(values = colors) +
+  labs(x = NULL, y = "Life expectancy", color = NULL) +
+  theme(legend.justification = "top")
+```
+
+
+```{r}
+#| label: spaghetti-plot-gapminder
+#| echo: false
+#| cache: false
+#| fig-width: 14
+#| fig-height: 7.7
+g + 
+  geom_line(aes(color = forcats::fct_reorder(country, -lifeExp_last)), linewidth = .7)
+```
+
+
+
+## Spaghetti Plot Issue
+
+```{r}
+#| label: spaghetti-plot-gapminder-facet
+#| echo: false
+#| fig-width: 14
+#| fig-height: 7.7
+gf <- g + 
+  facet_wrap(~ forcats::fct_reorder(country, -lifeExp_last), nrow = 2, scales = "free_x") +
+  scale_x_continuous(breaks = c(1952, 2007)) +
+  guides(color = "none") +
+  theme(plot.margin = margin(20, 20, 20, 20), axis.title.y = element_text(hjust = 1, margin = margin(r = 12)))
+
+gf + 
+  geom_line(linewidth = 1.2)
+```
+
+
+
+## Spaghetti Plot Issue
+
+```{r}
+#| label: spaghetti-plot-gapminder-facet-shading
+#| echo: false
+#| fig-width: 14
+#| fig-height: 7.7
+gf + 
+  geom_line(data = dplyr::select(gm_g7, country2 = country, year, lifeExp), 
+            aes(group = country2), color = "grey40", alpha = .5, linewidth = .5) + 
+  geom_line(linewidth = 1.2)
+```
+
+
+
+## Spaghetti Plot Issue
+
+![](img/principles/2_jpmorgan_line_trend_alt.png){fig-align="center"}
+
+
+
+## {#small-multiples-minard data-menu-title="Small Multiples: Minard"}
+
+<br>
+
+![“Carte figurative et approximative des quantités de coton brut importées en Europe en 1858, en 1864 et en 1865” by Charles Joseph Minard (1866)](img/principles/minard-cotton.jpg)
+
+
+
+## Stacked Bars Issue
+
+```{r}
+#| label: stacked-bars-cars-prep
+#| echo: false
+#| cache: false
+theme_set(theme_minimal(base_size = 24, base_family = "Asap SemiCondensed"))
+
+theme_update(
+  panel.grid = element_blank(),
+  plot.title.position = "plot",
+  plot.caption.position = "plot",
+  plot.title = ggtext::element_textbox_simple(
+    size = rel(1.7), face = "bold", margin = margin(b = 35), color = "grey40"
+  ),
+  plot.caption = element_text(hjust = 0, color = "grey40", size = rel(.75), margin = margin(t = 40)),
+  legend.position = "none",
+  axis.title.y = element_text(margin = margin(r = 15)),
+  axis.text.x = element_text(size = rel(1.15)),
+  axis.ticks.y = element_line(color = "grey70", linewidth = .4),
+  axis.ticks.length.y = unit(.7, "lines"),
+  strip.text.x = element_text(size = rel(1.8), family = "Asap SemiCondensed", 
+                                color = "grey40", margin = margin(b = 20)),
+  panel.spacing.x = unit(3, "lines")
+)
+
+auto_zulassung_kraftstoff <- 
+  rio::import(here::here("data", "5_abb_entwicklung-pkw-neuzulass-kraftstoffart_2023-04-28.xlsx"), skip = 8) |> 
+  tibble::as_tibble() |> 
+  janitor::clean_names() |> 
+  dplyr::filter(!is.na(x1)) |> 
+  dplyr::select(jahr = x1, benzin:pkw_gesamt)
+
+zulassung_det_long <- 
+  auto_zulassung_kraftstoff |> 
+  dplyr::mutate(
+    `Benzin &\nDiesel` = benzin + diesel,
+    andere = flussiggas + erdgas + sonstige
+  ) |> 
+  dplyr::select(jahr, pkw_gesamt, `Benzin &\nDiesel`, 
+                Hybrid = hybrid, Elektro = elektro, andere) |> 
+  tidyr::pivot_longer(cols = -c(jahr, pkw_gesamt), names_to = "type", values_to = "number") |> 
+  dplyr::filter(jahr >= 2018, type != "andere") |> 
+  dplyr::mutate(
+    type = factor(type, levels = c("Benzin &\nDiesel", "Hybrid", "Elektro")),
+    type = factor(type, labels = c("Gasoline & Diesel", "Hybrid", "Electric")))
+```
+
+```{r}
+#| label: stacked-bars-cars
+#| echo: false
+#| cache: false
+#| fig-width: 14
+#| fig-height: 11
+#| fig-align: center
+gb <- 
+  ggplot(zulassung_det_long, 
+         aes(x = jahr, y = number, fill = forcats::fct_rev(type))) +
+  geom_col(width = .7) +
+  geom_hline(
+    yintercept = c(0, 1), lineend = "round", 
+    linewidth = .4, color = "grey70"
+  ) +
+  labs(
+    x = NULL, y = NULL, title = "New vehicle registrations in Germany", 
+    caption = "Source: Federal ministry for digital and transport / Kraftfahrt-Bundesamt • Graphic: Cédric Scherer"
+  ) +
+  coord_cartesian(clip = "off") +
+  scale_x_continuous(breaks = 2017:2022, expand = c(0, 0)) +
+  scale_y_continuous(labels = scales::label_number(scale = 1/1000000, suffix = "M"), expand = c(.01, .01)) +  
+  scale_fill_manual(values = c("#28A87D", "#5ACDA6", "#EFAC00"), name = NULL) +
+  theme(legend.position = "right",
+        legend.text = element_text(size = rel(1), margin = margin(5, 0, 5, 0)),
+        plot.margin = margin(15, 15, 10, 15))
+
+gb
+```
+
+
+
+
+## Stacked Bars Issue
+
+```{r}
+#| label: stacked-bars-cars-lines
+#| echo: false
+#| fig-width: 14
+#| fig-height: 11
+#| fig-align: center
+ggplot(zulassung_det_long, 
+       aes(x = jahr, y = number, color = type)) +
+  geomtextpath::geom_textline(
+    aes(label = paste(type, "  ")), vjust = 1.5, hjust = 1, size = 10, family = "Asap SemiCondensed", fontface = "bold"
+  ) +
+  geom_line(aes(color = type, color = after_scale(prismatic::clr_lighten(color, .5))), linewidth = 2.5) +
+  geom_point(size = 8) +
+  labs(
+    x = NULL, y = NULL, title = "New vehicle registrations in Germany", 
+    caption = "Source: Federal ministry for digital and transport / Kraftfahrt-Bundesamt • Graphic: Cédric Scherer"
+  ) +
+  coord_cartesian(clip = "off") +
+  scale_x_continuous(breaks = 2017:2022, expand = c(0, 0)) +
+  scale_y_continuous(labels = scales::label_number(scale = 1/1000000, suffix = "M"), expand = c(.01, .01), limits = c(0, NA)) +  
+  scale_color_manual(values = c("#EFAC00", "#5ACDA6", "#28A87D"), name = NULL) +
+  theme(plot.margin = margin(15, 25, 10, 15),
+        panel.grid.major.y = element_line(color = "grey70", linewidth = .4))
+```
+
+
+
+## Stacked Bars Issue
+
+```{r}
+#| label: stacked-bars-cars-facet
+#| echo: false
+#| cache: false
+#| fig-width: 14
+#| fig-height: 11
+#| fig-align: center
+gf <- gb +
+  geom_col(width = .7, aes(fill = forcats::fct_rev(type))) +
+  geom_hline(
+    yintercept = c(0, 1), lineend = "round", 
+    linewidth = .4, color = "grey70"
+  ) +
+  facet_wrap(~type) +
+  theme(legend.position = "none") 
+
+gf
+```
+
+
+
+## Stacked Bars Issue
+
+```{r}
+#| label: stacked-bars-cars-facet-grey
+#| echo: false
+#| fig-width: 14
+#| fig-height: 11
+#| fig-align: center
+gf +
+  scale_fill_manual(values = c("grey25", "grey25", "grey25"))
+```
+
+
+
+## Stacked Bars Issue
+
+```{r}
+#| label: stacked-bars-cars-facet-total
+#| echo: false
+#| fig-width: 14
+#| fig-height: 11
+#| fig-align: center
+gf +
+  geom_col(data = dplyr::select(zulassung_det_long, -type), fill = "grey85", width = .7) +
+  geom_col(width = .7, fill = "grey25") +
+  geom_hline(
+    yintercept = c(0, 1), lineend = "round", 
+    linewidth = .4, color = "grey70"
+  )
+```
+
+
+
+## Skewed Data Issue
+
+```{r}
+#| label: bars-skewed
+#| echo: false
+#| cache: false
+#| fig-width: 14
+#| fig-height: 7.8
+data <- data.frame(
+  grp = LETTERS[1:15],
+  value = c(265, 254, 233, 17, 16, 14, 10, 7, 5, 5, 4, 3, 2, 1, 1)
+)
+
+ggplot(data, aes(x = grp, y = value)) +
+  geom_col(fill = "grey55", width = .75) +
+  coord_cartesian(expand = FALSE) +
+  labs(x = "Category", y = "Value")
+```
+
+
+
+## Skewed Data Issue
+
+```{r}
+#| label: bars-skewed-broken-axis
+#| echo: false
+#| fig-width: 14
+#| fig-height: 7.8
+data |> 
+  dplyr::mutate(value = ifelse(value > 20, value - 200, value)) |> 
+  ggplot(aes(x = grp, y = value)) +
+  geom_col(fill = "grey55", width = .75) +
+  annotate(geom = "rect", xmin = -Inf, xmax = Inf, ymin = 23, ymax = 26, fill = "white", color = "white") +
+  coord_cartesian(expand = FALSE, clip = "off") +
+  scale_y_continuous(breaks = c(0, 20, 30, 50), labels = c(0, 20, 230, 250)) +
+  labs(x = "Category", y = "Value")
+```
+
+
+
+## Skewed Data Issue
+
+```{r}
+#| label: bars-skewed-log
+#| echo: false
+#| fig-width: 14
+#| fig-height: 7.8
+ggplot(data, aes(x = grp, y = value)) +
+  geom_col(fill = "grey55", width = .75) +
+  coord_cartesian(expand = FALSE) +
+  scale_y_log10() +
+  labs(x = "Category", y = "Value")
+```
+
+
+
+## Skewed Data Issue
+
+```{r}
+#| label: bars-skewed-direct-labels
+#| echo: false
+#| fig-width: 14
+#| fig-height: 7.8
+ggplot(data, aes(x = grp, y = value)) +
+  geom_col(fill = "grey55", width = .75) +
+  geom_text(
+    aes(label = value), 
+    family = "Asap SemiCondensed", size = 7.5,
+    vjust = -.5, color = "grey30"
+  ) +
+  coord_cartesian(expand = FALSE) +
+  scale_y_continuous(limits = c(0, 285), guide = "none") +
+  labs(x = "Category", y = NULL)
+```
+
+
+
+## Skewed Data Issue
+
+```{r}
+#| label: bars-skewed-other
+#| echo: false
+#| fig-width: 10
+#| fig-height: 7.8
+#| fig-align: center
+data |> 
+  dplyr::mutate(grp = ifelse(value > 20, grp, "other")) |> 
+  dplyr::group_by(grp) |> 
+  dplyr::summarize(value = sum(value)) |> 
+  ggplot(aes(x = grp, y = value)) +
+  geom_col(fill = "grey55", width = .75) +
+  coord_cartesian(expand = FALSE) +
+  labs(x = "Category", y = "Value")
+```
+
+
+
+## Skewed Data Issue
+
+<br>
+
+```{r}
+#| label: bars-skewed-panel
+#| echo: false
+#| fig-width: 18
+#| fig-height: 7.8
+p1 <- data |> 
+  dplyr::mutate(grp = ifelse(value > 20, grp, "other")) |> 
+  dplyr::group_by(grp) |> 
+  dplyr::summarize(value = sum(value)) |> 
+  ggplot(aes(x = grp, y = value, fill = grp == "other")) +
+  geom_col(width = .75) +
+  coord_cartesian(expand = FALSE) +
+  scale_fill_manual(values = c("#28A87D", "grey65"), guide = "none") +
+  labs(x = "Category", y = "Value", title = "All categories")
+
+p2 <- data |> 
+  dplyr::filter(value < 20) |> 
+  ggplot(aes(x = grp, y = value)) +
+  geom_col(fill = "grey65", width = .75) +
+  coord_cartesian(expand = FALSE) +
+  labs(x = "Category", y = "Value", title = "Other categories")
+
+library(patchwork)
+p1 + plot_spacer() + p2 + plot_layout(widths = c(.4, .05, 1))
+```
+
+
+
+## Dual Axis Issue
+
+<span style='font-size:.8em;'>Examples by Lisa Charlotte Muth, <a href='https://blog.datawrapper.de/dualaxis/'>DataWrapper Blog</a></span>
+
+<br>
+
+:::: {.columns}
+
+::: {.column width="50%"}
+![](img/principles/dual-axis-datawrapper-1.png)
+<br><br>
+
+::: fragment
+![](img/principles/dual-axis-datawrapper-2.png)
+:::
+:::
+
+::: {.column width="50%"}
+::: fragment
+![](img/principles/dual-axis-datawrapper-3.png)
+<br><br>
+:::
+
+::: fragment
+![](img/principles/dual-axis-datawrapper-4.png)
+:::
+:::
+
+::::
+
+
+
+## Dual Axis Issue
+
+<br>
+
+![Source: [Spurious Correlations](https://tylervigen.com/spurious-correlations)](img/principles/spurious-correlations.png)
+
+
+
+## Dual Axis Issue
+
+![<br>Source: Lisa Charlotte Muth, [DataWrapper Blog](https://blog.datawrapper.de/dualaxis/)](img/principles/dual-axis-datawrapper-wondering.png)
+
+
+
+## Dual Axis Issue
+
+![<br>Source: Lisa Charlotte Muth, [DataWrapper Blog](https://blog.datawrapper.de/dualaxis/)](img/principles/dual-axis-trends-datawrapper.png)
+
+
+
+## Dual Axis Issue
+
+<br>
+
+![<br>Source: Lisa Charlotte Muth, [DataWrapper Blog](https://blog.datawrapper.de/dualaxis/)](img/principles/dual-axis-datawrapper-solution-1.png)
+
+
+
+## Dual Axis Issue
+
+<br>
+
+![<br>Source: Lisa Charlotte Muth, [DataWrapper Blog](https://blog.datawrapper.de/dualaxis/)](img/principles/dual-axis-datawrapper-solution-2.png)
+
+
+
+# {#guide-the-viewer data-menu-title="Guide the View(er)" background-image="img/principles/section-guide-viewer.png" background-position="center"} 
+
+::: foooter
+:::
+
+
+## {#power-of-annotation-iib-blank data-menu-title="The Power of Annotations"}
+
+<br>
+
+![David McCandless & Lee Byron, [Information is Beautiful](https://informationisbeautiful.net/2010/peak-break-up-times-on-facebook/) (modified)](img/principles/breakup-times-facebook-blank.png)
+
+
+
+## {#power-of-annotation-iib data-menu-title="The Power of Annotations"}
+
+<br>
+
+![David McCandless & Lee Byron, [Information is Beautiful](https://informationisbeautiful.net/2010/peak-break-up-times-on-facebook/)](img/principles/breakup-times-facebook.png)
+
+
+
+## {#power-of-annotation-ft-john-burn-murdoch data-menu-title="The Power of Annotations" background-color="black"}
+
+<br>
+
+![](img/principles/text-ft-john-burn-murdoch.png)
+
+
+
+## {#annotations-playfair data-menu-title="The Power of Annotations"}
+
+![Time series with annotations by William Playfair from “The Commercial and Political Atlas and Statistical Breviary” (1786)](img/principles/playfair-line-annotations.png)
+
+
+## {#annotations-gapminder-example-repeat data-menu-title="The Power of Annotations"}
+
+```{r}
+#| label: theme-gapminder
+#| include: false
+#| cache: false
+theme_set(theme_minimal(base_size = 22, base_family = "Asap SemiCondensed"))
+
+theme_update(
+  panel.grid.minor = element_blank(),
+  plot.margin = margin(rep(20, 4)),
+  strip.text = element_text(size = rel(1)),
+  axis.title.y = element_text(margin = margin(r = 12), vjust = 1), 
+  panel.spacing.x = unit(3.5, "lines"),
+  panel.spacing.y = unit(1.5, "lines")
+)
+```
+
+```{r}
+#| label: spaghetti-plot-gapminder
+#| echo: false
+#| cache: false
+#| fig-width: 12
+#| fig-asp: .65
+```
+
+
+
+## {#annotations-gapminder-example-0 data-menu-title="The Power of Annotations"}
+
+```{r}
+#| label: gapminder-example-emphasis-again
+#| echo: false
+#| cache: false
+#| fig-width: 12
+#| fig-asp: .65
+gm_g7 <- 
+  gapminder |> 
+  dplyr::filter(country %in% countries_g7) |> 
+  dplyr::group_by(country) |> 
+  dplyr::mutate(lifeExp_last = lifeExp[which(year == 2007)]) |> 
+  dplyr::ungroup() |> 
+  dplyr::mutate(
+    country_lab = dplyr::if_else(country == "Japan", paste0("<span style='color:black;'>Japan</span>"), country)
+  )
+
+gm_japan_dup <-
+  gm_g7 |>
+  dplyr::filter(country == "Japan") |> 
+  dplyr::mutate(dup = dplyr::if_else(year %in% c(1962, 1972), 2, 1)) |> 
+  tidyr::uncount(dup) |> 
+  dplyr::group_by(year) |> 
+  dplyr::mutate(id = dplyr::row_number()) |> 
+  dplyr::mutate(period = dplyr::case_when(
+      year >= 1972 & id == 1 ~ "first", 
+      year <= 1962 & id == 1 ~ "last", 
+      TRUE ~ "catchup"
+    )
+  )
+
+g <- 
+  ggplot(data = gm_g7, aes(x = year, y = lifeExp)) +
+  coord_cartesian(expand = FALSE, clip = "off") +
+  scale_x_continuous(breaks = seq(1952, 2007, by = 5)) +
+  scale_y_continuous(limits = c(59, 85)) +
+  labs(x = NULL, y = "Life expectancy", color = NULL) +
+  theme(legend.justification = "top",
+        legend.text = element_text(margin = margin(5, 0, 5, 0)))
+
+g + 
+  geom_line(aes(group = country), linewidth = 1, color = "grey75") +
+  geom_line(data = dplyr::filter(gm_g7, country == "Japan"), color = "red", linewidth = 2) +
+  annotate(geom = "text", x = 1994, y = c(82.6, 75), 
+           label = c("Japan", "Other G7\ncountries"), hjust = 0,
+           color = c("red", "grey65"), family = "Asap SemiCondensed", 
+           fontface = "bold", size = c(10, 7), lineheight = .8)
+```
+
+
+
+## {#annotations-gapminder-example-1 data-menu-title="The Power of Annotations"}
+
+```{r}
+#| label: gapminder-example-guide-1
+#| echo: false
+#| fig-width: 12
+#| fig-asp: .65
+g + 
+  geom_line(aes(group = country), linewidth = 1, color = "grey75") +
+  geom_line(data = dplyr::filter(gm_g7, country == "Japan"), color = "red", linewidth = 2) +
+  # ggforce::geom_mark_circle(
+  #   data = filter(gm_g7, country == "Japan", year %in% c(1952, 1967, 2007)),
+  #   aes(label = c("ranked last", "catching up", "ranked first"), group = year),
+  #   family = "Asap SemiCondensed", lineheight = .85, label.fontsize = 15,
+  #   expand = unit(0, "pt")
+  # ) +
+  geom_point(data = dplyr::filter(gm_g7, country == "Japan", year %in% c(1952, 1967, 2007)),
+             color = "red", fill = "white", shape = 21, stroke = 2, size = 6) +
+  geom_text(data = dplyr::filter(gm_g7, country == "Japan", year %in% c(1952, 1967, 2007)),
+            aes(label = c("ranked last", "catching up", "ranked first")),
+            vjust = c(2, 2, -1), hjust = c(.1, .1, .9),
+            family = "Asap SemiCondensed", lineheight = .85, size = 6.5) +
+  annotate(geom = "text", x = 1994, y = c(82.6, 75), 
+           label = c("Japan", "Other G7\ncountries"), hjust = 0,
+           color = c("red", "grey65"), family = "Asap SemiCondensed", 
+           fontface = c("bold", "plain"), size = c(10, 7), lineheight = .8) +
+  theme(axis.text.x = element_text(color = c("black", "grey65", "grey65", "black", rep("grey65", 7), "black")))
+```
+
+
+
+## {#annotations-gapminder-example-2 data-menu-title="The Power of Annotations"}
+
+```{r}
+#| label: gapminder-example-guide-2
+#| echo: false
+#| fig-width: 12
+#| fig-asp: .65
+g + 
+  annotate(geom = "rect", xmin = 1962, xmax = 1972, ymin = 60, ymax = Inf, 
+           fill = "grey80", alpha = .3) +
+  geom_line(aes(group = country), linewidth = 1, color = "grey75") +
+  geom_line(data = dplyr::filter(gm_g7, country == "Japan"), color = "red", linewidth = 2) +
+  annotate(geom = "text", x = c(1962, 1967, 1972), y = 82.6, 
+           label = c("← ranked last", "catching up", "ranked first →"), 
+           color = "grey45", family = "Asap SemiCondensed", 
+           fontface = "bold", size = 7, hjust = c(1.05, .5, -.05)) +
+  annotate(geom = "text", x = 1994, y = c(82.6, 75), 
+           label = c("Japan", "Other G7\ncountries"), hjust = 0,
+           color = c("red", "grey65"), family = "Asap SemiCondensed", 
+           fontface = c("bold", "plain"), size = c(10, 7), lineheight = .8)
+```
+
+
+
+## {#annotations-gapminder-example-3 data-menu-title="The Power of Annotations"}
+
+```{r}
+#| label: gapminder-example-guide-3
+#| echo: false
+#| fig-width: 12
+#| fig-asp: .65
+g + 
+  annotate(geom = "rect", xmin = 1962, xmax = 1972, ymin = 60, ymax = Inf, 
+           fill = "grey80", alpha = .3) +
+  geom_line(aes(group = country), linewidth = 1, color = "grey75") +
+  geom_line(data = gm_japan_dup, aes(color = period), linewidth = 2) +
+  annotate(geom = "text", x = c(1962, 1967, 1972), y = 82.6, 
+           label = c("← ranked last", "catching up", "ranked first →"), 
+           color = c("#9B4665", "#EFAC00", "#28A87D"), family = "Asap SemiCondensed", 
+           fontface = "bold", size = 7, hjust = c(1.05, .5, -.05)) +
+  annotate(geom = "text", x = 1994, y = c(82.6, 75), 
+           label = c("Japan", "Other G7\ncountries"), hjust = 0,
+           color = c("black", "grey65"), family = "Asap SemiCondensed", 
+           fontface = c("bold", "plain"), size = c(10, 7), lineheight = .8) +
+  scale_color_manual(values = c("#EFAC00", "#28A87D", "#9B4665"), guide = "none")
+```
+
+
+
+## {#annotations-gapminder-example-4 data-menu-title="The Power of Annotations"}
+
+```{r}
+#| label: gapminder-example-guide-4
+#| echo: false
+#| fig-width: 12
+#| fig-asp: .65
+gm_japan_2007 <- dplyr::filter(gm_g7, year %in% c(2007), country == "Japan")
+
+g + 
+  annotate(geom = "rect", xmin = 1962, xmax = 1972, ymin = 60, ymax = Inf, 
+           fill = "grey80", alpha = .3) +
+  geom_line(aes(group = country), linewidth = 1, color = "grey75") +
+  geom_line(data = gm_japan_dup, aes(color = period), linewidth = 2) +
+  annotate(geom = "text", x = c(1962, 1967, 1972), y = 82.6, 
+           label = c("← ranked last", "catching up", "ranked first →"), 
+           color = c("#9B4665", "#EFAC00", "#28A87D"), family = "Asap SemiCondensed", 
+           fontface = "bold", size = 7, hjust = c(1.05, .5, -.05)) +
+  annotate(geom = "text", x = 1994, y = c(82.6, 75), 
+           label = c("Japan", "Other G7\ncountries"), hjust = 0,
+           color = c("black", "grey65"), family = "Asap SemiCondensed", 
+           fontface = c("bold", "plain"), size = c(10, 7), lineheight = .8) +
+  scale_color_manual(values = c("#EFAC00", "#28A87D", "#9B4665"), guide = "none") +
+  geom_point(data = gm_japan_2007, size = 5, color = "#28A87D") +
+  geom_text(data = gm_japan_2007, aes(label = paste(round(lifeExp, 1), "years")), 
+            hjust = -.15, family = "Asap SemiCondensed", size = 6, color = "grey40") +
+  theme(plot.margin = margin(20, 100, 20, 20))
+```
+
+
+
+## {#annotations-gapminder-example-5 data-menu-title="The Power of Annotations"}
+
+```{r}
+#| label: gapminder-example-guide-5
+#| echo: false
+#| fig-width: 12
+#| fig-asp: .65
+gm_japan_2007 <- dplyr::filter(gm_g7, year %in% c(2007), country == "Japan")
+
+g + 
+  annotate(geom = "rect", xmin = 1962, xmax = 1972, ymin = 60, ymax = Inf, 
+           fill = "grey80", alpha = .3) +
+  geom_line(aes(group = country), linewidth = 1, color = "grey75") +
+  geom_line(data = dplyr::filter(gm_g7, country == "Japan"), color = "red", linewidth = 2) +
+  annotate(geom = "text", x = c(1962, 1967, 1972), y = 82.6, 
+           label = c("← ranked last", "catching up", "ranked first →"), 
+           color = "grey40", family = "Asap SemiCondensed", 
+           size = 7, fontface = "bold", hjust = c(1.05, .5, -.05)) +
+  annotate(geom = "text", x = 1994, y = c(82.6, 75), 
+           label = c("Japan", "Other G7\ncountries"), hjust = 0,
+           color = c("red", "grey65"), family = "Asap SemiCondensed", 
+           fontface = c("bold", "plain"), size = c(10, 7), lineheight = .8) +
+  geom_point(data = gm_japan_2007, size = 5, color = "red") +
+  geom_text(data = gm_japan_2007, aes(label = paste(round(lifeExp, 1), "years")), 
+            hjust = -.15, family = "Asap SemiCondensed", size = 6, color = "grey40") +
+  theme(plot.margin = margin(20, 100, 20, 20))
+```
+
+
+
+## {#annotations-gapminder-example-6 data-menu-title="The Power of Annotations"}
+
+```{r}
+#| label: gapminder-example-guide-6
+#| echo: false
+#| fig-width: 12
+#| fig-asp: .65
+gm_g7_2007 <- dplyr::filter(gm_g7, year %in% c(2007))
+gm_japan_2007 <- dplyr::filter(gm_g7_2007, country == "Japan")
+gm_other_2007 <- dplyr::filter(gm_g7_2007, country != "Japan")
+
+g + 
+  annotate(geom = "rect", xmin = 1962, xmax = 1972, ymin = 60, ymax = Inf, 
+           fill = "grey80", alpha = .3) +
+  geom_line(aes(group = country), linewidth = 1, color = "grey75") +
+  geom_line(data = dplyr::filter(gm_g7, country == "Japan"), color = "red", linewidth = 2) +
+  annotate(geom = "text", x = c(1962, 1967, 1972), y = 82.6, 
+           label = c("← ranked last", "catching up", "ranked first →"), 
+           color = "grey45", family = "Asap SemiCondensed", 
+           size = 7, fontface = "bold", hjust = c(1.05, .5, -.05)) +
+  annotate(geom = "text", x = 1994, y = c(82.6, 75), 
+           label = c("Japan", "Other G7\ncountries"), hjust = 0,
+           color = c("red", "grey65"), family = "Asap SemiCondensed", 
+           fontface = c("bold", "plain"), size = c(10, 7), lineheight = .8) +
+  geom_point(data = gm_japan_2007, size = 5, color = "red") +
+  geom_text(data = gm_japan_2007, aes(label = paste(round(lifeExp, 1), "years")), 
+            hjust = -.15, family = "Asap SemiCondensed", size = 6, color = "grey40") +
+  annotate(geom = "text", x = 2007, y = range(gm_other_2007$lifeExp), 
+           label = paste(round(range(gm_other_2007$lifeExp), 1), "years"), hjust = -.15,
+           color ="grey65", family = "Asap SemiCondensed", size = 6) +
+  annotate(geom = "linerange", x = 2007.4, 
+           ymin = min(gm_other_2007$lifeExp), ymax = max(gm_other_2007$lifeExp), 
+           color = "grey65", linewidth = 1.4) +
+  theme(plot.margin = margin(20, 100, 20, 20))
+```
+
+
+
+## {#annotations-cars-example-0 data-menu-title="The Power of Annotations"}
+
+```{r}
+#| label: stacked-bars-cars-prep-guide
+#| echo: false
+#| cache: false
+#| fig-width: 14
+#| fig-height: 11
+#| fig-align: center
+theme_set(theme_minimal(base_size = 24, base_family = "Asap SemiCondensed"))
+
+theme_update(
+  panel.grid = element_blank(),
+  plot.title.position = "plot",
+  plot.caption.position = "plot",
+  plot.title = ggtext::element_textbox_simple(
+    size = rel(1.7), face = "bold", margin = margin(b = 35), color = "grey40"
+  ),
+  plot.caption = element_text(hjust = 0, color = "grey40", size = rel(.75), margin = margin(t = 40)),
+  legend.position = "none",
+  axis.title.y = element_text(margin = margin(r = 15)),
+  axis.text.x = element_text(size = rel(1.15)),
+  axis.ticks.y = element_line(color = "grey70", linewidth = .4),
+  axis.ticks.length.y = unit(.7, "lines"),
+  strip.text.x = element_text(size = rel(1.8), family = "Asap SemiCondensed", 
+                                color = "grey40", margin = margin(b = 20)),
+  panel.spacing.x = unit(3, "lines")
+)
+
+zulassung_det_long <- 
+  auto_zulassung_kraftstoff |> 
+  dplyr::mutate(
+    `Benzin &\nDiesel` = benzin + diesel,
+    andere = flussiggas + erdgas + sonstige
+  ) |> 
+  dplyr::select(jahr, pkw_gesamt, `Benzin &\nDiesel`, 
+                Hybrid = hybrid, Elektro = elektro, andere) |> 
+  tidyr::pivot_longer(cols = -c(jahr, pkw_gesamt), names_to = "type", values_to = "number") |> 
+  dplyr::filter(jahr >= 2018, type != "andere") |> 
+  dplyr::mutate(
+    type = factor(type, levels = c("Benzin &\nDiesel", "Hybrid", "Elektro")),
+    type = factor(type, labels = c("Gasoline & Diesel", "Hybrid", "Electric")))
+
+gb <- 
+  ggplot(zulassung_det_long, 
+         aes(x = jahr, y = number, fill = forcats::fct_rev(type))) +
+  geom_col(width = .7) +
+  geom_hline(
+    yintercept = c(0, 1), lineend = "round", 
+    linewidth = .4, color = "grey70"
+  ) +
+  labs(
+    x = NULL, y = NULL, title = "New vehicle registrations in Germany", 
+    caption = "Federal ministry for digital and transport / Kraftfahrt-Bundesamt • Graphic: Cédric Scherer"
+  ) +
+  coord_cartesian(clip = "off") +
+  scale_x_continuous(breaks = 2017:2022, expand = c(0, 0)) +
+  scale_y_continuous(labels = scales::label_number(scale = 1/1000000, suffix = "M"), expand = c(.01, .01)) +  
+  scale_fill_manual(values = c("#28A87D", "#5ACDA6", "#EFAC00"), name = NULL) +
+  scale_color_manual(values = c("#015B41", "#076F54", "#805A00")) +
+  theme(legend.position = "right",
+        legend.text = element_text(size = rel(1), margin = margin(5, 0, 5, 0)),
+        plot.margin = margin(15, 15, 10, 15))
+
+gf <- gb +
+  geom_col(data = dplyr::select(zulassung_det_long, -type), fill = "grey89", width = .7) +
+  geom_col(width = .7, aes(fill = forcats::fct_rev(type))) +
+  geom_hline(
+    yintercept = c(0, 1), lineend = "round", 
+    linewidth = .4, color = "grey70"
+  ) +
+  facet_wrap(~type) +
+  theme(legend.position = "none") 
+
+gb
+```
+
+
+
+## {#annotations-cars-example-1 data-menu-title="The Power of Annotations"}
+
+```{r}
+#| label: stacked-bars-cars-annotated
+#| echo: false
+#| cache: false
+#| fig-width: 14
+#| fig-height: 11
+#| fig-align: center
+gbt <- gb +
+  geom_text(
+    data = dplyr::filter(zulassung_det_long, jahr == 2022), 
+    aes(label = paste0(stringr::str_wrap(type, 11), "\n", round(number / pkw_gesamt * 100, 0), "%"), color = forcats::fct_rev(type)), 
+    position = position_stack(vjust = .5),
+    family = "Asap SemiCondensed", fontface = "bold", lineheight = .9, size = 8
+  ) +
+  labs(title = "In 2022, <span style='color:#EFAC00;'>gasoline and diesel vehicles</span> account for only half of all new registrations in Germany --  <span style='color:#5ACDA6;'>hybrid</span> and <span style='color:#28A87D;'>electric</span> continue to increase.") +
+  theme(legend.position = "none", 
+        plot.title = ggtext::element_textbox_simple(size = rel(1.45), lineheight = 1, margin = margin(b = 22)))
+
+gbt
+```
+
+
+
+## {#annotations-cars-example-2 data-menu-title="The Power of Annotations"}
+
+```{r}
+#| label: stacked-bars-cars-annotated-colors
+#| echo: false
+#| fig-width: 14
+#| fig-height: 11
+#| fig-align: center
+gbt +
+    geom_col(data = dplyr::filter(zulassung_det_long, jahr < 2022), width = .7, 
+             aes(fill = forcats::fct_rev(type), 
+                 fill = after_scale(prismatic::clr_lighten(prismatic::clr_desaturate(fill, .4), .55)))) +
+    geom_hline(
+        yintercept = c(0, 1), lineend = "round", 
+        linewidth = .4, color = "grey70"
+    ) 
+```
+
+
+
+## {#assist-viewer-1 data-menu-title="Assist the Viewer"}
+
+![[“Frankfurt vies for UK banking jobs post-Brexit”](https://www.ft.com/content/3f3ce35e-8c9b-11e6-8aa5-f79f5696c731) by Alan Smith & Laura Noonan (Financial Times)](img/principles/ft-heatmap.png){fig-align="center"}
+
+
+
+## {#assist-viewer-1-hl data-menu-title="Assist the Viewer"}
+
+![[“Frankfurt vies for UK banking jobs post-Brexit”](https://www.ft.com/content/3f3ce35e-8c9b-11e6-8aa5-f79f5696c731) by Alan Smith & Laura Noonan (Financial Times)](img/principles/ft-heatmap-zoom.png){fig-align="center"}
+
+
+
+## {#assist-viewer-2 data-menu-title="Assist the Viewer"}
+
+![[“Yearly Fluctuations in Area of Arctic Covered by Ice”](https://www.nytimes.com/interactive/2015/03/24/science/earth/arctic-ice-low-winter-maximum.html?_r=0) by Derek Watkins (New York Times)](img/principles/annotation-climate-change.png){fig-align="center"}
+
+
+
+## {#assist-viewer-2-hl-1 data-menu-title="Assist the Viewer"}
+
+![[“Yearly Fluctuations in Area of Arctic Covered by Ice”](https://www.nytimes.com/interactive/2015/03/24/science/earth/arctic-ice-low-winter-maximum.html?_r=0) by Derek Watkins (New York Times)](img/principles/nyt-arctic-ice-assist-1.png){fig-align="center"}
+
+
+
+## {#assist-viewer-2-hl-2 data-menu-title="Assist the Viewer"}
+
+![[“Yearly Fluctuations in Area of Arctic Covered by Ice”](https://www.nytimes.com/interactive/2015/03/24/science/earth/arctic-ice-low-winter-maximum.html?_r=0) by Derek Watkins (New York Times)](img/principles/nyt-arctic-ice-assist-2.png){fig-align="center"}
+
+
+
+## {#assist-viewer-3 data-menu-title="Assist the Viewer"}
+
+![“100 Years of Streamflow Drought”, in collaboration with USGS](img/principles/usgs-streamflow-droughts.png){fig-align="center"}
+
+
+
+## {#assist-viewer-3-hl data-menu-title="Assist the Viewer"}
+
+![“100 Years of Streamflow Drought”, in collaboration with USGS](img/principles/usgs-streamflow-droughts-insets.png){fig-align="center"}
+
+
+
+## {#assist-viewer-5 data-menu-title="Assist the Viewer"}
+
+![Source: [Jan Kühn](https://www.linkedin.com/posts/jankuehn_datavisualization-activity-7108374728871948288-X7la)](img/principles/richest-people-germany-zoom.png){fig-align="center"}
+
+
+
+## {#guide-assist-illustration-1 data-menu-title="Illustrate with Images"}
+
+![Modified #TidyTuesday Contribution | Images: Allison Horst](img/principles/penguins.png){fig-align="center"}{fig-align="center"}
+
+
+
+## {#guide-assist-illustration-2 data-menu-title="Illustrate with Images"}
+
+![[“Not my Cup of Coffee”](https://www.behance.net/gallery/100638417/Not-My-Cup-of-Coffee) (#TidyTuesday Contribution)](img/principles/coffee-ratings.png){fig-align="center"}
+
+
+
+# <span style='line-height:1.3;'>Designing Charts</span> {background-color="#afe7ff"}
+
+<div style='font-family:Asap;font-stretch:87.5%;font-size:1.5em;font-weight:700;font-style:normal;color:#007CB1;text-align:center;'>A Walk-Through Example</div>
+
+
+
+## {#designing-charts-1 data-menu-title="Designing Charts"}
+
+```{r}
+#| label: designing-charts-00-data
+#| include: false
+#| cache: false
+movies <- data.frame(
+  movie = c("Star Wars: The Last Jedi", "Jumanji: Welcome To The Jungle", "Pitch Perfect 3", "Greatest Showman", "Ferdinand", "Coco"),
+  gross_millions = c(66.814, 66.273, 21.676, 20.907, 14.852, 10.083)
+)
+
+theme_set(theme_minimal(base_size = 22, base_family = "Asap SemiCondensed"))
+
+theme_update(
+  plot.margin = margin(rep(20, 4)),
+  axis.text = element_text(size = rel(.95)),
+  axis.title.x.bottom = element_text(margin = margin(t = 12)),
+  axis.title.x.top = element_text(margin = margin(b = 12)),
+  axis.title.y = element_text(margin = margin(r = 12)),
+  plot.title.position = "plot"
+)
+```
+
+```{r}
+#| label: designing-charts-01-labs-rotated
+#| echo: false
+#| fig-width: 12.2
+#| fig-height: 7
+ggplot(movies, aes(x = factor(movie), 
+                   y = gross_millions)) +
+  geom_col(fill = "grey60", width = .75) +
+  scale_y_continuous(expand = c(0, 0), limits = c(0, 75)) +
+  labs(x = "Movie name", y = "Weekend gross (million $)") +
+  theme(axis.text.x = element_text(angle = 45, vjust = 1, hjust = 1),
+        panel.border = element_rect(color = "grey40", linewidth = 1.7, fill = NA),
+        axis.ticks = element_line(color = "grey40"))
+```
+
+
+
+## {#designing-charts-2 data-menu-title="Designing Charts"}
+
+```{r}
+#| label: designing-charts-02-labs-wrapped
+#| echo: false
+#| fig-width: 12.2
+#| fig-height: 7
+ggplot(movies, aes(x = factor(stringr::str_wrap(movie, 13)), 
+                   y = gross_millions)) +
+  geom_col(fill = "grey60", width = .75) +
+  scale_y_continuous(expand = c(0, 0), limits = c(0, 70)) +
+  labs(x = "Movie name", y = "Weekend gross (million $)") +
+  theme(panel.border = element_rect(color = "grey40", linewidth = 1.7, fill = NA),
+        axis.ticks = element_line(color = "grey40"))
+```
+
+
+
+## {#designing-charts-3 data-menu-title="Designing Charts"}
+
+```{r}
+#| label: designing-charts-03-ordered-bars
+#| echo: false
+#| fig-width: 12.2
+#| fig-height: 7
+ggplot(movies, aes(x = forcats::fct_reorder(stringr::str_wrap(movie, 13), -gross_millions), 
+                   y = gross_millions)) +
+  geom_col(fill = "grey60", width = .75) +
+  scale_y_continuous(expand = c(0, 0), limits = c(0, 70)) +
+  labs(x = "Movie name", y = "Weekend gross (million $)") +
+  theme(panel.border = element_rect(color = "grey40", linewidth = 1.7, fill = NA),
+        axis.ticks = element_line(color = "grey40"))
+```
+
+
+
+## {#designing-charts-4 data-menu-title="Designing Charts"}
+
+```{r}
+#| label: designing-charts-04-grid
+#| echo: false
+#| fig-width: 12.2
+#| fig-height: 7
+ggplot(movies, aes(x = forcats::fct_reorder(stringr::str_wrap(movie, 13), -gross_millions), 
+                   y = gross_millions)) +
+  geom_col(fill = "grey60", width = .75) +
+  scale_y_continuous(expand = c(0, 0), limits = c(0, 70)) +
+  labs(x = "Movie name", y = "Weekend gross (million $)") +
+  theme(panel.grid.major.x = element_blank(), panel.grid.minor = element_blank())
+```
+
+
+
+## {#designing-charts-5 data-menu-title="Designing Charts"}
+
+```{r}
+#| label: designing-charts-05-y-labels
+#| echo: false
+#| fig-width: 12.2
+#| fig-height: 7
+ggplot(movies, aes(x = forcats::fct_reorder(stringr::str_wrap(movie, 13), -gross_millions), 
+                   y = gross_millions)) +
+  geom_col(fill = "grey60", width = .75) +
+  coord_cartesian(clip = "off") +
+  scale_y_continuous(expand = c(0, 0), limits = c(0, 70), 
+                     labels = scales::label_dollar(suffix = "M")) +
+  labs(x = "Movie name", y = "Weekend gross") +
+  theme(panel.grid.major.x = element_blank(), panel.grid.minor = element_blank())
+```
+
+
+
+## {#designing-charts-6 data-menu-title="Designing Charts"}
+
+```{r}
+#| label: designing-charts-06-labs-flipped
+#| echo: false
+#| fig-width: 12.2
+#| fig-height: 7
+ggplot(movies, aes(x = gross_millions, 
+                   y = forcats::fct_reorder(movie, gross_millions))) +
+  geom_col(fill = "grey60", width = .75) +
+  coord_cartesian(clip = "off") +
+  scale_x_continuous(expand = c(0, 0), limits = c(0, 70)) +
+  labs(y = "Movie name", x = "Weekend gross") +
+  theme(panel.grid.major.y = element_blank(), panel.grid.minor = element_blank())
+```
+
+
+
+## {#designing-charts-7 data-menu-title="Designing Charts"}
+
+```{r}
+#| label: designing-charts-07-axis-text-left
+#| echo: false
+#| fig-width: 12.2
+#| fig-height: 7
+ggplot(movies, aes(x = gross_millions, 
+                   y = forcats::fct_reorder(movie, gross_millions))) +
+  geom_col(fill = "grey60", width = .75) +
+  coord_cartesian(clip = "off") +
+  scale_x_continuous(expand = c(0, 0), limits = c(0, 70), 
+                     labels = scales::label_dollar(suffix = "M")) +
+  labs(y = "Movie name", x = "Weekend gross") +
+  theme(panel.grid.major.y = element_blank(), 
+        panel.grid.minor = element_blank(),
+        axis.text.y = element_text(hjust = 0))
+```
+
+
+
+## {#designing-charts-8 data-menu-title="Designing Charts"}
+
+```{r}
+#| label: designing-charts-08-axis-text-left-shortened
+#| echo: false
+#| fig-width: 12.2
+#| fig-height: 7
+ggplot(movies, aes(x = gross_millions, 
+                   y = forcats::fct_reorder(movie, gross_millions))) +
+  geom_col(fill = "grey60", width = .75) +
+  coord_cartesian(clip = "off") +
+  scale_x_continuous(expand = c(0, 0), limits = c(0, 70), 
+                     labels = scales::label_dollar(suffix = "M")) +
+  scale_y_discrete(labels = c("Coco", "Ferdinand", "Greatest Showman", 
+                              "Pitch Perfect 3", "Jumanji: WTTJ", "Star Wars VIII")) +
+  labs(y = "Movie name", x = "Weekend gross") +
+  theme(panel.grid.major.y = element_blank(),
+        panel.grid.minor = element_blank(),
+        axis.text.y = element_text(hjust = 0))
+```
+
+
+
+## {#designing-charts-9 data-menu-title="Designing Charts"}
+
+```{r}
+#| label: designing-charts-09-axis-titles
+#| echo: false
+#| fig-width: 12.2
+#| fig-height: 7
+ggplot(movies, aes(x = gross_millions, 
+                   y = forcats::fct_reorder(movie, gross_millions))) +
+  geom_col(fill = "grey60", width = .75) +
+  coord_cartesian(clip = "off") +
+  scale_x_continuous(expand = c(0, 0), limits = c(0, 70), 
+                     labels = scales::label_dollar(suffix = "M")) +
+  scale_y_discrete(labels = c("Coco", "Ferdinand", "Greatest Showman", 
+                              "Pitch Perfect 3", "Jumanji: WTTJ", "Star Wars VIII")) +
+  labs(y = "Movie name", x = "Weekend gross") +
+  theme(panel.grid.major.y = element_blank(),
+        panel.grid.minor = element_blank(),
+        axis.text.y = element_text(hjust = 0),
+        axis.title.x = element_text(hjust = 0),
+        axis.title.y = element_text(hjust = .95))
+```
+
+
+
+## {#designing-charts-10 data-menu-title="Designing Charts"}
+
+```{r}
+#| label: designing-charts-10-axis-title-y-none
+#| echo: false
+#| fig-width: 12.2
+#| fig-height: 7
+ggplot(movies, aes(x = gross_millions, 
+                   y = forcats::fct_reorder(movie, gross_millions))) +
+  geom_col(fill = "grey60", width = .75) +
+  coord_cartesian(clip = "off") +
+  scale_x_continuous(expand = c(0, 0), limits = c(0, 70), 
+                     labels = scales::label_dollar(suffix = "M")) +
+  scale_y_discrete(labels = c("Coco", "Ferdinand", "Greatest Showman", 
+                              "Pitch Perfect 3", "Jumanji: WTTJ", "Star Wars VIII")) +
+  labs(y = NULL, x = "Weekend gross") +
+  theme(panel.grid.major.y = element_blank(),
+        panel.grid.minor = element_blank(),
+        axis.text.y = element_text(hjust = 0),
+        axis.title.x = element_text(hjust = 0))
+```
+
+
+
+## {#designing-charts-11 data-menu-title="Designing Charts"}
+
+```{r}
+#| label: designing-charts-11-title-centered
+#| echo: false
+#| fig-width: 12.2
+#| fig-height: 7
+ggplot(movies, aes(x = gross_millions, 
+                   y = forcats::fct_reorder(movie, gross_millions))) +
+  geom_col(fill = "grey60", width = .75) +
+  coord_cartesian(clip = "off") +
+  scale_x_continuous(expand = c(0, 0), limits = c(0, 70), 
+                     labels = scales::label_dollar(suffix = "M")) +
+  scale_y_discrete(labels = c("Coco", "Ferdinand", "Greatest Showman", 
+                              "Pitch Perfect 3", "Jumanji: WTTJ", "Star Wars VIII")) +
+  labs(y = NULL, x = "Weekend gross", title = '“Stars Wars VIII – The Last Jedi” just barely topped the box office this weekend,\nfacing stiff competition from “Jumanji: Welcome to the Jungle”.') +
+  theme(panel.grid.major.y = element_blank(),
+        panel.grid.minor = element_blank(),
+        axis.text.y = element_text(hjust = 0),
+        axis.title.x = element_text(hjust = 0),
+        axis.title.y = element_text(hjust = 1),
+        plot.title = element_text(face = "bold", margin = margin(b = 20), hjust = .5, 
+                                  size = rel(1.2), lineheight = 1))
+```
+
+
+
+## {#designing-charts-12 data-menu-title="Designing Charts"}
+
+```{r}
+#| label: designing-charts-12-title-left-aligned
+#| echo: false
+#| fig-width: 12.2
+#| fig-height: 7
+ggplot(movies, aes(x = gross_millions, 
+                   y = forcats::fct_reorder(movie, gross_millions))) +
+  geom_col(fill = "grey60", width = .75) +
+  coord_cartesian(clip = "off") +
+  scale_x_continuous(expand = c(0, 0), limits = c(0, 70), 
+                     labels = scales::label_dollar(suffix = "M")) +
+  scale_y_discrete(labels = c("Coco", "Ferdinand", "Greatest Showman", 
+                              "Pitch Perfect 3", "Jumanji: WTTJ", "Star Wars VIII")) +
+  labs(y = NULL, x = "Weekend gross", title = '“Stars Wars VIII – The Last Jedi” just barely topped the box office this weekend,\nfacing stiff competition from “Jumanji: Welcome to the Jungle”.') +
+  theme(panel.grid.major.y = element_blank(),
+        panel.grid.minor = element_blank(),
+        axis.text.y = element_text(hjust = 0),
+        axis.title.x = element_text(hjust = 0),
+        axis.title.y = element_text(hjust = 1),
+        plot.title = element_text(face = "bold", margin = margin(b = 20), 
+                                  size = rel(1.2), lineheight = 1))
+```
+
+## {#designing-charts-13 data-menu-title="Designing Charts"}
+
+```{r}
+#| label: designing-charts-13-colors-title-bars
+#| echo: false
+#| fig-width: 12.2
+#| fig-height: 7
+ggplot(movies, aes(x = gross_millions, 
+                   y = forcats::fct_reorder(movie, gross_millions))) +
+  geom_col(aes(fill = forcats::fct_reorder(movie, gross_millions)), width = .75) +
+  coord_cartesian(clip = "off") +
+  scale_x_continuous(expand = c(0, 0), limits = c(0, 70), 
+                     labels = scales::label_dollar(suffix = "M")) +
+  scale_y_discrete(labels = c("Coco", "Ferdinand", "Greatest Showman", 
+                              "Pitch Perfect 3", "Jumanji: WTTJ", "Star Wars VIII")) +
+  scale_fill_manual(values = c(rep("grey60", 4), "#28A87D", "#2E67F8"), guide = "none") +
+  labs(y = NULL, x = "Weekend gross", title = '<b style="color:#2E67F8;">“Stars Wars VIII – The Last Jedi”</b> just barely topped the box office this weekend,<br>facing stiff competition from <b style="color:#28A87D;">“Jumanji: Welcome to the Jungle”</b>.') +
+  theme(panel.grid.major.y = element_blank(),
+        panel.grid.minor = element_blank(),
+        axis.text.y = element_text(hjust = 0, face = c(rep("plain", 4), rep("bold", 2))),
+        axis.title.x = element_text(hjust = 0),
+        axis.title.y = element_text(hjust = 1),
+        plot.title = ggtext::element_markdown(face = "bold", margin = margin(b = 20), 
+                                              size = rel(1.2), lineheight = 1.2))
+```
+
+
+
+## {#designing-charts-14 data-menu-title="Designing Charts"}
+
+```{r}
+#| label: designing-charts-14-direct-labels
+#| echo: false
+#| fig-width: 12.2
+#| fig-height: 7
+ggplot(movies, aes(x = gross_millions, 
+                   y = forcats::fct_reorder(movie, gross_millions))) +
+  geom_col(aes(fill = forcats::fct_reorder(movie, gross_millions)), width = .75) +
+  geom_text(aes(label = paste0("$", sprintf("%2.1f", gross_millions), " M")), 
+            hjust = 1.15, color = "white", family = "Asap SemiCondensed", 
+            fontface = "bold", size = 6.2) +
+  coord_cartesian(clip = "off") +
+  scale_x_continuous(expand = c(0, 0), limits = c(0, 70), guide = "none") +
+  scale_y_discrete(labels = c("Coco", "Ferdinand", "Greatest Showman", 
+                              "Pitch Perfect 3", "Jumanji: WTTJ", "Star Wars VIII")) +
+  scale_fill_manual(values = c(rep("grey60", 4), "#28A87D", "#2E67F8"), guide = "none") +
+  labs(y = NULL, x = NULL, title = '<b style="color:#2E67F8;">“Stars Wars VIII – The Last Jedi”</b> just barely topped the box office this weekend,<br>facing stiff competition from <b style="color:#28A87D;">“Jumanji: Welcome to the Jungle”</b>.') +
+  theme(panel.grid.major = element_blank(),
+        panel.grid.minor = element_blank(),
+        axis.text.y = element_text(hjust = 0, face = c(rep("plain", 4), rep("bold", 2))),
+        axis.title.x = element_text(hjust = 0),
+        axis.title.y = element_text(hjust = 1),
+        plot.title = ggtext::element_markdown(face = "bold", margin = margin(b = 20), 
+                                              size = rel(1.2), lineheight = 1.2))
+```
+
+
+
+# Wrap-Up {background-color="#171717"}
+
+
+
+## {#wrap-up-wp-air-quality data-menu-title="Wrap-Up"}
+
+![Source: [“Clearing the Air”](https://www.washingtonpost.com/business/2019/06/06/why-crowded-meetings-conference-rooms-make-you-so-so-tired/) by Adam Ginsburg (Washington Post)](img/principles/wp-air-quality.png)
+
+
+
+## {#wrap-up-wp-air-quality-notes data-menu-title="Wrap-Up"}
+
+![[Notes by Francis Gagnon](https://twitter.com/chezVoila/status/1136629250528862208) (Voilà)](img/principles/wp-air-quality-notes.png)
+
+
+
+## {#summary data-menu-title="Summary"} 
+
+![](img/principles/summary.png)
+
+
+
+
+# Exercises
+
+
+
+## Exercise 1
+
+::: question
+<b style='font-size:1.3em;'>Discuss the following graphic.</b>
+
+-   What is the main message?
+-   Does the chart type work?
+-   Is there a better chart type?
+-   Draw an alternative version(s) using different chart type(s).
+:::
+
+
+## Exercise 1
+
+![Market share of visits to social network sites in November 2017,<br>found in the blog post on [“Why you shouldn’t use pie charts”](https://scc.ms.unimelb.edu.au/resources/data-visualisation-and-exploration/no_pie-charts) by The University of Melbourne](img/principles/exercise-pie.png)
+
+
+
+## Exercise 2
+
+::: question
+<b style='font-size:1.3em;'>Take notes on the following fun graphic.</b>
+
+-   What is the take-home message you learn from the chart.
+-   What are elements used to guide and assist the viewer?
+-   Does the graphic work for you?
+:::
+
+
+
+## Exercise 2
+
+![Source: [“How hot dog contestants went from eating 10 to 76 hot dogs in 10 minutes”](https://www.washingtonpost.com/sports/2023/07/01/hot-dog-eating-contest-competitive-eater/) by Carson TerBush (Washington Post)](img/principles/exercise-wp-hot-dogs.jpg)
+
+
+
