@@ -99,7 +99,7 @@ execute:
 ## Course Materials: Scripts, Data & Font Files
 
 <br>
-<b style='font-family:spline sans mono;font-size:36pt;font-weight:700;'>cedricscherer.com/files/materials-nc3.zip</b>
+<b style='font-family:spline sans mono;font-size:30pt;font-weight:700;'>cedricscherer.com/files/materials-nc3.zip</b>
 
 
 
