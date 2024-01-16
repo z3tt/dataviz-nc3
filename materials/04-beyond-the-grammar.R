@@ -579,7 +579,7 @@ pl1 + inset_element(pl2, l = .6, b = 0, r = 1, t = .5, align_to = 'full')
 
 
 ## -----------------------------------------------------------------------------
-theme_set(theme_light(base_size = 14, base_family = "Asap SemiCondensed"))
+theme_set(theme_minimal(base_size = 14, base_family = "Asap SemiCondensed"))
 
 theme_update(
   panel.grid.minor = element_blank(),
@@ -747,6 +747,14 @@ plot_density(
 plots <- purrr::map(
   c("count", "temp", "humidity", "wind_speed"), 
   ~ plot_density(data = bikes, var = .x, grp = "day_night")
+)
+patchwork::wrap_plots(plots, nrow = 1)
+
+
+## -----------------------------------------------------------------------------
+plots <- purrr::map(
+  c("sleep_total", "sleep_rem", "sleep_cycle"), 
+  ~ plot_density(data = dplyr::filter(msleep, !is.na(vore)), var = .x, grp = "vore")
 )
 patchwork::wrap_plots(plots, nrow = 1)
 
