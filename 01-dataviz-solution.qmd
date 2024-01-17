@@ -1,0 +1,294 @@
+---
+title: "Engaging & Reproducible Data Visualization"
+subtitle: "<span style='font-size:1.5em;'>From Theory to Implementation with ggplot2</span><br><span style='font-weight:500;font-size:1.3em;'>Alternative Visualizations Social Media Shares</span></span>"
+author: "<b style='color:#28a87d;'><a href='https://www.cedricscherer.com'>Dr. Cédric Scherer</a></b>&ensp;**//**&ensp;NC<sup>3</sup> Workshop&ensp;**//**&ensp;January 2024"
+format:
+  revealjs:
+    theme: slides.scss
+    logo: img/logo.png
+    footer: '**[Cédric Scherer](https://cedricscherer.com)** // Data Visualization & Information Design'
+    transition: fade
+    progress: true
+    multiplex: false
+    preview-links: true
+    scrollable: false
+    hide-inactive-cursor: true
+    highlight-style: printing
+    chalkboard:
+      theme: whiteboard
+      boardmarker-width: 4
+      buttons: true
+    pause: true
+    mainfont: Asap SemiCondensed
+editor: source
+knitr:
+  opts_chunk:
+    dev: "ragg_png"
+    retina: 3
+    dpi: 200
+execute:
+  freeze: auto
+  cache: true
+  echo: true
+  fig-width: 12
+  fig-height: 7.6
+---
+
+
+
+## Exercise 1
+
+::: question
+<b style='font-size:1.3em;'>Discuss the following graphic.</b>
+
+-   What is the main message?
+-   Does the chart type work?
+-   Is there a better chart type?
+-   Draw an alternative version(s) using different chart type(s).
+:::
+
+
+## 
+
+![Market share of visits to social network sites in November 2017,<br>found in the blog post on [“Why you shouldn’t use pie charts”](https://scc.ms.unimelb.edu.au/resources/data-visualisation-and-exploration/no_pie-charts) by The University of Melbourne](img/principles/exercise-pie.png)
+
+```{r}
+#| label: prep
+#| echo: false
+#| cache: false
+library(dplyr)
+library(tibble)
+library(forcats)
+library(ggplot2)
+library(scales)
+library(ggtext)
+
+data <- tibble::tribble(
+  ~social, ~percentage,
+  "Facebook", 39.14,
+  "YouTube", 25.12,
+  "Twitter",6.28,
+  "Reddit", 4.83,
+  "Instagram",2.17,
+  "Pinterest", 2.15,
+  "LinkedIn", 1.45,
+  "Tumblr", 1.22,
+  "Yelp", 0.79,
+  "Quora", 0.75
+)
+
+theme_set(theme_minimal(base_size = 22, base_family = "Asap SemiCondensed"))
+theme_update(
+  panel.grid.minor = element_blank(),
+  panel.grid.major.y = element_blank(),
+  plot.title.position = "plot",
+  plot.title = element_markdown(size = rel(1.6), margin = margin(b = 15)
+  ),
+  axis.text.y = element_text(size = rel(1.4), color = "black", hjust = 0),
+  axis.title = element_blank(),
+  plot.margin = margin(15, 25, 15, 10)
+)
+```
+
+
+## 
+
+```{r}
+#| label: 01-bars-all
+#| echo: false
+g <- 
+  ggplot(data, aes(x = percentage, y = fct_reorder(social, percentage))) + 
+  geom_col(width = .7, fill = "grey65") + 
+  geom_vline(xintercept = 0, color = "grey50", linewidth = 1.2) +
+  coord_cartesian(clip = "off") +
+  labs(title = "**Market share of social media visits** (Nov. 2017)") +
+  scale_x_continuous(expand = c(0, 0), labels = scales::label_percent(scale = 1),
+                     breaks = seq(0, 40, by = 10), limits = c(0, 40))
+
+g
+```
+
+
+## 
+
+```{r}
+#| label: 02-bars-all-labs-perc
+#| echo: false
+g + 
+  geom_text(aes(label = paste0(percentage, "%")), family = "Asap SemiCondensed", size = 6.5, hjust = 0, nudge_x = .5) +
+  scale_x_continuous(limits = c(0, 42), breaks = NULL, expand = c(0, 0)) +
+  theme(panel.grid.major.x = element_blank())
+```
+
+
+## 
+
+```{r}
+#| label: 02-bars-all-labs-perc-round
+#| echo: false
+g + 
+  geom_text(aes(label = paste0(round(percentage, 1), "%")), family = "Asap SemiCondensed", size = 6.5, hjust = 0, nudge_x = .5) +
+  scale_x_continuous(limits = c(0, 42), breaks = NULL, expand = c(0, 0)) +
+  theme(panel.grid.major.x = element_blank())
+```
+
+
+## 
+
+```{r}
+#| label: 03-bars-all-labs-direct
+#| echo: false
+g + 
+  geom_text(aes(label = social), family = "Asap SemiCondensed", size = 8, hjust = 0, nudge_x = .5) +
+  theme(axis.text.y = element_blank())
+```
+
+
+## 
+
+```{r}
+#| label: 04-bars-all-labs-direct-perc
+#| echo: false
+g +
+  geom_richtext(aes(label = paste0("<b style='font-size:22pt;'>", social, "</b><br>", round(percentage, 1), "%")), 
+                        family = "Asap SemiCondensed", size = 6, hjust = 0, nudge_x = .5, label.colour = NA, vjust = .53, lineheight = .9) +
+  scale_x_continuous(limits = c(0, 45), breaks = NULL, expand = c(0, 0)) +
+  theme(panel.grid.major.x = element_blank(),
+        axis.text.y = element_blank())
+```
+
+
+## 
+
+```{r}
+#| label: 05-lollipop-selected
+#| echo: false
+gl <- 
+  ggplot(filter(data, percentage > 1.3), aes(x = percentage, y = fct_reorder(social, percentage))) + 
+#ggplot(data, aes(x = percentage, y = fct_reorder(social, percentage))) + 
+  geom_col(width = .1, fill = "grey25") + 
+  geom_vline(xintercept = 0, color = "grey50", linewidth = 2) +
+  geom_point(color = "grey25", size = 9) + 
+  coord_cartesian(clip = "off") +
+  labs(title = "**Market share of social media visits** (Nov. 2017)") +
+  scale_x_continuous(expand = c(0, 0), labels = scales::label_percent(scale = 1),
+                     breaks = seq(0, 40, by = 10), limits = c(0, 42), position = "top")
+
+gl
+```
+
+
+## 
+
+```{r}
+#| label: 06-lollipop-selected-labs-perc
+#| echo: false
+gl +
+  geom_point(color = "grey25", fill = "white", shape = 21, stroke = 2, size = 18) + 
+  geom_text(aes(label = paste0(round(percentage), "%")), color = "#212121", family = "Asap SemiCondensed", size = 5.7) +
+  scale_x_continuous(breaks = NULL, expand = expansion(add = c(0, 3)))
+```
+
+
+## 
+
+```{r}
+#| label: 07-lollipop-selected-labs-direct-perc
+#| echo: false
+gl + 
+  geom_richtext(aes(label = paste0("<b style='font-size:22pt;'>", social, "</b><br>", round(percentage, 1), "%")), 
+                        family = "Asap SemiCondensed", size = 6, hjust = 0, nudge_x = 1, label.colour = NA, vjust = .53, lineheight = .9) +
+  scale_x_continuous(limits = c(0, 45), breaks = NULL, expand = c(0, 0)) +
+  theme(panel.grid.major.x = element_blank(),
+        axis.text.y = element_blank())
+```
+
+
+## 
+
+<br>
+
+```{r}
+#| label: 08-bars-stacked
+#| echo: false
+#| fig-height: 5
+#| fig-align: center
+data_agg <- 
+  data |> 
+  mutate(social = if_else(percentage > 5, social, "other"),
+         symbol = case_when(social == "Facebook" ~ "f", social == "YouTube" ~ "y", social == "Twitter" ~ "l", TRUE ~ "1")) |> 
+  group_by(social, symbol) |> 
+  summarize(percentage = sum(percentage)) |> 
+  ungroup() |> 
+  mutate(
+    percentage = if_else(social == "other", 29.52, percentage),
+    social = fct_relevel(fct_reorder(social, percentage), "other", after = 0)
+  ) |> 
+  arrange(rev(social))
+
+ggplot(data_agg, aes(x = percentage, y = 1)) + 
+  geom_col(aes(x = 100), fill = "grey65", width = .7, orientation = "y") + 
+  geom_col(aes(fill = social), position = position_stack(), width = .7, orientation = "y") + 
+  #geom_vline(xintercept = 50, color = "white", size = 1.2, linetype = "13", lineend = "round") +
+  geom_text(aes(label = symbol, x = c(19.55, 51.65, 67.34, 85.24)), color = "white", family = "Socialico", size = 20, vjust = .2) +
+  geom_text(aes(label = paste0(round(percentage, 0), "%"), x = c(19.55, 51.65, 67.34, 85.24)), color = "white", family = "Asap SemiCondensed", size = 8, vjust = 2.2, fontface = "bold") +
+  labs(title = "**Market share of social media visits** (Nov. 2017)") +
+  coord_cartesian(expand = FALSE) +
+  scale_x_continuous(expand = c(0, 0), labels = scales::label_percent(scale = 1),
+                     breaks = seq(0, 100, by = 25), limits = c(0, 100), position = "top") +
+  scale_y_continuous(expand = c(0, 0), guide = "none") +
+  scale_fill_manual(values = c("grey65", "#007FC2", "#CC0303", "#20519F"), guide = "none") +
+  labs(caption = "<br><b style='font-family:Arial;'>+</b> represents other social media sites with a share of less than 5%") +
+  theme(axis.text.x = element_text(size = rel(1.3)),
+        axis.ticks.x = element_line(color = "grey85"),
+        axis.ticks.length.x = unit(.9, "lines"),
+        plot.caption = element_markdown(hjust = 0),
+        plot.margin = margin(15, 35, 15, 25))
+```
+
+
+## 
+
+```{r}
+#| label: 08-pie-fixed-selected
+#| echo: false
+#| fig-width: 15
+#| fig-height: 10
+#| fig-align: center
+p <- 
+  ggplot(data_agg, aes(x = 1, y = percentage, fill = social)) +
+  geom_bar(stat = "identity", width = 1)+
+  geom_text(aes(x = 1.2, label = symbol, y = c(19.55, 51.65, 67.34, 85.24)), color = "white", family = "Socialico", size = 24, vjust = .3) +
+  geom_text(aes(x = 1.2, label = paste0(round(percentage, 0), "%"), y = c(19.55, 51.65, 67.34, 85.24)), color = "white", fontface = "bold", family = "Asap SemiCondensed", size = 8, vjust = 2.2) +
+  coord_polar("y", start = 0, clip = "off") +
+  scale_x_continuous(breaks = NULL) +
+  scale_y_continuous(breaks = NULL) +
+  scale_fill_manual(values = c("grey65", "#007FC2", "#CC0303", "#20519F"), guide = "none") +
+  labs(caption = "<b style='font-family:Arial;'>+</b> represents other social media sites with a share of less than 5%") +
+  theme(panel.grid = element_blank(),
+        plot.caption = element_markdown(hjust = .5, margin = margin(t = -125, b = 5)),
+        plot.margin = margin(-40, -45, -200, -45))
+
+p +
+  geom_richtext(
+    aes(label = "**Market share of social media visits** (Nov. 2017)", x = 1.7, y = 0),
+    family = "Asap SemiCondensed", size = 12, label.colour = NA, fill = NA
+  )
+```
+
+
+## 
+
+```{r}
+#| label: 09-pie-fixed-selected-title
+#| echo: false
+#| fig-width: 15
+#| fig-height: 10
+#| fig-align: center
+p +
+  geom_richtext(
+    aes(label = "**<b style='color:#20519F;'>Facebook</b> and <b style='color:#CC0303;'>Yahoo</b> dominate social media platforms**<br><span style='font-size:25pt;color:#737373;'>Market share of social media visits, Nov. 2017</span>", x = 1.65, y = 0),
+    family = "Asap SemiCondensed", size = 12, lineheight = .5,
+    label.colour = NA, fill = NA
+  )
+````
