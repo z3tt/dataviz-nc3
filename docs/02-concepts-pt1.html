@@ -2952,13 +2952,15 @@ NULL</code></pre>
 </section>
 <section id="scatterplot-counts-vs.-date" class="slide level2">
 <h2>Scatterplot Counts vs.&nbsp;Date</h2>
-<div class="cell columns column-output-location" data-hash="02-concepts-pt1_cache/revealjs/concepts-pt1-exercise-1-1_67cd7d42680ca94cb8eace819f4214f9">
+<div class="cell columns column-output-location" data-hash="02-concepts-pt1_cache/revealjs/concepts-pt1-exercise-1-1_c61745d225153bca495174a67880b2a3">
 <div class="column">
 <div class="sourceCode cell-code" id="cb127"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb127-1"><a href="#cb127-1"></a><span class="fu">ggplot</span>(</span>
-<span id="cb127-2"><a href="#cb127-2"></a>    dplyr<span class="sc">::</span><span class="fu">filter</span>(bikes, is_weekend <span class="sc">==</span> <span class="cn">TRUE</span>),</span>
-<span id="cb127-3"><a href="#cb127-3"></a>    <span class="fu">aes</span>(<span class="at">x =</span> date, <span class="at">y =</span> count)</span>
-<span id="cb127-4"><a href="#cb127-4"></a>  ) <span class="sc">+</span></span>
-<span id="cb127-5"><a href="#cb127-5"></a>  <span class="fu">geom_point</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb127-2"><a href="#cb127-2"></a>    dplyr<span class="sc">::</span><span class="fu">filter</span>(</span>
+<span id="cb127-3"><a href="#cb127-3"></a>      bikes, is_weekend <span class="sc">==</span> <span class="cn">TRUE</span></span>
+<span id="cb127-4"><a href="#cb127-4"></a>    ),</span>
+<span id="cb127-5"><a href="#cb127-5"></a>    <span class="fu">aes</span>(<span class="at">x =</span> date, <span class="at">y =</span> count)</span>
+<span id="cb127-6"><a href="#cb127-6"></a>  ) <span class="sc">+</span></span>
+<span id="cb127-7"><a href="#cb127-7"></a>  <span class="fu">geom_point</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div><div class="column">
 <div class="cell-output-display">
 <p><img data-src="02-concepts-pt1_files/figure-revealjs/concepts-pt1-exercise-1-1-1.png" width="1000"></p>
@@ -2968,16 +2970,18 @@ NULL</code></pre>
 </section>
 <section id="encode-day-period-by-colors-and-shapes" class="slide level2">
 <h2>Encode Day Period by Colors and Shapes</h2>
-<div class="cell columns column-output-location" data-hash="02-concepts-pt1_cache/revealjs/concepts-pt1-exercise-1-2_650bdc5e79176ba5dbe660bba4ae1288">
+<div class="cell columns column-output-location" data-hash="02-concepts-pt1_cache/revealjs/concepts-pt1-exercise-1-2_c0084e9e9210ce0255bade73c9a0a3ff">
 <div class="column">
-<div class="sourceCode cell-code" id="cb128" data-code-line-numbers="6,7"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb128-1"><a href="#cb128-1"></a><span class="fu">ggplot</span>(</span>
-<span id="cb128-2"><a href="#cb128-2"></a>    dplyr<span class="sc">::</span><span class="fu">filter</span>(bikes, is_weekend <span class="sc">==</span> <span class="cn">TRUE</span>),</span>
-<span id="cb128-3"><a href="#cb128-3"></a>    <span class="fu">aes</span>(<span class="at">x =</span> date, <span class="at">y =</span> count)</span>
-<span id="cb128-4"><a href="#cb128-4"></a>  ) <span class="sc">+</span></span>
-<span id="cb128-5"><a href="#cb128-5"></a>  <span class="fu">geom_point</span>(</span>
-<span id="cb128-6"><a href="#cb128-6"></a>    <span class="fu">aes</span>(<span class="at">color =</span> day_night,</span>
-<span id="cb128-7"><a href="#cb128-7"></a>        <span class="at">shape =</span> day_night)</span>
-<span id="cb128-8"><a href="#cb128-8"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb128" data-code-line-numbers="8,9"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb128-1"><a href="#cb128-1"></a><span class="fu">ggplot</span>(</span>
+<span id="cb128-2"><a href="#cb128-2"></a>    dplyr<span class="sc">::</span><span class="fu">filter</span>(</span>
+<span id="cb128-3"><a href="#cb128-3"></a>      bikes, is_weekend <span class="sc">==</span> <span class="cn">TRUE</span></span>
+<span id="cb128-4"><a href="#cb128-4"></a>    ),</span>
+<span id="cb128-5"><a href="#cb128-5"></a>    <span class="fu">aes</span>(<span class="at">x =</span> date, <span class="at">y =</span> count)</span>
+<span id="cb128-6"><a href="#cb128-6"></a>  ) <span class="sc">+</span></span>
+<span id="cb128-7"><a href="#cb128-7"></a>  <span class="fu">geom_point</span>(</span>
+<span id="cb128-8"><a href="#cb128-8"></a>    <span class="fu">aes</span>(<span class="at">color =</span> day_night,</span>
+<span id="cb128-9"><a href="#cb128-9"></a>        <span class="at">shape =</span> day_night)</span>
+<span id="cb128-10"><a href="#cb128-10"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div><div class="column">
 <div class="cell-output-display">
 <p><img data-src="02-concepts-pt1_files/figure-revealjs/concepts-pt1-exercise-1-2-1.png" width="1000"></p>
@@ -2987,19 +2991,21 @@ NULL</code></pre>
 </section>
 <section id="add-line" class="slide level2">
 <h2>Add Line</h2>
-<div class="cell columns column-output-location" data-hash="02-concepts-pt1_cache/revealjs/concepts-pt1-exercise-1-3_efa3f0220655fb92f3bd5a14682ad886">
+<div class="cell columns column-output-location" data-hash="02-concepts-pt1_cache/revealjs/concepts-pt1-exercise-1-3_8be2ef7a8bf4075667f819baeeab0a7e">
 <div class="column">
-<div class="sourceCode cell-code" id="cb129" data-code-line-numbers="9,10,11"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb129-1"><a href="#cb129-1"></a><span class="fu">ggplot</span>(</span>
-<span id="cb129-2"><a href="#cb129-2"></a>    dplyr<span class="sc">::</span><span class="fu">filter</span>(bikes, is_weekend <span class="sc">==</span> <span class="cn">TRUE</span>),</span>
-<span id="cb129-3"><a href="#cb129-3"></a>    <span class="fu">aes</span>(<span class="at">x =</span> date, <span class="at">y =</span> count)</span>
-<span id="cb129-4"><a href="#cb129-4"></a>  ) <span class="sc">+</span></span>
-<span id="cb129-5"><a href="#cb129-5"></a>  <span class="fu">geom_point</span>(</span>
-<span id="cb129-6"><a href="#cb129-6"></a>    <span class="fu">aes</span>(<span class="at">color =</span> day_night,</span>
-<span id="cb129-7"><a href="#cb129-7"></a>        <span class="at">shape =</span> day_night)</span>
-<span id="cb129-8"><a href="#cb129-8"></a>  ) <span class="sc">+</span></span>
-<span id="cb129-9"><a href="#cb129-9"></a>  <span class="fu">geom_line</span>(</span>
-<span id="cb129-10"><a href="#cb129-10"></a>    <span class="at">color =</span> <span class="st">"grey"</span></span>
-<span id="cb129-11"><a href="#cb129-11"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb129" data-code-line-numbers="11,12,13"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb129-1"><a href="#cb129-1"></a><span class="fu">ggplot</span>(</span>
+<span id="cb129-2"><a href="#cb129-2"></a>    dplyr<span class="sc">::</span><span class="fu">filter</span>(</span>
+<span id="cb129-3"><a href="#cb129-3"></a>      bikes, is_weekend <span class="sc">==</span> <span class="cn">TRUE</span></span>
+<span id="cb129-4"><a href="#cb129-4"></a>    ),</span>
+<span id="cb129-5"><a href="#cb129-5"></a>    <span class="fu">aes</span>(<span class="at">x =</span> date, <span class="at">y =</span> count)</span>
+<span id="cb129-6"><a href="#cb129-6"></a>  ) <span class="sc">+</span></span>
+<span id="cb129-7"><a href="#cb129-7"></a>  <span class="fu">geom_point</span>(</span>
+<span id="cb129-8"><a href="#cb129-8"></a>    <span class="fu">aes</span>(<span class="at">color =</span> day_night,</span>
+<span id="cb129-9"><a href="#cb129-9"></a>        <span class="at">shape =</span> day_night)</span>
+<span id="cb129-10"><a href="#cb129-10"></a>  ) <span class="sc">+</span></span>
+<span id="cb129-11"><a href="#cb129-11"></a>  <span class="fu">geom_line</span>(</span>
+<span id="cb129-12"><a href="#cb129-12"></a>    <span class="at">color =</span> <span class="st">"grey"</span></span>
+<span id="cb129-13"><a href="#cb129-13"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div><div class="column">
 <div class="cell-output-display">
 <p><img data-src="02-concepts-pt1_files/figure-revealjs/concepts-pt1-exercise-1-3-1.png" width="1000"></p>
@@ -3009,20 +3015,22 @@ NULL</code></pre>
 </section>
 <section id="group-lines-by-day-period" class="slide level2">
 <h2>Group Lines by Day Period</h2>
-<div class="cell columns column-output-location" data-hash="02-concepts-pt1_cache/revealjs/concepts-pt1-exercise-1-4_450375bf39bca69a1abe49a8055b24ab">
+<div class="cell columns column-output-location" data-hash="02-concepts-pt1_cache/revealjs/concepts-pt1-exercise-1-4_7996807a79f945a32805ce40e4260e96">
 <div class="column">
-<div class="sourceCode cell-code" id="cb130" data-code-line-numbers="10"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb130-1"><a href="#cb130-1"></a><span class="fu">ggplot</span>(</span>
-<span id="cb130-2"><a href="#cb130-2"></a>    dplyr<span class="sc">::</span><span class="fu">filter</span>(bikes, is_weekend <span class="sc">==</span> <span class="cn">TRUE</span>),</span>
-<span id="cb130-3"><a href="#cb130-3"></a>    <span class="fu">aes</span>(<span class="at">x =</span> date, <span class="at">y =</span> count)</span>
-<span id="cb130-4"><a href="#cb130-4"></a>  ) <span class="sc">+</span></span>
-<span id="cb130-5"><a href="#cb130-5"></a>  <span class="fu">geom_point</span>(</span>
-<span id="cb130-6"><a href="#cb130-6"></a>    <span class="fu">aes</span>(<span class="at">color =</span> day_night,</span>
-<span id="cb130-7"><a href="#cb130-7"></a>        <span class="at">shape =</span> day_night)</span>
-<span id="cb130-8"><a href="#cb130-8"></a>  ) <span class="sc">+</span></span>
-<span id="cb130-9"><a href="#cb130-9"></a>  <span class="fu">geom_line</span>(</span>
-<span id="cb130-10"><a href="#cb130-10"></a>    <span class="fu">aes</span>(<span class="at">group =</span> day_night),</span>
-<span id="cb130-11"><a href="#cb130-11"></a>    <span class="at">color =</span> <span class="st">"grey"</span></span>
-<span id="cb130-12"><a href="#cb130-12"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb130" data-code-line-numbers="12"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb130-1"><a href="#cb130-1"></a><span class="fu">ggplot</span>(</span>
+<span id="cb130-2"><a href="#cb130-2"></a>    dplyr<span class="sc">::</span><span class="fu">filter</span>(</span>
+<span id="cb130-3"><a href="#cb130-3"></a>      bikes, is_weekend <span class="sc">==</span> <span class="cn">TRUE</span></span>
+<span id="cb130-4"><a href="#cb130-4"></a>    ),</span>
+<span id="cb130-5"><a href="#cb130-5"></a>    <span class="fu">aes</span>(<span class="at">x =</span> date, <span class="at">y =</span> count)</span>
+<span id="cb130-6"><a href="#cb130-6"></a>  ) <span class="sc">+</span></span>
+<span id="cb130-7"><a href="#cb130-7"></a>  <span class="fu">geom_point</span>(</span>
+<span id="cb130-8"><a href="#cb130-8"></a>    <span class="fu">aes</span>(<span class="at">color =</span> day_night,</span>
+<span id="cb130-9"><a href="#cb130-9"></a>        <span class="at">shape =</span> day_night)</span>
+<span id="cb130-10"><a href="#cb130-10"></a>  ) <span class="sc">+</span></span>
+<span id="cb130-11"><a href="#cb130-11"></a>  <span class="fu">geom_line</span>(</span>
+<span id="cb130-12"><a href="#cb130-12"></a>    <span class="fu">aes</span>(<span class="at">group =</span> day_night),</span>
+<span id="cb130-13"><a href="#cb130-13"></a>    <span class="at">color =</span> <span class="st">"grey"</span></span>
+<span id="cb130-14"><a href="#cb130-14"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div><div class="column">
 <div class="cell-output-display">
 <p><img data-src="02-concepts-pt1_files/figure-revealjs/concepts-pt1-exercise-1-4-1.png" width="1000"></p>
@@ -3032,20 +3040,22 @@ NULL</code></pre>
 </section>
 <section id="order-layers" class="slide level2">
 <h2>Order Layers</h2>
-<div class="cell columns column-output-location" data-hash="02-concepts-pt1_cache/revealjs/concepts-pt1-exercise-1-5_af66c753996a3265f35dd019abbd6f92">
+<div class="cell columns column-output-location" data-hash="02-concepts-pt1_cache/revealjs/concepts-pt1-exercise-1-5_4d57b40cedfde074c04ce332ba2a9e6d">
 <div class="column">
-<div class="sourceCode cell-code" id="cb131" data-code-line-numbers="5,6,7,8"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb131-1"><a href="#cb131-1"></a><span class="fu">ggplot</span>(</span>
-<span id="cb131-2"><a href="#cb131-2"></a>    dplyr<span class="sc">::</span><span class="fu">filter</span>(bikes, is_weekend <span class="sc">==</span> <span class="cn">TRUE</span>),</span>
-<span id="cb131-3"><a href="#cb131-3"></a>    <span class="fu">aes</span>(<span class="at">x =</span> date, <span class="at">y =</span> count)</span>
-<span id="cb131-4"><a href="#cb131-4"></a>  ) <span class="sc">+</span></span>
-<span id="cb131-5"><a href="#cb131-5"></a>  <span class="fu">geom_line</span>(</span>
-<span id="cb131-6"><a href="#cb131-6"></a>    <span class="fu">aes</span>(<span class="at">group =</span> day_night),</span>
-<span id="cb131-7"><a href="#cb131-7"></a>    <span class="at">color =</span> <span class="st">"grey"</span></span>
-<span id="cb131-8"><a href="#cb131-8"></a>  ) <span class="sc">+</span></span>
-<span id="cb131-9"><a href="#cb131-9"></a>  <span class="fu">geom_point</span>(</span>
-<span id="cb131-10"><a href="#cb131-10"></a>    <span class="fu">aes</span>(<span class="at">color =</span> day_night,</span>
-<span id="cb131-11"><a href="#cb131-11"></a>        <span class="at">shape =</span> day_night)</span>
-<span id="cb131-12"><a href="#cb131-12"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb131" data-code-line-numbers="7,8,9,10"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb131-1"><a href="#cb131-1"></a><span class="fu">ggplot</span>(</span>
+<span id="cb131-2"><a href="#cb131-2"></a>    dplyr<span class="sc">::</span><span class="fu">filter</span>(</span>
+<span id="cb131-3"><a href="#cb131-3"></a>      bikes, is_weekend <span class="sc">==</span> <span class="cn">TRUE</span></span>
+<span id="cb131-4"><a href="#cb131-4"></a>    ),</span>
+<span id="cb131-5"><a href="#cb131-5"></a>    <span class="fu">aes</span>(<span class="at">x =</span> date, <span class="at">y =</span> count)</span>
+<span id="cb131-6"><a href="#cb131-6"></a>  ) <span class="sc">+</span></span>
+<span id="cb131-7"><a href="#cb131-7"></a>  <span class="fu">geom_line</span>(</span>
+<span id="cb131-8"><a href="#cb131-8"></a>    <span class="fu">aes</span>(<span class="at">group =</span> day_night),</span>
+<span id="cb131-9"><a href="#cb131-9"></a>    <span class="at">color =</span> <span class="st">"grey"</span></span>
+<span id="cb131-10"><a href="#cb131-10"></a>  ) <span class="sc">+</span></span>
+<span id="cb131-11"><a href="#cb131-11"></a>  <span class="fu">geom_point</span>(</span>
+<span id="cb131-12"><a href="#cb131-12"></a>    <span class="fu">aes</span>(<span class="at">color =</span> day_night,</span>
+<span id="cb131-13"><a href="#cb131-13"></a>        <span class="at">shape =</span> day_night)</span>
+<span id="cb131-14"><a href="#cb131-14"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div><div class="column">
 <div class="cell-output-display">
 <p><img data-src="02-concepts-pt1_files/figure-revealjs/concepts-pt1-exercise-1-5-1.png" width="1000"></p>
@@ -3055,20 +3065,22 @@ NULL</code></pre>
 </section>
 <section id="use-geom_path-instead" class="slide level2">
 <h2>Use `geom_path()` instead</h2>
-<div class="cell columns column-output-location" data-hash="02-concepts-pt1_cache/revealjs/concepts-pt1-exercise-1-6_78ff32ec25fdae6a39b58ff33c09db9c">
+<div class="cell columns column-output-location" data-hash="02-concepts-pt1_cache/revealjs/concepts-pt1-exercise-1-6_663e9e2ed327179609f1cf6b5a8ef3cf">
 <div class="column">
-<div class="sourceCode cell-code" id="cb132" data-code-line-numbers="5"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb132-1"><a href="#cb132-1"></a><span class="fu">ggplot</span>(</span>
-<span id="cb132-2"><a href="#cb132-2"></a>    dplyr<span class="sc">::</span><span class="fu">filter</span>(bikes, is_weekend <span class="sc">==</span> <span class="cn">TRUE</span>),</span>
-<span id="cb132-3"><a href="#cb132-3"></a>    <span class="fu">aes</span>(<span class="at">x =</span> date, <span class="at">y =</span> count)</span>
-<span id="cb132-4"><a href="#cb132-4"></a>  ) <span class="sc">+</span></span>
-<span id="cb132-5"><a href="#cb132-5"></a>  <span class="fu">geom_path</span>(</span>
-<span id="cb132-6"><a href="#cb132-6"></a>    <span class="fu">aes</span>(<span class="at">group =</span> day_night),</span>
-<span id="cb132-7"><a href="#cb132-7"></a>    <span class="at">color =</span> <span class="st">"grey"</span></span>
-<span id="cb132-8"><a href="#cb132-8"></a>  ) <span class="sc">+</span></span>
-<span id="cb132-9"><a href="#cb132-9"></a>  <span class="fu">geom_point</span>(</span>
-<span id="cb132-10"><a href="#cb132-10"></a>    <span class="fu">aes</span>(<span class="at">color =</span> day_night,</span>
-<span id="cb132-11"><a href="#cb132-11"></a>        <span class="at">shape =</span> day_night)</span>
-<span id="cb132-12"><a href="#cb132-12"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb132" data-code-line-numbers="7"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb132-1"><a href="#cb132-1"></a><span class="fu">ggplot</span>(</span>
+<span id="cb132-2"><a href="#cb132-2"></a>    dplyr<span class="sc">::</span><span class="fu">filter</span>(</span>
+<span id="cb132-3"><a href="#cb132-3"></a>      bikes, is_weekend <span class="sc">==</span> <span class="cn">TRUE</span></span>
+<span id="cb132-4"><a href="#cb132-4"></a>    ),</span>
+<span id="cb132-5"><a href="#cb132-5"></a>    <span class="fu">aes</span>(<span class="at">x =</span> date, <span class="at">y =</span> count)</span>
+<span id="cb132-6"><a href="#cb132-6"></a>  ) <span class="sc">+</span></span>
+<span id="cb132-7"><a href="#cb132-7"></a>  <span class="fu">geom_path</span>(</span>
+<span id="cb132-8"><a href="#cb132-8"></a>    <span class="fu">aes</span>(<span class="at">group =</span> day_night),</span>
+<span id="cb132-9"><a href="#cb132-9"></a>    <span class="at">color =</span> <span class="st">"grey"</span></span>
+<span id="cb132-10"><a href="#cb132-10"></a>  ) <span class="sc">+</span></span>
+<span id="cb132-11"><a href="#cb132-11"></a>  <span class="fu">geom_point</span>(</span>
+<span id="cb132-12"><a href="#cb132-12"></a>    <span class="fu">aes</span>(<span class="at">color =</span> day_night,</span>
+<span id="cb132-13"><a href="#cb132-13"></a>        <span class="at">shape =</span> day_night)</span>
+<span id="cb132-14"><a href="#cb132-14"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div><div class="column">
 <div class="cell-output-display">
 <p><img data-src="02-concepts-pt1_files/figure-revealjs/concepts-pt1-exercise-1-6-1.png" width="1000"></p>
@@ -3080,27 +3092,27 @@ NULL</code></pre>
 <h2>`geom_line()` vs.&nbsp;`geom_path()`</h2>
 <div class="quarto-layout-panel">
 <div class="quarto-layout-row quarto-layout-valign-top">
-<div class="cell quarto-layout-cell" data-hash="02-concepts-pt1_cache/revealjs/concepts-pt1-exercise-1-comp-path_9a7682ede174d84664cf85a63250e462" style="flex-basis: 50.0%;justify-content: center;">
-<div class="sourceCode cell-code" id="cb133" data-code-line-numbers="3|5,6,7"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb133-1"><a href="#cb133-1"></a><span class="fu">ggplot</span>(</span>
-<span id="cb133-2"><a href="#cb133-2"></a>    dplyr<span class="sc">::</span><span class="fu">filter</span>(bikes, is_weekend <span class="sc">==</span> <span class="cn">TRUE</span>),</span>
-<span id="cb133-3"><a href="#cb133-3"></a>    <span class="fu">aes</span>(<span class="at">x =</span> temp_feel, <span class="at">y =</span> count)</span>
-<span id="cb133-4"><a href="#cb133-4"></a>  ) <span class="sc">+</span></span>
-<span id="cb133-5"><a href="#cb133-5"></a>  <span class="fu">geom_path</span>(</span>
-<span id="cb133-6"><a href="#cb133-6"></a>    <span class="fu">aes</span>(<span class="at">color =</span> day_night)</span>
-<span id="cb133-7"><a href="#cb133-7"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell quarto-layout-cell" data-hash="02-concepts-pt1_cache/revealjs/concepts-pt1-exercise-1-comp-path_4ed21d11f58ffa89fd0102702fda42d3" style="flex-basis: 50.0%;justify-content: center;">
+<div class="sourceCode cell-code" id="cb133" data-code-line-numbers="5|7"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb133-1"><a href="#cb133-1"></a><span class="fu">ggplot</span>(</span>
+<span id="cb133-2"><a href="#cb133-2"></a>    dplyr<span class="sc">::</span><span class="fu">filter</span>(</span>
+<span id="cb133-3"><a href="#cb133-3"></a>      bikes, is_weekend <span class="sc">==</span> <span class="cn">TRUE</span></span>
+<span id="cb133-4"><a href="#cb133-4"></a>    ),</span>
+<span id="cb133-5"><a href="#cb133-5"></a>    <span class="fu">aes</span>(<span class="at">x =</span> temp_feel, <span class="at">y =</span> count)</span>
+<span id="cb133-6"><a href="#cb133-6"></a>  ) <span class="sc">+</span></span>
+<span id="cb133-7"><a href="#cb133-7"></a>  <span class="fu">geom_path</span>(<span class="fu">aes</span>(<span class="at">color =</span> day_night))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <p><img data-src="02-concepts-pt1_files/figure-revealjs/concepts-pt1-exercise-1-comp-path-1.png" width="1000"></p>
 </div>
 </div>
 <div class="fragment quarto-layout-cell" style="flex-basis: 50.0%;justify-content: center;">
-<div class="cell" data-hash="02-concepts-pt1_cache/revealjs/concepts-pt1-exercise-1-comp-line_19dabfc093786759abca9d96a03c06e5">
-<div class="sourceCode cell-code" id="cb134" data-code-line-numbers="5,6,7"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb134-1"><a href="#cb134-1"></a><span class="fu">ggplot</span>(</span>
-<span id="cb134-2"><a href="#cb134-2"></a>    dplyr<span class="sc">::</span><span class="fu">filter</span>(bikes, is_weekend <span class="sc">==</span> <span class="cn">TRUE</span>),</span>
-<span id="cb134-3"><a href="#cb134-3"></a>    <span class="fu">aes</span>(<span class="at">x =</span> temp_feel, <span class="at">y =</span> count)</span>
-<span id="cb134-4"><a href="#cb134-4"></a>  ) <span class="sc">+</span></span>
-<span id="cb134-5"><a href="#cb134-5"></a>  <span class="fu">geom_line</span>(</span>
-<span id="cb134-6"><a href="#cb134-6"></a>    <span class="fu">aes</span>(<span class="at">color =</span> day_night)</span>
-<span id="cb134-7"><a href="#cb134-7"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell" data-hash="02-concepts-pt1_cache/revealjs/concepts-pt1-exercise-1-comp-line_186de3b3e4b62fc1b60758f918f70f3f">
+<div class="sourceCode cell-code" id="cb134" data-code-line-numbers="7"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb134-1"><a href="#cb134-1"></a><span class="fu">ggplot</span>(</span>
+<span id="cb134-2"><a href="#cb134-2"></a>    dplyr<span class="sc">::</span><span class="fu">filter</span>(</span>
+<span id="cb134-3"><a href="#cb134-3"></a>      bikes, is_weekend <span class="sc">==</span> <span class="cn">TRUE</span></span>
+<span id="cb134-4"><a href="#cb134-4"></a>    ),</span>
+<span id="cb134-5"><a href="#cb134-5"></a>    <span class="fu">aes</span>(<span class="at">x =</span> temp_feel, <span class="at">y =</span> count)</span>
+<span id="cb134-6"><a href="#cb134-6"></a>  ) <span class="sc">+</span></span>
+<span id="cb134-7"><a href="#cb134-7"></a>  <span class="fu">geom_line</span>(<span class="fu">aes</span>(<span class="at">color =</span> day_night))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <p><img data-src="02-concepts-pt1_files/figure-revealjs/concepts-pt1-exercise-1-comp-line-1.png" width="1000"></p>
 </div>
@@ -3111,30 +3123,32 @@ NULL</code></pre>
 </section>
 <section id="apply-a-theme" class="slide level2">
 <h2>Apply a Theme</h2>
-<div class="cell columns column-output-location" data-hash="02-concepts-pt1_cache/revealjs/concepts-pt1-exercise-1-8_67b7786dc2970686c28c70c0fd7edc33">
+<div class="cell columns column-output-location" data-hash="02-concepts-pt1_cache/revealjs/concepts-pt1-exercise-1-8_644a755e950a5405905e0aa721728f18">
 <div class="column">
-<div class="sourceCode cell-code" id="cb135" data-code-line-numbers="1|1,14|14,15,16,17,18,19,20,21|15,16,17,18|19,20,21"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb135-1"><a href="#cb135-1"></a>g <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(</span>
-<span id="cb135-2"><a href="#cb135-2"></a>    dplyr<span class="sc">::</span><span class="fu">filter</span>(bikes, is_weekend <span class="sc">==</span> <span class="cn">TRUE</span>),</span>
-<span id="cb135-3"><a href="#cb135-3"></a>    <span class="fu">aes</span>(<span class="at">x =</span> date, <span class="at">y =</span> count)</span>
-<span id="cb135-4"><a href="#cb135-4"></a>  ) <span class="sc">+</span></span>
-<span id="cb135-5"><a href="#cb135-5"></a>  <span class="fu">geom_line</span>(</span>
-<span id="cb135-6"><a href="#cb135-6"></a>    <span class="fu">aes</span>(<span class="at">group =</span> day_night),</span>
-<span id="cb135-7"><a href="#cb135-7"></a>    <span class="at">color =</span> <span class="st">"grey"</span></span>
-<span id="cb135-8"><a href="#cb135-8"></a>  ) <span class="sc">+</span></span>
-<span id="cb135-9"><a href="#cb135-9"></a>  <span class="fu">geom_point</span>(</span>
-<span id="cb135-10"><a href="#cb135-10"></a>    <span class="fu">aes</span>(<span class="at">color =</span> day_night,</span>
-<span id="cb135-11"><a href="#cb135-11"></a>        <span class="at">shape =</span> day_night)</span>
-<span id="cb135-12"><a href="#cb135-12"></a>  )</span>
-<span id="cb135-13"><a href="#cb135-13"></a></span>
-<span id="cb135-14"><a href="#cb135-14"></a>g <span class="sc">+</span></span>
-<span id="cb135-15"><a href="#cb135-15"></a>  <span class="fu">theme_minimal</span>(</span>
-<span id="cb135-16"><a href="#cb135-16"></a>    <span class="at">base_size =</span> <span class="dv">15</span>,</span>
-<span id="cb135-17"><a href="#cb135-17"></a>    <span class="at">base_family =</span> <span class="st">"Lora"</span></span>
-<span id="cb135-18"><a href="#cb135-18"></a>  ) <span class="sc">+</span></span>
-<span id="cb135-19"><a href="#cb135-19"></a>  <span class="fu">theme</span>(</span>
-<span id="cb135-20"><a href="#cb135-20"></a>    <span class="at">legend.position =</span> <span class="st">"top"</span>,</span>
-<span id="cb135-21"><a href="#cb135-21"></a>    <span class="at">panel.grid.minor =</span> <span class="fu">element_blank</span>()</span>
-<span id="cb135-22"><a href="#cb135-22"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb135" data-code-line-numbers="1|1,16|16,17,18,19,20,21,22,23|17,18,19,20|21,22,23"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb135-1"><a href="#cb135-1"></a>g <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(</span>
+<span id="cb135-2"><a href="#cb135-2"></a>    dplyr<span class="sc">::</span><span class="fu">filter</span>(</span>
+<span id="cb135-3"><a href="#cb135-3"></a>      bikes, is_weekend <span class="sc">==</span> <span class="cn">TRUE</span></span>
+<span id="cb135-4"><a href="#cb135-4"></a>    ),</span>
+<span id="cb135-5"><a href="#cb135-5"></a>    <span class="fu">aes</span>(<span class="at">x =</span> date, <span class="at">y =</span> count)</span>
+<span id="cb135-6"><a href="#cb135-6"></a>  ) <span class="sc">+</span></span>
+<span id="cb135-7"><a href="#cb135-7"></a>  <span class="fu">geom_line</span>(</span>
+<span id="cb135-8"><a href="#cb135-8"></a>    <span class="fu">aes</span>(<span class="at">group =</span> day_night),</span>
+<span id="cb135-9"><a href="#cb135-9"></a>    <span class="at">color =</span> <span class="st">"grey"</span></span>
+<span id="cb135-10"><a href="#cb135-10"></a>  ) <span class="sc">+</span></span>
+<span id="cb135-11"><a href="#cb135-11"></a>  <span class="fu">geom_point</span>(</span>
+<span id="cb135-12"><a href="#cb135-12"></a>    <span class="fu">aes</span>(<span class="at">color =</span> day_night,</span>
+<span id="cb135-13"><a href="#cb135-13"></a>        <span class="at">shape =</span> day_night)</span>
+<span id="cb135-14"><a href="#cb135-14"></a>  )</span>
+<span id="cb135-15"><a href="#cb135-15"></a></span>
+<span id="cb135-16"><a href="#cb135-16"></a>g <span class="sc">+</span></span>
+<span id="cb135-17"><a href="#cb135-17"></a>  <span class="fu">theme_minimal</span>(</span>
+<span id="cb135-18"><a href="#cb135-18"></a>    <span class="at">base_size =</span> <span class="dv">15</span>,</span>
+<span id="cb135-19"><a href="#cb135-19"></a>    <span class="at">base_family =</span> <span class="st">"Lora"</span></span>
+<span id="cb135-20"><a href="#cb135-20"></a>  ) <span class="sc">+</span></span>
+<span id="cb135-21"><a href="#cb135-21"></a>  <span class="fu">theme</span>(</span>
+<span id="cb135-22"><a href="#cb135-22"></a>    <span class="at">legend.position =</span> <span class="st">"top"</span>,</span>
+<span id="cb135-23"><a href="#cb135-23"></a>    <span class="at">panel.grid.minor =</span> <span class="fu">element_blank</span>()</span>
+<span id="cb135-24"><a href="#cb135-24"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div><div class="column">
 <div class="cell-output-display">
 <p><img data-src="02-concepts-pt1_files/figure-revealjs/concepts-pt1-exercise-1-8-1.png" width="1000"></p>
@@ -3729,10 +3743,6 @@ NULL</code></pre>
 <div class="cell" data-hash="02-concepts-pt1_cache/revealjs/concepts-pt1-exercise-2-16_654021a8872a73b54211f1109ca36a59">
 <div class="sourceCode cell-code" id="cb160"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb160-1"><a href="#cb160-1"></a><span class="fu">ggsave</span>(<span class="st">"02_concepts_pt1_ex2.pdf"</span>,</span>
 <span id="cb160-2"><a href="#cb160-2"></a>       <span class="at">width =</span> <span class="dv">5</span>, <span class="at">height =</span> <span class="fl">6.5</span>, <span class="at">device =</span> cairo_pdf)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-
-<img data-src="plots/02_concepts_pt1_ex2.png" alt="The final plot with an aspect ratio of 5 x 7 inches." class="r-stretch quarto-figure-center"><div class="footer">
-
 </div>
 </section></section>
 <section>
