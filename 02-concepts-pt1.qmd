@@ -45,7 +45,7 @@ execute:
 [{ggplot2} package description](https://ggplot2.tidyverse.org/)
 :::
 
-![](img/intro/ggplot2.png){fig-align="center" fig-alt="The ggplot2 hex logo."}
+![](img/ggplot/ggplot2.png){fig-align="center" fig-alt="The ggplot2 hex logo."}
 
 <br>
 
@@ -63,21 +63,21 @@ execute:
 
 ------------------------------------------------------------------------
 
-![Illustration by [Allison Horst](https://github.com/allisonhorst/stats-illustrations)](img/intro/ah_ggplot2_exploratory.png){fig-align="center" fig-alt="Allison Horsts monster illustration of explorative plotting with ggplot2."}
+![Illustration by [Allison Horst](https://github.com/allisonhorst/stats-illustrations)](img/ggplot/ah_ggplot2_exploratory.png){fig-align="center" fig-alt="Allison Horsts monster illustration of explorative plotting with ggplot2."}
 
 ::: footer
 :::
 
 ------------------------------------------------------------------------
 
-![ggplot2 Examples featured on ggplot2.tidyverse.org](img/intro/basic-ggplots.png){fig-align="center" fig-alt="A collection of the versatility of ggplot2 to create basic graphs. All of them use the default grey ggplot2 theme."}
+![ggplot2 Examples featured on ggplot2.tidyverse.org](img/ggplot/basic-ggplots.png){fig-align="center" fig-alt="A collection of the versatility of ggplot2 to create basic graphs. All of them use the default grey ggplot2 theme."}
 
 ::: footer
 :::
 
 ------------------------------------------------------------------------
 
-![Illustration by [Allison Horst](https://github.com/allisonhorst/stats-illustrations)](img/intro/ah_ggplot2_masterpiece.png){fig-align="center" width="80%" fig-alt="Allison Horsts monster illustration of building data masterpiece ith ggplot2 featuring a little Picasso monster :)"}
+![Illustration by [Allison Horst](https://github.com/allisonhorst/stats-illustrations)](img/ggplot/ah_ggplot2_masterpiece.png){fig-align="center" width="80%" fig-alt="Allison Horsts monster illustration of building data masterpiece ith ggplot2 featuring a little Picasso monster :)"}
 
 
 
@@ -89,7 +89,7 @@ execute:
 
 ## {#cedric-ggplot-evol-gif data-menu-title="Cédric Blog ggplot Evolution GIF"}
 
-![[cedricscherer.com/2019/05/17/the-evolution-of-a-ggplot](https://www.cedricscherer.com/2019/05/17/the-evolution-of-a-ggplot)](img/intro/evol-ggplot-1.gif){fig-align="center" fig-alt="Animated evolution of a jitter-pop plot showing student-teacher ratios per continent. The animation shows iteration through different geometries, theme adjustments, combinations of layers, and additional annotations such as text labels with arrows and an inset tile grid map with colors by region mathing those of the main graphic."}
+![[cedricscherer.com/2019/05/17/the-evolution-of-a-ggplot](https://www.cedricscherer.com/2019/05/17/the-evolution-of-a-ggplot)](img/ggplot/evol-ggplot-1.gif){fig-align="center" fig-alt="Animated evolution of a jitter-pop plot showing student-teacher ratios per continent. The animation shows iteration through different geometries, theme adjustments, combinations of layers, and additional annotations such as text labels with arrows and an inset tile grid map with colors by region mathing those of the main graphic."}
 
 
 
@@ -2825,7 +2825,7 @@ bikes <- readr::read_csv(
 #| label: concepts-pt1-exercise-1-1
 #| output-location: column
 ggplot(
-    filter(bikes, is_weekend == TRUE),
+    dplyr::filter(bikes, is_weekend == TRUE),
     aes(x = date, y = count)
   ) +
   geom_point()
@@ -2840,7 +2840,7 @@ ggplot(
 #| output-location: column
 #| code-line-numbers: "6,7"
 ggplot(
-    filter(bikes, is_weekend == TRUE),
+    dplyr::filter(bikes, is_weekend == TRUE),
     aes(x = date, y = count)
   ) +
   geom_point(
@@ -2858,7 +2858,7 @@ ggplot(
 #| output-location: column
 #| code-line-numbers: "9,10,11"
 ggplot(
-    filter(bikes, is_weekend == TRUE),
+    dplyr::filter(bikes, is_weekend == TRUE),
     aes(x = date, y = count)
   ) +
   geom_point(
@@ -2879,7 +2879,7 @@ ggplot(
 #| output-location: column
 #| code-line-numbers: "10"
 ggplot(
-    filter(bikes, is_weekend == TRUE),
+    dplyr::filter(bikes, is_weekend == TRUE),
     aes(x = date, y = count)
   ) +
   geom_point(
@@ -2901,7 +2901,7 @@ ggplot(
 #| output-location: column
 #| code-line-numbers: "5,6,7,8"
 ggplot(
-    filter(bikes, is_weekend == TRUE),
+    dplyr::filter(bikes, is_weekend == TRUE),
     aes(x = date, y = count)
   ) +
   geom_line(
@@ -2923,7 +2923,7 @@ ggplot(
 #| output-location: column
 #| code-line-numbers: "5"
 ggplot(
-    filter(bikes, is_weekend == TRUE),
+    dplyr::filter(bikes, is_weekend == TRUE),
     aes(x = date, y = count)
   ) +
   geom_path(
@@ -2946,7 +2946,7 @@ ggplot(
 #| fig-height: 3.2
 #| code-line-numbers: "3|5,6,7"
 ggplot(
-    filter(bikes, is_weekend == TRUE),
+    dplyr::filter(bikes, is_weekend == TRUE),
     aes(x = temp_feel, y = count)
   ) +
   geom_path(
@@ -2960,7 +2960,7 @@ ggplot(
 #| fig-height: 3.2
 #| code-line-numbers: "5,6,7"
 ggplot(
-    filter(bikes, is_weekend == TRUE),
+    dplyr::filter(bikes, is_weekend == TRUE),
     aes(x = temp_feel, y = count)
   ) +
   geom_line(
@@ -2979,7 +2979,7 @@ ggplot(
 #| output-location: column
 #| code-line-numbers: "1|1,14|14,15,16,17,18,19,20,21|15,16,17,18|19,20,21"
 g <- ggplot(
-    filter(bikes, is_weekend == TRUE),
+    dplyr::filter(bikes, is_weekend == TRUE),
     aes(x = date, y = count)
   ) +
   geom_line(
@@ -3110,7 +3110,7 @@ ggsave("02_concepts_pt1_ex1.png",
 #| output-location: column
 #| code-line-numbers: "11"
 ggplot(
-    filter(bikes, is_weekend == TRUE),
+    dplyr::filter(bikes, is_weekend == TRUE),
     aes(x = date, y = count)
   ) +
   geom_line(
@@ -3146,7 +3146,7 @@ ggplot(
 #| output-location: column
 #| code-line-numbers: "11"
 ggplot(
-    filter(bikes, is_weekend == TRUE),
+    dplyr::filter(bikes, is_weekend == TRUE),
     aes(x = date, y = count)
   ) +
   geom_line(
@@ -3186,7 +3186,7 @@ invisible(
 )
 
 ggplot(
-    filter(bikes, is_weekend == TRUE),
+    dplyr::filter(bikes, is_weekend == TRUE),
     aes(x = date, y = count)
   ) +
   geom_line(
@@ -3233,7 +3233,7 @@ ggsave("02_concepts_pt1_ex1_bonus.png",
        width = 9, height = 5, dpi = 350, bg = "white")
 ```
 
-![](plots/02_concepts_pt1_ex1_bonus.png){fig-align="center" fig-alt="The final plot with the bonus encoding saved with an aspect ratio of 9 x 5 inches."}
+![](02_concepts_pt1_ex1_bonus.png){fig-align="center" fig-alt="The final plot with the bonus encoding saved with an aspect ratio of 9 x 5 inches."}
 
 ::: footer
 :::
