@@ -3102,19 +3102,6 @@ ggsave("02_concepts_pt1_ex1.pdf",
        width = 9, height = 5, device = cairo_pdf)
 ```
 
-```{r}
-#| label: concepts-pt1-exercise-1-12-png
-#| include: false
-#| eval: false
-ggsave("02_concepts_pt1_ex1.png",
-       width = 9, height = 5, dpi = 350, bg = "white")
-```
-
-![](plots/02_concepts_pt1_ex1.png){fig-align="center" fig-alt="The final plot with an aspect ratio of 9 x 5 inches while using a base_size of 15."}
-
-::: footer
-:::
-
 
 
 ## Bonus: Use Shape to Encode Sat vs Sun
