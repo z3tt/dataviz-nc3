@@ -1,6 +1,6 @@
 ---
 title: "Engaging & Reproducible Data Visualization"
-subtitle: "<span style='font-size:1.5em;'>From Theory to Implementation with ggplot2</span><br><span style='font-weight:500;font-size:1.3em;'>Welcome!</span></span>"
+subtitle: "<span style='font-size:1.5em;'>From Theory to Implementation with ggplot2</span><br><span style='font-weight:500;font-size:1.3em;'></span></span>"
 author: "<b style='color:#28a87d;'><a href='https://www.cedricscherer.com'>Dr. Cédric Scherer</a></b>&ensp;**//**&ensp;NC<sup>3</sup> Workshop&ensp;**//**&ensp;January 2024"
 format:
   revealjs:
