@@ -3060,8 +3060,8 @@ ggplot() +
 ```{r}
 #| label: locator-object
 #| code-line-numbers: "1,2,3,4|2|3"
-sf_bln <- sf::st_sfc(
-  sf::st_point(c(13.4050, 52.5200)), 
+sf_marker <- sf::st_sfc(
+  sf::st_point(c(8.5325, 52.0302)), 
   crs = sf::st_crs(countries)
 )
 ```
@@ -3074,7 +3074,7 @@ sf_bln <- sf::st_sfc(
 #| label: locator-print
 #| code-line-numbers: "6"
 sf_marker <- sf::st_sfc(
-  sf::st_point(c(52.0302, 8.5325)), 
+  sf::st_point(c(8.5325, 52.0302)), 
   crs = sf::st_crs(countries)
 )
 
@@ -3153,7 +3153,7 @@ ggplot() +
 ```{r}
 #| label: coord-sf-bonne-ocean-aes
 #| output-location: column
-#| code-line-numbers: "9|10|16"
+#| code-line-numbers: "9|16,17,21|18,19,20|23"
 ggplot() +
   geom_sf(
     data = oceans,
@@ -3169,9 +3169,44 @@ ggplot() +
   coord_sf(
     crs = "+proj=moll"
   ) +
-  scale_fill_viridis_d(option = "magma") +
+  scale_fill_viridis_d(
+    option = "magma",
+    guide = guide_legend(
+      ncol = 1, title.position = "top"
+    )
+  ) +
   theme_void() +
   theme(legend.position = "top")
+```
+
+
+
+## Mapping of Visual Properties
+
+```{r}
+#| label: coord-sf-bonne-ocean-aes-expression
+#| output-location: column
+#| code-line-numbers: "9|9,16,17,18|9,16,17,18,20"
+ggplot() +
+  geom_sf(
+    data = oceans,
+    fill = "#d8f1f6",
+    color = "white"
+  ) +
+  geom_sf(
+    data = countries,
+    aes(fill = adm0_a3 %in% c("AUS", "NZL")),
+    color = "white",
+    linewidth = .3
+  ) +
+  coord_sf(
+    crs = "+proj=moll"
+  ) +
+  scale_fill_manual(
+    values = c("grey70", "#208462")
+  ) +
+  theme_void() +
+  theme(legend.position = "none")
 ```
 
 
@@ -3181,7 +3216,7 @@ ggplot() +
 ```{r}
 #| label: coord-sf-bonne-ocean-inner
 #| output-location: column
-#| code-line-numbers: "1,10,12,13,14,15,16,17"
+#| code-line-numbers: "1,10,11,12,15,16,17,18"
 borders <- rmapshaper::ms_innerlines(countries)
 
 ggplot() +
@@ -3192,7 +3227,7 @@ ggplot() +
   ) +
   geom_sf(
     data = countries,
-    aes(fill = economy),
+    aes(fill = adm0_a3 %in% c("AUS", "NZL")),
     color = "transparent"
   ) +
   geom_sf(
@@ -3204,9 +3239,11 @@ ggplot() +
   coord_sf(
     crs = "+proj=moll"
   ) +
-  scale_fill_viridis_d(option = "magma") +
+  scale_fill_manual(
+    values = c("grey70", "#208462")
+  ) +
   theme_void() +
-  theme(legend.position = "top")
+  theme(legend.position = "none")
 ```
 
 

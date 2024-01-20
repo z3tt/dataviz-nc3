@@ -2952,10 +2952,10 @@ NULL</code></pre>
 </section>
 <section id="scatterplot-counts-vs.-date" class="slide level2">
 <h2>Scatterplot Counts vs.&nbsp;Date</h2>
-<div class="cell columns column-output-location" data-hash="02-concepts-pt1_cache/revealjs/concepts-pt1-exercise-1-1_c61745d225153bca495174a67880b2a3">
+<div class="cell columns column-output-location" data-hash="02-concepts-pt1_cache/revealjs/concepts-pt1-exercise-1-1_10641b06b39bd13031666453cf2fa0e0">
 <div class="column">
 <div class="sourceCode cell-code" id="cb127"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb127-1"><a href="#cb127-1"></a><span class="fu">ggplot</span>(</span>
-<span id="cb127-2"><a href="#cb127-2"></a>    dplyr<span class="sc">::</span><span class="fu">filter</span>(</span>
+<span id="cb127-2"><a href="#cb127-2"></a>    <span class="fu">filter</span>(</span>
 <span id="cb127-3"><a href="#cb127-3"></a>      bikes, is_weekend <span class="sc">==</span> <span class="cn">TRUE</span></span>
 <span id="cb127-4"><a href="#cb127-4"></a>    ),</span>
 <span id="cb127-5"><a href="#cb127-5"></a>    <span class="fu">aes</span>(<span class="at">x =</span> date, <span class="at">y =</span> count)</span>
@@ -2970,10 +2970,10 @@ NULL</code></pre>
 </section>
 <section id="encode-day-period-by-colors-and-shapes" class="slide level2">
 <h2>Encode Day Period by Colors and Shapes</h2>
-<div class="cell columns column-output-location" data-hash="02-concepts-pt1_cache/revealjs/concepts-pt1-exercise-1-2_c0084e9e9210ce0255bade73c9a0a3ff">
+<div class="cell columns column-output-location" data-hash="02-concepts-pt1_cache/revealjs/concepts-pt1-exercise-1-2_6cc6c2bdd856bee7ec98d51f18df77d5">
 <div class="column">
 <div class="sourceCode cell-code" id="cb128" data-code-line-numbers="8,9"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb128-1"><a href="#cb128-1"></a><span class="fu">ggplot</span>(</span>
-<span id="cb128-2"><a href="#cb128-2"></a>    dplyr<span class="sc">::</span><span class="fu">filter</span>(</span>
+<span id="cb128-2"><a href="#cb128-2"></a>    <span class="fu">filter</span>(</span>
 <span id="cb128-3"><a href="#cb128-3"></a>      bikes, is_weekend <span class="sc">==</span> <span class="cn">TRUE</span></span>
 <span id="cb128-4"><a href="#cb128-4"></a>    ),</span>
 <span id="cb128-5"><a href="#cb128-5"></a>    <span class="fu">aes</span>(<span class="at">x =</span> date, <span class="at">y =</span> count)</span>
@@ -2991,10 +2991,10 @@ NULL</code></pre>
 </section>
 <section id="add-line" class="slide level2">
 <h2>Add Line</h2>
-<div class="cell columns column-output-location" data-hash="02-concepts-pt1_cache/revealjs/concepts-pt1-exercise-1-3_8be2ef7a8bf4075667f819baeeab0a7e">
+<div class="cell columns column-output-location" data-hash="02-concepts-pt1_cache/revealjs/concepts-pt1-exercise-1-3_92c2fc5f7858f6bda94f8e20fd064974">
 <div class="column">
 <div class="sourceCode cell-code" id="cb129" data-code-line-numbers="11,12,13"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb129-1"><a href="#cb129-1"></a><span class="fu">ggplot</span>(</span>
-<span id="cb129-2"><a href="#cb129-2"></a>    dplyr<span class="sc">::</span><span class="fu">filter</span>(</span>
+<span id="cb129-2"><a href="#cb129-2"></a>    <span class="fu">filter</span>(</span>
 <span id="cb129-3"><a href="#cb129-3"></a>      bikes, is_weekend <span class="sc">==</span> <span class="cn">TRUE</span></span>
 <span id="cb129-4"><a href="#cb129-4"></a>    ),</span>
 <span id="cb129-5"><a href="#cb129-5"></a>    <span class="fu">aes</span>(<span class="at">x =</span> date, <span class="at">y =</span> count)</span>
@@ -3015,10 +3015,10 @@ NULL</code></pre>
 </section>
 <section id="group-lines-by-day-period" class="slide level2">
 <h2>Group Lines by Day Period</h2>
-<div class="cell columns column-output-location" data-hash="02-concepts-pt1_cache/revealjs/concepts-pt1-exercise-1-4_7996807a79f945a32805ce40e4260e96">
+<div class="cell columns column-output-location" data-hash="02-concepts-pt1_cache/revealjs/concepts-pt1-exercise-1-4_ba6a328ee54db173920c7bd4ef456a32">
 <div class="column">
 <div class="sourceCode cell-code" id="cb130" data-code-line-numbers="12"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb130-1"><a href="#cb130-1"></a><span class="fu">ggplot</span>(</span>
-<span id="cb130-2"><a href="#cb130-2"></a>    dplyr<span class="sc">::</span><span class="fu">filter</span>(</span>
+<span id="cb130-2"><a href="#cb130-2"></a>    <span class="fu">filter</span>(</span>
 <span id="cb130-3"><a href="#cb130-3"></a>      bikes, is_weekend <span class="sc">==</span> <span class="cn">TRUE</span></span>
 <span id="cb130-4"><a href="#cb130-4"></a>    ),</span>
 <span id="cb130-5"><a href="#cb130-5"></a>    <span class="fu">aes</span>(<span class="at">x =</span> date, <span class="at">y =</span> count)</span>
@@ -3040,10 +3040,10 @@ NULL</code></pre>
 </section>
 <section id="order-layers" class="slide level2">
 <h2>Order Layers</h2>
-<div class="cell columns column-output-location" data-hash="02-concepts-pt1_cache/revealjs/concepts-pt1-exercise-1-5_4d57b40cedfde074c04ce332ba2a9e6d">
+<div class="cell columns column-output-location" data-hash="02-concepts-pt1_cache/revealjs/concepts-pt1-exercise-1-5_d66bf092b5d8193830fc0b296ec6b666">
 <div class="column">
 <div class="sourceCode cell-code" id="cb131" data-code-line-numbers="7,8,9,10"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb131-1"><a href="#cb131-1"></a><span class="fu">ggplot</span>(</span>
-<span id="cb131-2"><a href="#cb131-2"></a>    dplyr<span class="sc">::</span><span class="fu">filter</span>(</span>
+<span id="cb131-2"><a href="#cb131-2"></a>    <span class="fu">filter</span>(</span>
 <span id="cb131-3"><a href="#cb131-3"></a>      bikes, is_weekend <span class="sc">==</span> <span class="cn">TRUE</span></span>
 <span id="cb131-4"><a href="#cb131-4"></a>    ),</span>
 <span id="cb131-5"><a href="#cb131-5"></a>    <span class="fu">aes</span>(<span class="at">x =</span> date, <span class="at">y =</span> count)</span>
@@ -3065,10 +3065,10 @@ NULL</code></pre>
 </section>
 <section id="use-geom_path-instead" class="slide level2">
 <h2>Use `geom_path()` instead</h2>
-<div class="cell columns column-output-location" data-hash="02-concepts-pt1_cache/revealjs/concepts-pt1-exercise-1-6_663e9e2ed327179609f1cf6b5a8ef3cf">
+<div class="cell columns column-output-location" data-hash="02-concepts-pt1_cache/revealjs/concepts-pt1-exercise-1-6_08b7a4a87c8ca224d4c7342bda02b353">
 <div class="column">
 <div class="sourceCode cell-code" id="cb132" data-code-line-numbers="7"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb132-1"><a href="#cb132-1"></a><span class="fu">ggplot</span>(</span>
-<span id="cb132-2"><a href="#cb132-2"></a>    dplyr<span class="sc">::</span><span class="fu">filter</span>(</span>
+<span id="cb132-2"><a href="#cb132-2"></a>    <span class="fu">filter</span>(</span>
 <span id="cb132-3"><a href="#cb132-3"></a>      bikes, is_weekend <span class="sc">==</span> <span class="cn">TRUE</span></span>
 <span id="cb132-4"><a href="#cb132-4"></a>    ),</span>
 <span id="cb132-5"><a href="#cb132-5"></a>    <span class="fu">aes</span>(<span class="at">x =</span> date, <span class="at">y =</span> count)</span>
@@ -3092,9 +3092,9 @@ NULL</code></pre>
 <h2>`geom_line()` vs.&nbsp;`geom_path()`</h2>
 <div class="quarto-layout-panel">
 <div class="quarto-layout-row quarto-layout-valign-top">
-<div class="cell quarto-layout-cell" data-hash="02-concepts-pt1_cache/revealjs/concepts-pt1-exercise-1-comp-path_4ed21d11f58ffa89fd0102702fda42d3" style="flex-basis: 50.0%;justify-content: center;">
+<div class="cell quarto-layout-cell" data-hash="02-concepts-pt1_cache/revealjs/concepts-pt1-exercise-1-comp-path_ca0eeb98e0e328162916f815eb674c24" style="flex-basis: 50.0%;justify-content: center;">
 <div class="sourceCode cell-code" id="cb133" data-code-line-numbers="5|7"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb133-1"><a href="#cb133-1"></a><span class="fu">ggplot</span>(</span>
-<span id="cb133-2"><a href="#cb133-2"></a>    dplyr<span class="sc">::</span><span class="fu">filter</span>(</span>
+<span id="cb133-2"><a href="#cb133-2"></a>    <span class="fu">filter</span>(</span>
 <span id="cb133-3"><a href="#cb133-3"></a>      bikes, is_weekend <span class="sc">==</span> <span class="cn">TRUE</span></span>
 <span id="cb133-4"><a href="#cb133-4"></a>    ),</span>
 <span id="cb133-5"><a href="#cb133-5"></a>    <span class="fu">aes</span>(<span class="at">x =</span> temp_feel, <span class="at">y =</span> count)</span>
@@ -3105,9 +3105,9 @@ NULL</code></pre>
 </div>
 </div>
 <div class="fragment quarto-layout-cell" style="flex-basis: 50.0%;justify-content: center;">
-<div class="cell" data-hash="02-concepts-pt1_cache/revealjs/concepts-pt1-exercise-1-comp-line_186de3b3e4b62fc1b60758f918f70f3f">
+<div class="cell" data-hash="02-concepts-pt1_cache/revealjs/concepts-pt1-exercise-1-comp-line_a150ad269f8c15dbcbe2e35a0a3bd3cf">
 <div class="sourceCode cell-code" id="cb134" data-code-line-numbers="7"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb134-1"><a href="#cb134-1"></a><span class="fu">ggplot</span>(</span>
-<span id="cb134-2"><a href="#cb134-2"></a>    dplyr<span class="sc">::</span><span class="fu">filter</span>(</span>
+<span id="cb134-2"><a href="#cb134-2"></a>    <span class="fu">filter</span>(</span>
 <span id="cb134-3"><a href="#cb134-3"></a>      bikes, is_weekend <span class="sc">==</span> <span class="cn">TRUE</span></span>
 <span id="cb134-4"><a href="#cb134-4"></a>    ),</span>
 <span id="cb134-5"><a href="#cb134-5"></a>    <span class="fu">aes</span>(<span class="at">x =</span> temp_feel, <span class="at">y =</span> count)</span>
@@ -3123,10 +3123,10 @@ NULL</code></pre>
 </section>
 <section id="apply-a-theme" class="slide level2">
 <h2>Apply a Theme</h2>
-<div class="cell columns column-output-location" data-hash="02-concepts-pt1_cache/revealjs/concepts-pt1-exercise-1-8_644a755e950a5405905e0aa721728f18">
+<div class="cell columns column-output-location" data-hash="02-concepts-pt1_cache/revealjs/concepts-pt1-exercise-1-8_44f25ddbcbd780863db62cf262c00253">
 <div class="column">
 <div class="sourceCode cell-code" id="cb135" data-code-line-numbers="1|1,16|16,17,18,19,20,21,22,23|17,18,19,20|21,22,23"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb135-1"><a href="#cb135-1"></a>g <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(</span>
-<span id="cb135-2"><a href="#cb135-2"></a>    dplyr<span class="sc">::</span><span class="fu">filter</span>(</span>
+<span id="cb135-2"><a href="#cb135-2"></a>    <span class="fu">filter</span>(</span>
 <span id="cb135-3"><a href="#cb135-3"></a>      bikes, is_weekend <span class="sc">==</span> <span class="cn">TRUE</span></span>
 <span id="cb135-4"><a href="#cb135-4"></a>    ),</span>
 <span id="cb135-5"><a href="#cb135-5"></a>    <span class="fu">aes</span>(<span class="at">x =</span> date, <span class="at">y =</span> count)</span>
@@ -3242,10 +3242,10 @@ NULL</code></pre>
 </section>
 <section id="bonus-use-shape-to-encode-sat-vs-sun" class="slide level2">
 <h2>Bonus: Use Shape to Encode Sat vs Sun</h2>
-<div class="cell columns column-output-location" data-hash="02-concepts-pt1_cache/revealjs/concepts-pt1-exercise-1-bonus_f0a575cfdb4b662be1e7fa1923bc8c62">
+<div class="cell columns column-output-location" data-hash="02-concepts-pt1_cache/revealjs/concepts-pt1-exercise-1-bonus_5bd2ddd11f4d8f607c5234801985d7e1">
 <div class="column">
 <div class="sourceCode cell-code" id="cb140" data-code-line-numbers="11"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb140-1"><a href="#cb140-1"></a><span class="fu">ggplot</span>(</span>
-<span id="cb140-2"><a href="#cb140-2"></a>    dplyr<span class="sc">::</span><span class="fu">filter</span>(bikes, is_weekend <span class="sc">==</span> <span class="cn">TRUE</span>),</span>
+<span id="cb140-2"><a href="#cb140-2"></a>    <span class="fu">filter</span>(bikes, is_weekend <span class="sc">==</span> <span class="cn">TRUE</span>),</span>
 <span id="cb140-3"><a href="#cb140-3"></a>    <span class="fu">aes</span>(<span class="at">x =</span> date, <span class="at">y =</span> count)</span>
 <span id="cb140-4"><a href="#cb140-4"></a>  ) <span class="sc">+</span></span>
 <span id="cb140-5"><a href="#cb140-5"></a>  <span class="fu">geom_line</span>(</span>
@@ -3279,10 +3279,10 @@ NULL</code></pre>
 </section>
 <section id="bonus-use-shape-to-encode-sat-vs-sun-1" class="slide level2">
 <h2>Bonus: Use Shape to Encode Sat vs Sun</h2>
-<div class="cell columns column-output-location" data-hash="02-concepts-pt1_cache/revealjs/concepts-pt1-exercise-1-bonus-1_55933a1c0b15a8171530c9cf7075754a">
+<div class="cell columns column-output-location" data-hash="02-concepts-pt1_cache/revealjs/concepts-pt1-exercise-1-bonus-1_9cb671eb9d9e0d4b962c405eaa54adf1">
 <div class="column">
 <div class="sourceCode cell-code" id="cb141" data-code-line-numbers="11"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb141-1"><a href="#cb141-1"></a><span class="fu">ggplot</span>(</span>
-<span id="cb141-2"><a href="#cb141-2"></a>    dplyr<span class="sc">::</span><span class="fu">filter</span>(bikes, is_weekend <span class="sc">==</span> <span class="cn">TRUE</span>),</span>
+<span id="cb141-2"><a href="#cb141-2"></a>    <span class="fu">filter</span>(bikes, is_weekend <span class="sc">==</span> <span class="cn">TRUE</span>),</span>
 <span id="cb141-3"><a href="#cb141-3"></a>    <span class="fu">aes</span>(<span class="at">x =</span> date, <span class="at">y =</span> count)</span>
 <span id="cb141-4"><a href="#cb141-4"></a>  ) <span class="sc">+</span></span>
 <span id="cb141-5"><a href="#cb141-5"></a>  <span class="fu">geom_line</span>(</span>
@@ -3316,14 +3316,14 @@ NULL</code></pre>
 </section>
 <section id="bonus-use-shape-to-encode-sat-vs-sun-2" class="slide level2">
 <h2>Bonus: Use Shape to Encode Sat vs Sun</h2>
-<div class="cell columns column-output-location" data-hash="02-concepts-pt1_cache/revealjs/concepts-pt1-exercise-1-bonus-2_faeddd58ce884afec22592939f6a3d34">
+<div class="cell columns column-output-location" data-hash="02-concepts-pt1_cache/revealjs/concepts-pt1-exercise-1-bonus-2_01fb4c79b4f7f47caca4c3dcf30ed8ef">
 <div class="column">
 <div class="sourceCode cell-code" id="cb142" data-code-line-numbers="2"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb142-1"><a href="#cb142-1"></a><span class="fu">invisible</span>(</span>
 <span id="cb142-2"><a href="#cb142-2"></a>  <span class="fu">Sys.setlocale</span>(<span class="st">"LC_TIME"</span>, <span class="st">"C"</span>)</span>
 <span id="cb142-3"><a href="#cb142-3"></a>)</span>
 <span id="cb142-4"><a href="#cb142-4"></a></span>
 <span id="cb142-5"><a href="#cb142-5"></a><span class="fu">ggplot</span>(</span>
-<span id="cb142-6"><a href="#cb142-6"></a>    dplyr<span class="sc">::</span><span class="fu">filter</span>(bikes, is_weekend <span class="sc">==</span> <span class="cn">TRUE</span>),</span>
+<span id="cb142-6"><a href="#cb142-6"></a>    <span class="fu">filter</span>(bikes, is_weekend <span class="sc">==</span> <span class="cn">TRUE</span>),</span>
 <span id="cb142-7"><a href="#cb142-7"></a>    <span class="fu">aes</span>(<span class="at">x =</span> date, <span class="at">y =</span> count)</span>
 <span id="cb142-8"><a href="#cb142-8"></a>  ) <span class="sc">+</span></span>
 <span id="cb142-9"><a href="#cb142-9"></a>  <span class="fu">geom_line</span>(</span>

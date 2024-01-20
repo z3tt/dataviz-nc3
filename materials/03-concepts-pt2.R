@@ -1505,19 +1505,19 @@ ggplot() +
 
 
 ## -----------------------------------------------------------------------------
-sf_bln <- sf::st_sfc(
-  sf::st_point(c(13.4050, 52.5200)), 
+sf_marker <- sf::st_sfc(
+  sf::st_point(c(8.5325, 52.0302)), 
   crs = sf::st_crs(countries)
 )
 
 
 ## -----------------------------------------------------------------------------
-sf_bln <- sf::st_sfc(
-  sf::st_point(c(13.4050, 52.5200)), 
+sf_marker <- sf::st_sfc(
+  sf::st_point(c(8.5325, 52.0302)), 
   crs = sf::st_crs(countries)
 )
 
-sf_bln
+sf_marker
 
 
 ## -----------------------------------------------------------------------------
@@ -1590,10 +1590,40 @@ ggplot() +
     color = "white",
     linewidth = .3
   ) +
-  coord_sf(crs = "+proj=moll") +
-  scale_fill_viridis_d(option = "magma") +
+  coord_sf(
+    crs = "+proj=moll"
+  ) +
+  scale_fill_viridis_d(
+    option = "magma",
+    guide = guide_legend(
+      ncol = 1, title.position = "top"
+    )
+  ) +
   theme_void() +
   theme(legend.position = "top")
+
+
+## -----------------------------------------------------------------------------
+ggplot() +
+  geom_sf(
+    data = oceans,
+    fill = "#d8f1f6",
+    color = "white"
+  ) +
+  geom_sf(
+    data = countries,
+    aes(fill = adm0_a3 %in% c("AUS", "NZL")),
+    color = "white",
+    linewidth = .3
+  ) +
+  coord_sf(
+    crs = "+proj=moll"
+  ) +
+  scale_fill_manual(
+    values = c("grey70", "#208462")
+  ) +
+  theme_void() +
+  theme(legend.position = "none")
 
 
 ## -----------------------------------------------------------------------------
@@ -1607,7 +1637,7 @@ ggplot() +
   ) +
   geom_sf(
     data = countries,
-    aes(fill = economy),
+    aes(fill = adm0_a3 %in% c("AUS", "NZL")),
     color = "transparent"
   ) +
   geom_sf(
@@ -1616,10 +1646,14 @@ ggplot() +
     color = "white",
     linewidth = .3
   ) +
-  coord_sf(crs = "+proj=moll") +
-  scale_fill_viridis_d(option = "magma") +
+  coord_sf(
+    crs = "+proj=moll"
+  ) +
+  scale_fill_manual(
+    values = c("grey70", "#208462")
+  ) +
   theme_void() +
-  theme(legend.position = "top")
+  theme(legend.position = "none")
 
 
 ## -----------------------------------------------------------------------------

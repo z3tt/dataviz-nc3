@@ -3475,18 +3475,18 @@ Explanation
 </section>
 <section id="generate-own-simple-features-objects" class="slide level2">
 <h2>Generate Own Simple Features Objects</h2>
-<div class="cell" data-hash="03-concepts-pt2_cache/revealjs/locator-object_a2cbf833471aa11d12b2cab7f11dfa5c">
-<div class="sourceCode cell-code" id="cb138" data-code-line-numbers="1,2,3,4|2|3"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb138-1"><a href="#cb138-1"></a>sf_bln <span class="ot">&lt;-</span> sf<span class="sc">::</span><span class="fu">st_sfc</span>(</span>
-<span id="cb138-2"><a href="#cb138-2"></a>  sf<span class="sc">::</span><span class="fu">st_point</span>(<span class="fu">c</span>(<span class="fl">13.4050</span>, <span class="fl">52.5200</span>)), </span>
+<div class="cell" data-hash="03-concepts-pt2_cache/revealjs/locator-object_cd503ca960c720932b6c2e24ec3e0f41">
+<div class="sourceCode cell-code" id="cb138" data-code-line-numbers="1,2,3,4|2|3"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb138-1"><a href="#cb138-1"></a>sf_marker <span class="ot">&lt;-</span> sf<span class="sc">::</span><span class="fu">st_sfc</span>(</span>
+<span id="cb138-2"><a href="#cb138-2"></a>  sf<span class="sc">::</span><span class="fu">st_point</span>(<span class="fu">c</span>(<span class="fl">8.5325</span>, <span class="fl">52.0302</span>)), </span>
 <span id="cb138-3"><a href="#cb138-3"></a>  <span class="at">crs =</span> sf<span class="sc">::</span><span class="fu">st_crs</span>(countries)</span>
 <span id="cb138-4"><a href="#cb138-4"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="generate-own-simple-features-objects-1" class="slide level2">
 <h2>Generate Own Simple Features Objects</h2>
-<div class="cell" data-hash="03-concepts-pt2_cache/revealjs/locator-print_e0c3467a61a7b39dda1288a5ca4833c4">
+<div class="cell" data-hash="03-concepts-pt2_cache/revealjs/locator-print_b8554bdc847cb69272981de6ed734472">
 <div class="sourceCode cell-code" id="cb139" data-code-line-numbers="6"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb139-1"><a href="#cb139-1"></a>sf_marker <span class="ot">&lt;-</span> sf<span class="sc">::</span><span class="fu">st_sfc</span>(</span>
-<span id="cb139-2"><a href="#cb139-2"></a>  sf<span class="sc">::</span><span class="fu">st_point</span>(<span class="fu">c</span>(<span class="fl">52.0302</span>, <span class="fl">8.5325</span>)), </span>
+<span id="cb139-2"><a href="#cb139-2"></a>  sf<span class="sc">::</span><span class="fu">st_point</span>(<span class="fu">c</span>(<span class="fl">8.5325</span>, <span class="fl">52.0302</span>)), </span>
 <span id="cb139-3"><a href="#cb139-3"></a>  <span class="at">crs =</span> sf<span class="sc">::</span><span class="fu">st_crs</span>(countries)</span>
 <span id="cb139-4"><a href="#cb139-4"></a>)</span>
 <span id="cb139-5"><a href="#cb139-5"></a></span>
@@ -3495,7 +3495,7 @@ Explanation
 <pre><code>Geometry set for 1 feature 
 Geometry type: POINT
 Dimension:     XY
-Bounding box:  xmin: 52.0302 ymin: 8.5325 xmax: 52.0302 ymax: 8.5325
+Bounding box:  xmin: 8.5325 ymin: 52.0302 xmax: 8.5325 ymax: 52.0302
 Geodetic CRS:  WGS 84</code></pre>
 </div>
 </div>
@@ -3555,9 +3555,9 @@ Geodetic CRS:  WGS 84</code></pre>
 </section>
 <section id="mapping-of-visual-properties" class="slide level2">
 <h2>Mapping of Visual Properties</h2>
-<div class="cell columns column-output-location" data-hash="03-concepts-pt2_cache/revealjs/coord-sf-bonne-ocean-aes_371348da79ff9a6ba924fe0ed26d48d1">
+<div class="cell columns column-output-location" data-hash="03-concepts-pt2_cache/revealjs/coord-sf-bonne-ocean-aes_963a6fdca7644b7be00b3a7930cfd82c">
 <div class="column">
-<div class="sourceCode cell-code" id="cb145" data-code-line-numbers="9|10|16"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb145-1"><a href="#cb145-1"></a><span class="fu">ggplot</span>() <span class="sc">+</span></span>
+<div class="sourceCode cell-code" id="cb145" data-code-line-numbers="9|16,17,21|18,19,20|23"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb145-1"><a href="#cb145-1"></a><span class="fu">ggplot</span>() <span class="sc">+</span></span>
 <span id="cb145-2"><a href="#cb145-2"></a>  <span class="fu">geom_sf</span>(</span>
 <span id="cb145-3"><a href="#cb145-3"></a>    <span class="at">data =</span> oceans,</span>
 <span id="cb145-4"><a href="#cb145-4"></a>    <span class="at">fill =</span> <span class="st">"#d8f1f6"</span>,</span>
@@ -3572,9 +3572,14 @@ Geodetic CRS:  WGS 84</code></pre>
 <span id="cb145-13"><a href="#cb145-13"></a>  <span class="fu">coord_sf</span>(</span>
 <span id="cb145-14"><a href="#cb145-14"></a>    <span class="at">crs =</span> <span class="st">"+proj=moll"</span></span>
 <span id="cb145-15"><a href="#cb145-15"></a>  ) <span class="sc">+</span></span>
-<span id="cb145-16"><a href="#cb145-16"></a>  <span class="fu">scale_fill_viridis_d</span>(<span class="at">option =</span> <span class="st">"magma"</span>) <span class="sc">+</span></span>
-<span id="cb145-17"><a href="#cb145-17"></a>  <span class="fu">theme_void</span>() <span class="sc">+</span></span>
-<span id="cb145-18"><a href="#cb145-18"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">"top"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb145-16"><a href="#cb145-16"></a>  <span class="fu">scale_fill_viridis_d</span>(</span>
+<span id="cb145-17"><a href="#cb145-17"></a>    <span class="at">option =</span> <span class="st">"magma"</span>,</span>
+<span id="cb145-18"><a href="#cb145-18"></a>    <span class="at">guide =</span> <span class="fu">guide_legend</span>(</span>
+<span id="cb145-19"><a href="#cb145-19"></a>      <span class="at">ncol =</span> <span class="dv">1</span>, <span class="at">title.position =</span> <span class="st">"top"</span></span>
+<span id="cb145-20"><a href="#cb145-20"></a>    )</span>
+<span id="cb145-21"><a href="#cb145-21"></a>  ) <span class="sc">+</span></span>
+<span id="cb145-22"><a href="#cb145-22"></a>  <span class="fu">theme_void</span>() <span class="sc">+</span></span>
+<span id="cb145-23"><a href="#cb145-23"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">"top"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div><div class="column">
 <div class="cell-output-display">
 <p><img data-src="03-concepts-pt2_files/figure-revealjs/coord-sf-bonne-ocean-aes-1.png" width="1000"></p>
@@ -3582,35 +3587,68 @@ Geodetic CRS:  WGS 84</code></pre>
 </div>
 </div>
 </section>
+<section id="mapping-of-visual-properties-1" class="slide level2">
+<h2>Mapping of Visual Properties</h2>
+<div class="cell columns column-output-location" data-hash="03-concepts-pt2_cache/revealjs/coord-sf-bonne-ocean-aes-expression_b012263bb6898b4822759f882eaeb199">
+<div class="column">
+<div class="sourceCode cell-code" id="cb146" data-code-line-numbers="9|9,16,17,18|9,16,17,18,20"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb146-1"><a href="#cb146-1"></a><span class="fu">ggplot</span>() <span class="sc">+</span></span>
+<span id="cb146-2"><a href="#cb146-2"></a>  <span class="fu">geom_sf</span>(</span>
+<span id="cb146-3"><a href="#cb146-3"></a>    <span class="at">data =</span> oceans,</span>
+<span id="cb146-4"><a href="#cb146-4"></a>    <span class="at">fill =</span> <span class="st">"#d8f1f6"</span>,</span>
+<span id="cb146-5"><a href="#cb146-5"></a>    <span class="at">color =</span> <span class="st">"white"</span></span>
+<span id="cb146-6"><a href="#cb146-6"></a>  ) <span class="sc">+</span></span>
+<span id="cb146-7"><a href="#cb146-7"></a>  <span class="fu">geom_sf</span>(</span>
+<span id="cb146-8"><a href="#cb146-8"></a>    <span class="at">data =</span> countries,</span>
+<span id="cb146-9"><a href="#cb146-9"></a>    <span class="fu">aes</span>(<span class="at">fill =</span> adm0_a3 <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"AUS"</span>, <span class="st">"NZL"</span>)),</span>
+<span id="cb146-10"><a href="#cb146-10"></a>    <span class="at">color =</span> <span class="st">"white"</span>,</span>
+<span id="cb146-11"><a href="#cb146-11"></a>    <span class="at">linewidth =</span> .<span class="dv">3</span></span>
+<span id="cb146-12"><a href="#cb146-12"></a>  ) <span class="sc">+</span></span>
+<span id="cb146-13"><a href="#cb146-13"></a>  <span class="fu">coord_sf</span>(</span>
+<span id="cb146-14"><a href="#cb146-14"></a>    <span class="at">crs =</span> <span class="st">"+proj=moll"</span></span>
+<span id="cb146-15"><a href="#cb146-15"></a>  ) <span class="sc">+</span></span>
+<span id="cb146-16"><a href="#cb146-16"></a>  <span class="fu">scale_fill_manual</span>(</span>
+<span id="cb146-17"><a href="#cb146-17"></a>    <span class="at">values =</span> <span class="fu">c</span>(<span class="st">"grey70"</span>, <span class="st">"#208462"</span>)</span>
+<span id="cb146-18"><a href="#cb146-18"></a>  ) <span class="sc">+</span></span>
+<span id="cb146-19"><a href="#cb146-19"></a>  <span class="fu">theme_void</span>() <span class="sc">+</span></span>
+<span id="cb146-20"><a href="#cb146-20"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">"none"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div><div class="column">
+<div class="cell-output-display">
+<p><img data-src="03-concepts-pt2_files/figure-revealjs/coord-sf-bonne-ocean-aes-expression-1.png" width="1000"></p>
+</div>
+</div>
+</div>
+</section>
 <section id="better-borders" class="slide level2">
 <h2>Better Borders</h2>
-<div class="cell columns column-output-location" data-hash="03-concepts-pt2_cache/revealjs/coord-sf-bonne-ocean-inner_6c02cb3864e6622f63be11b9caeffd01">
+<div class="cell columns column-output-location" data-hash="03-concepts-pt2_cache/revealjs/coord-sf-bonne-ocean-inner_84ffc4cff51cf938e624c1ca7db39fc1">
 <div class="column">
-<div class="sourceCode cell-code" id="cb146" data-code-line-numbers="1,10,12,13,14,15,16,17"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb146-1"><a href="#cb146-1"></a>borders <span class="ot">&lt;-</span> rmapshaper<span class="sc">::</span><span class="fu">ms_innerlines</span>(countries)</span>
-<span id="cb146-2"><a href="#cb146-2"></a></span>
-<span id="cb146-3"><a href="#cb146-3"></a><span class="fu">ggplot</span>() <span class="sc">+</span></span>
-<span id="cb146-4"><a href="#cb146-4"></a>  <span class="fu">geom_sf</span>(</span>
-<span id="cb146-5"><a href="#cb146-5"></a>    <span class="at">data =</span> oceans,</span>
-<span id="cb146-6"><a href="#cb146-6"></a>    <span class="at">fill =</span> <span class="st">"#d8f1f6"</span>,</span>
-<span id="cb146-7"><a href="#cb146-7"></a>    <span class="at">color =</span> <span class="st">"white"</span></span>
-<span id="cb146-8"><a href="#cb146-8"></a>  ) <span class="sc">+</span></span>
-<span id="cb146-9"><a href="#cb146-9"></a>  <span class="fu">geom_sf</span>(</span>
-<span id="cb146-10"><a href="#cb146-10"></a>    <span class="at">data =</span> countries,</span>
-<span id="cb146-11"><a href="#cb146-11"></a>    <span class="fu">aes</span>(<span class="at">fill =</span> economy),</span>
-<span id="cb146-12"><a href="#cb146-12"></a>    <span class="at">color =</span> <span class="st">"transparent"</span></span>
-<span id="cb146-13"><a href="#cb146-13"></a>  ) <span class="sc">+</span></span>
-<span id="cb146-14"><a href="#cb146-14"></a>  <span class="fu">geom_sf</span>(</span>
-<span id="cb146-15"><a href="#cb146-15"></a>    <span class="at">data =</span> borders,</span>
-<span id="cb146-16"><a href="#cb146-16"></a>    <span class="at">fill =</span> <span class="st">"transparent"</span>,</span>
-<span id="cb146-17"><a href="#cb146-17"></a>    <span class="at">color =</span> <span class="st">"white"</span>,</span>
-<span id="cb146-18"><a href="#cb146-18"></a>    <span class="at">linewidth =</span> .<span class="dv">3</span></span>
-<span id="cb146-19"><a href="#cb146-19"></a>  ) <span class="sc">+</span></span>
-<span id="cb146-20"><a href="#cb146-20"></a>  <span class="fu">coord_sf</span>(</span>
-<span id="cb146-21"><a href="#cb146-21"></a>    <span class="at">crs =</span> <span class="st">"+proj=moll"</span></span>
-<span id="cb146-22"><a href="#cb146-22"></a>  ) <span class="sc">+</span></span>
-<span id="cb146-23"><a href="#cb146-23"></a>  <span class="fu">scale_fill_viridis_d</span>(<span class="at">option =</span> <span class="st">"magma"</span>) <span class="sc">+</span></span>
-<span id="cb146-24"><a href="#cb146-24"></a>  <span class="fu">theme_void</span>() <span class="sc">+</span></span>
-<span id="cb146-25"><a href="#cb146-25"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">"top"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb147" data-code-line-numbers="1,10,12,13,14,15,16,17"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb147-1"><a href="#cb147-1"></a>borders <span class="ot">&lt;-</span> rmapshaper<span class="sc">::</span><span class="fu">ms_innerlines</span>(countries)</span>
+<span id="cb147-2"><a href="#cb147-2"></a></span>
+<span id="cb147-3"><a href="#cb147-3"></a><span class="fu">ggplot</span>() <span class="sc">+</span></span>
+<span id="cb147-4"><a href="#cb147-4"></a>  <span class="fu">geom_sf</span>(</span>
+<span id="cb147-5"><a href="#cb147-5"></a>    <span class="at">data =</span> oceans,</span>
+<span id="cb147-6"><a href="#cb147-6"></a>    <span class="at">fill =</span> <span class="st">"#d8f1f6"</span>,</span>
+<span id="cb147-7"><a href="#cb147-7"></a>    <span class="at">color =</span> <span class="st">"white"</span></span>
+<span id="cb147-8"><a href="#cb147-8"></a>  ) <span class="sc">+</span></span>
+<span id="cb147-9"><a href="#cb147-9"></a>  <span class="fu">geom_sf</span>(</span>
+<span id="cb147-10"><a href="#cb147-10"></a>    <span class="at">data =</span> countries,</span>
+<span id="cb147-11"><a href="#cb147-11"></a>    <span class="fu">aes</span>(<span class="at">fill =</span> adm0_a3 <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"AUS"</span>, <span class="st">"NZL"</span>)),</span>
+<span id="cb147-12"><a href="#cb147-12"></a>    <span class="at">color =</span> <span class="st">"transparent"</span></span>
+<span id="cb147-13"><a href="#cb147-13"></a>  ) <span class="sc">+</span></span>
+<span id="cb147-14"><a href="#cb147-14"></a>  <span class="fu">geom_sf</span>(</span>
+<span id="cb147-15"><a href="#cb147-15"></a>    <span class="at">data =</span> borders,</span>
+<span id="cb147-16"><a href="#cb147-16"></a>    <span class="at">fill =</span> <span class="st">"transparent"</span>,</span>
+<span id="cb147-17"><a href="#cb147-17"></a>    <span class="at">color =</span> <span class="st">"white"</span>,</span>
+<span id="cb147-18"><a href="#cb147-18"></a>    <span class="at">linewidth =</span> .<span class="dv">3</span></span>
+<span id="cb147-19"><a href="#cb147-19"></a>  ) <span class="sc">+</span></span>
+<span id="cb147-20"><a href="#cb147-20"></a>  <span class="fu">coord_sf</span>(</span>
+<span id="cb147-21"><a href="#cb147-21"></a>    <span class="at">crs =</span> <span class="st">"+proj=moll"</span></span>
+<span id="cb147-22"><a href="#cb147-22"></a>  ) <span class="sc">+</span></span>
+<span id="cb147-23"><a href="#cb147-23"></a>  <span class="fu">scale_fill_manual</span>(</span>
+<span id="cb147-24"><a href="#cb147-24"></a>    <span class="at">values =</span> <span class="fu">c</span>(<span class="st">"grey70"</span>, <span class="st">"#208462"</span>)</span>
+<span id="cb147-25"><a href="#cb147-25"></a>  ) <span class="sc">+</span></span>
+<span id="cb147-26"><a href="#cb147-26"></a>  <span class="fu">theme_void</span>() <span class="sc">+</span></span>
+<span id="cb147-27"><a href="#cb147-27"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">"none"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div><div class="column">
 <div class="cell-output-display">
 <p><img data-src="03-concepts-pt2_files/figure-revealjs/coord-sf-bonne-ocean-inner-1.png" width="1000"></p>
@@ -3687,9 +3725,9 @@ Geodetic CRS:  WGS 84</code></pre>
 <section id="data" class="slide level2">
 <h2>Data</h2>
 <div class="cell" data-hash="03-concepts-pt2_cache/revealjs/exercise-travel-solution-01_bcaffd687629190691c77e0b0f8b4956">
-<div class="sourceCode cell-code" id="cb147"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb147-1"><a href="#cb147-1"></a>travel <span class="ot">&lt;-</span> readr<span class="sc">::</span><span class="fu">read_csv</span>(<span class="st">"data/carbon-footprint-travel-2022-simple.csv"</span>)</span>
-<span id="cb147-2"><a href="#cb147-2"></a></span>
-<span id="cb147-3"><a href="#cb147-3"></a>travel</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb148"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb148-1"><a href="#cb148-1"></a>travel <span class="ot">&lt;-</span> readr<span class="sc">::</span><span class="fu">read_csv</span>(<span class="st">"data/carbon-footprint-travel-2022-simple.csv"</span>)</span>
+<span id="cb148-2"><a href="#cb148-2"></a></span>
+<span id="cb148-3"><a href="#cb148-3"></a>travel</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 9 × 2
   entity              emissions
@@ -3710,20 +3748,20 @@ Geodetic CRS:  WGS 84</code></pre>
 <h2>Colored Bar Plot</h2>
 <div class="cell columns column-output-location" data-hash="03-concepts-pt2_cache/revealjs/exercise-travel-solution-02_4e8bca23de9dc852d5c8eaacb2fb7cde">
 <div class="column">
-<div class="sourceCode cell-code" id="cb149" data-code-line-numbers="2,3,4,5,6,7,8|5,6,7|9,10,11,12|10|1,14"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb149-1"><a href="#cb149-1"></a>g1 <span class="ot">&lt;-</span> </span>
-<span id="cb149-2"><a href="#cb149-2"></a>  <span class="fu">ggplot</span>(</span>
-<span id="cb149-3"><a href="#cb149-3"></a>    travel, </span>
-<span id="cb149-4"><a href="#cb149-4"></a>    <span class="fu">aes</span>(<span class="at">x =</span> emissions, </span>
-<span id="cb149-5"><a href="#cb149-5"></a>        <span class="at">y =</span> forcats<span class="sc">::</span><span class="fu">fct_reorder</span>(</span>
-<span id="cb149-6"><a href="#cb149-6"></a>          entity, <span class="sc">-</span>emissions</span>
-<span id="cb149-7"><a href="#cb149-7"></a>        ))</span>
-<span id="cb149-8"><a href="#cb149-8"></a>  ) <span class="sc">+</span></span>
-<span id="cb149-9"><a href="#cb149-9"></a>  <span class="fu">geom_col</span>(</span>
-<span id="cb149-10"><a href="#cb149-10"></a>    <span class="fu">aes</span>(<span class="at">fill =</span> emissions <span class="sc">&lt;</span> <span class="dv">40</span>), </span>
-<span id="cb149-11"><a href="#cb149-11"></a>    <span class="at">width =</span> .<span class="dv">65</span></span>
-<span id="cb149-12"><a href="#cb149-12"></a>  )</span>
-<span id="cb149-13"><a href="#cb149-13"></a></span>
-<span id="cb149-14"><a href="#cb149-14"></a>g1</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb150" data-code-line-numbers="2,3,4,5,6,7,8|5,6,7|9,10,11,12|10|1,14"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb150-1"><a href="#cb150-1"></a>g1 <span class="ot">&lt;-</span> </span>
+<span id="cb150-2"><a href="#cb150-2"></a>  <span class="fu">ggplot</span>(</span>
+<span id="cb150-3"><a href="#cb150-3"></a>    travel, </span>
+<span id="cb150-4"><a href="#cb150-4"></a>    <span class="fu">aes</span>(<span class="at">x =</span> emissions, </span>
+<span id="cb150-5"><a href="#cb150-5"></a>        <span class="at">y =</span> forcats<span class="sc">::</span><span class="fu">fct_reorder</span>(</span>
+<span id="cb150-6"><a href="#cb150-6"></a>          entity, <span class="sc">-</span>emissions</span>
+<span id="cb150-7"><a href="#cb150-7"></a>        ))</span>
+<span id="cb150-8"><a href="#cb150-8"></a>  ) <span class="sc">+</span></span>
+<span id="cb150-9"><a href="#cb150-9"></a>  <span class="fu">geom_col</span>(</span>
+<span id="cb150-10"><a href="#cb150-10"></a>    <span class="fu">aes</span>(<span class="at">fill =</span> emissions <span class="sc">&lt;</span> <span class="dv">40</span>), </span>
+<span id="cb150-11"><a href="#cb150-11"></a>    <span class="at">width =</span> .<span class="dv">65</span></span>
+<span id="cb150-12"><a href="#cb150-12"></a>  )</span>
+<span id="cb150-13"><a href="#cb150-13"></a></span>
+<span id="cb150-14"><a href="#cb150-14"></a>g1</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div><div class="column">
 <div class="cell-output-display">
 <p><img data-src="03-concepts-pt2_files/figure-revealjs/exercise-travel-solution-02-1.png" width="1000"></p>
@@ -3735,13 +3773,13 @@ Geodetic CRS:  WGS 84</code></pre>
 <h2>Add Emission Labels</h2>
 <div class="cell columns column-output-location" data-hash="03-concepts-pt2_cache/revealjs/exercise-travel-solution-03_ff192d272d30ec1d1f2030dd959bd582">
 <div class="column">
-<div class="sourceCode cell-code" id="cb150" data-code-line-numbers="2,3,4,5,6,7"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb150-1"><a href="#cb150-1"></a>g1 <span class="sc">+</span></span>
-<span id="cb150-2"><a href="#cb150-2"></a>  <span class="fu">geom_text</span>(</span>
-<span id="cb150-3"><a href="#cb150-3"></a>    <span class="fu">aes</span>(<span class="at">label =</span> emissions),</span>
-<span id="cb150-4"><a href="#cb150-4"></a>    <span class="at">family =</span> <span class="st">"Asap SemiCondensed"</span>, </span>
-<span id="cb150-5"><a href="#cb150-5"></a>    <span class="at">hjust =</span> <span class="dv">0</span>, </span>
-<span id="cb150-6"><a href="#cb150-6"></a>    <span class="at">size =</span> <span class="fl">3.8</span></span>
-<span id="cb150-7"><a href="#cb150-7"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb151" data-code-line-numbers="2,3,4,5,6,7"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb151-1"><a href="#cb151-1"></a>g1 <span class="sc">+</span></span>
+<span id="cb151-2"><a href="#cb151-2"></a>  <span class="fu">geom_text</span>(</span>
+<span id="cb151-3"><a href="#cb151-3"></a>    <span class="fu">aes</span>(<span class="at">label =</span> emissions),</span>
+<span id="cb151-4"><a href="#cb151-4"></a>    <span class="at">family =</span> <span class="st">"Asap SemiCondensed"</span>, </span>
+<span id="cb151-5"><a href="#cb151-5"></a>    <span class="at">hjust =</span> <span class="dv">0</span>, </span>
+<span id="cb151-6"><a href="#cb151-6"></a>    <span class="at">size =</span> <span class="fl">3.8</span></span>
+<span id="cb151-7"><a href="#cb151-7"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div><div class="column">
 <div class="cell-output-display">
 <p><img data-src="03-concepts-pt2_files/figure-revealjs/exercise-travel-solution-03-1.png" width="1000"></p>
@@ -3753,17 +3791,17 @@ Geodetic CRS:  WGS 84</code></pre>
 <h2>Add Emission Labels</h2>
 <div class="cell columns column-output-location" data-hash="03-concepts-pt2_cache/revealjs/exercise-travel-solution-04_6a6c5da62ea3ddae68f5feffd0b43a3a">
 <div class="column">
-<div class="sourceCode cell-code" id="cb151" data-code-line-numbers="3,4,5,6,7|4|5|6"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb151-1"><a href="#cb151-1"></a>g1 <span class="sc">+</span></span>
-<span id="cb151-2"><a href="#cb151-2"></a>  <span class="fu">geom_text</span>(</span>
-<span id="cb151-3"><a href="#cb151-3"></a>    <span class="fu">aes</span>(<span class="at">label =</span> dplyr<span class="sc">::</span><span class="fu">if_else</span>(</span>
-<span id="cb151-4"><a href="#cb151-4"></a>      emissions <span class="sc">&lt;</span> <span class="dv">10</span>,</span>
-<span id="cb151-5"><a href="#cb151-5"></a>      <span class="fu">paste0</span>(<span class="st">"  "</span>, <span class="fu">round</span>(emissions), <span class="st">" g of carbon dioxide equivalents per person and kilometer"</span>),</span>
-<span id="cb151-6"><a href="#cb151-6"></a>      <span class="fu">paste0</span>(<span class="st">"  "</span>, <span class="fu">round</span>(emissions), <span class="st">"g"</span>)</span>
-<span id="cb151-7"><a href="#cb151-7"></a>    )),</span>
-<span id="cb151-8"><a href="#cb151-8"></a>    <span class="at">hjust =</span> <span class="dv">0</span>, </span>
-<span id="cb151-9"><a href="#cb151-9"></a>    <span class="at">family =</span> <span class="st">"Asap SemiCondensed"</span>, </span>
-<span id="cb151-10"><a href="#cb151-10"></a>    <span class="at">size =</span> <span class="fl">3.8</span></span>
-<span id="cb151-11"><a href="#cb151-11"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb152" data-code-line-numbers="3,4,5,6,7|4|5|6"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb152-1"><a href="#cb152-1"></a>g1 <span class="sc">+</span></span>
+<span id="cb152-2"><a href="#cb152-2"></a>  <span class="fu">geom_text</span>(</span>
+<span id="cb152-3"><a href="#cb152-3"></a>    <span class="fu">aes</span>(<span class="at">label =</span> dplyr<span class="sc">::</span><span class="fu">if_else</span>(</span>
+<span id="cb152-4"><a href="#cb152-4"></a>      emissions <span class="sc">&lt;</span> <span class="dv">10</span>,</span>
+<span id="cb152-5"><a href="#cb152-5"></a>      <span class="fu">paste0</span>(<span class="st">"  "</span>, <span class="fu">round</span>(emissions), <span class="st">" g of carbon dioxide equivalents per person and kilometer"</span>),</span>
+<span id="cb152-6"><a href="#cb152-6"></a>      <span class="fu">paste0</span>(<span class="st">"  "</span>, <span class="fu">round</span>(emissions), <span class="st">"g"</span>)</span>
+<span id="cb152-7"><a href="#cb152-7"></a>    )),</span>
+<span id="cb152-8"><a href="#cb152-8"></a>    <span class="at">hjust =</span> <span class="dv">0</span>, </span>
+<span id="cb152-9"><a href="#cb152-9"></a>    <span class="at">family =</span> <span class="st">"Asap SemiCondensed"</span>, </span>
+<span id="cb152-10"><a href="#cb152-10"></a>    <span class="at">size =</span> <span class="fl">3.8</span></span>
+<span id="cb152-11"><a href="#cb152-11"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div><div class="column">
 <div class="cell-output-display">
 <p><img data-src="03-concepts-pt2_files/figure-revealjs/exercise-travel-solution-04-1.png" width="1000"></p>
@@ -3775,24 +3813,24 @@ Geodetic CRS:  WGS 84</code></pre>
 <h2>Add Reference Lines</h2>
 <div class="cell columns column-output-location" data-hash="03-concepts-pt2_cache/revealjs/exercise-travel-solution-05_4b7a5af52c2aec0ce681711f2386e1eb">
 <div class="column">
-<div class="sourceCode cell-code" id="cb152" data-code-line-numbers="2,3,4,5,6"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb152-1"><a href="#cb152-1"></a>g2 <span class="ot">&lt;-</span> g1 <span class="sc">+</span></span>
-<span id="cb152-2"><a href="#cb152-2"></a>  <span class="fu">geom_vline</span>(</span>
-<span id="cb152-3"><a href="#cb152-3"></a>    <span class="at">xintercept =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">7</span><span class="sc">*</span><span class="fl">35.5</span>, </span>
-<span id="cb152-4"><a href="#cb152-4"></a>    <span class="at">color =</span> <span class="st">"white"</span>, </span>
-<span id="cb152-5"><a href="#cb152-5"></a>    <span class="at">linewidth =</span> .<span class="dv">6</span></span>
-<span id="cb152-6"><a href="#cb152-6"></a>  ) <span class="sc">+</span></span>
-<span id="cb152-7"><a href="#cb152-7"></a>  <span class="fu">geom_text</span>(</span>
-<span id="cb152-8"><a href="#cb152-8"></a>    <span class="fu">aes</span>(<span class="at">label =</span> dplyr<span class="sc">::</span><span class="fu">if_else</span>(</span>
-<span id="cb152-9"><a href="#cb152-9"></a>      emissions <span class="sc">&lt;</span> <span class="dv">10</span>,</span>
-<span id="cb152-10"><a href="#cb152-10"></a>      <span class="fu">paste0</span>(<span class="st">"  "</span>, <span class="fu">round</span>(emissions), <span class="st">" g of carbon dioxide equivalents per person and kilometer"</span>),</span>
-<span id="cb152-11"><a href="#cb152-11"></a>      <span class="fu">paste0</span>(<span class="st">"  "</span>, <span class="fu">round</span>(emissions), <span class="st">"g"</span>)</span>
-<span id="cb152-12"><a href="#cb152-12"></a>    )),</span>
-<span id="cb152-13"><a href="#cb152-13"></a>    <span class="at">hjust =</span> <span class="dv">0</span>, </span>
-<span id="cb152-14"><a href="#cb152-14"></a>    <span class="at">family =</span> <span class="st">"Asap SemiCondensed"</span>, </span>
-<span id="cb152-15"><a href="#cb152-15"></a>    <span class="at">size =</span> <span class="fl">3.8</span></span>
-<span id="cb152-16"><a href="#cb152-16"></a>  )</span>
-<span id="cb152-17"><a href="#cb152-17"></a></span>
-<span id="cb152-18"><a href="#cb152-18"></a>g2</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb153" data-code-line-numbers="2,3,4,5,6"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb153-1"><a href="#cb153-1"></a>g2 <span class="ot">&lt;-</span> g1 <span class="sc">+</span></span>
+<span id="cb153-2"><a href="#cb153-2"></a>  <span class="fu">geom_vline</span>(</span>
+<span id="cb153-3"><a href="#cb153-3"></a>    <span class="at">xintercept =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">7</span><span class="sc">*</span><span class="fl">35.5</span>, </span>
+<span id="cb153-4"><a href="#cb153-4"></a>    <span class="at">color =</span> <span class="st">"white"</span>, </span>
+<span id="cb153-5"><a href="#cb153-5"></a>    <span class="at">linewidth =</span> .<span class="dv">6</span></span>
+<span id="cb153-6"><a href="#cb153-6"></a>  ) <span class="sc">+</span></span>
+<span id="cb153-7"><a href="#cb153-7"></a>  <span class="fu">geom_text</span>(</span>
+<span id="cb153-8"><a href="#cb153-8"></a>    <span class="fu">aes</span>(<span class="at">label =</span> dplyr<span class="sc">::</span><span class="fu">if_else</span>(</span>
+<span id="cb153-9"><a href="#cb153-9"></a>      emissions <span class="sc">&lt;</span> <span class="dv">10</span>,</span>
+<span id="cb153-10"><a href="#cb153-10"></a>      <span class="fu">paste0</span>(<span class="st">"  "</span>, <span class="fu">round</span>(emissions), <span class="st">" g of carbon dioxide equivalents per person and kilometer"</span>),</span>
+<span id="cb153-11"><a href="#cb153-11"></a>      <span class="fu">paste0</span>(<span class="st">"  "</span>, <span class="fu">round</span>(emissions), <span class="st">"g"</span>)</span>
+<span id="cb153-12"><a href="#cb153-12"></a>    )),</span>
+<span id="cb153-13"><a href="#cb153-13"></a>    <span class="at">hjust =</span> <span class="dv">0</span>, </span>
+<span id="cb153-14"><a href="#cb153-14"></a>    <span class="at">family =</span> <span class="st">"Asap SemiCondensed"</span>, </span>
+<span id="cb153-15"><a href="#cb153-15"></a>    <span class="at">size =</span> <span class="fl">3.8</span></span>
+<span id="cb153-16"><a href="#cb153-16"></a>  )</span>
+<span id="cb153-17"><a href="#cb153-17"></a></span>
+<span id="cb153-18"><a href="#cb153-18"></a>g2</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div><div class="column">
 <div class="cell-output-display">
 <p><img data-src="03-concepts-pt2_files/figure-revealjs/exercise-travel-solution-05-1.png" width="1000"></p>
@@ -3804,19 +3842,19 @@ Geodetic CRS:  WGS 84</code></pre>
 <h2>Adjust Axes</h2>
 <div class="cell columns column-output-location" data-hash="03-concepts-pt2_cache/revealjs/exercise-travel-solution-06_a715ea323e6e91ac59987ab9d1875672">
 <div class="column">
-<div class="sourceCode cell-code" id="cb153" data-code-line-numbers="2,3,4,5,6|7,8,9,10|11"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb153-1"><a href="#cb153-1"></a>g3 <span class="ot">&lt;-</span> g2 <span class="sc">+</span></span>
-<span id="cb153-2"><a href="#cb153-2"></a>  <span class="fu">scale_x_continuous</span>(</span>
-<span id="cb153-3"><a href="#cb153-3"></a>    <span class="at">expand =</span> <span class="fu">expansion</span>(<span class="at">add =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">15</span>)), </span>
-<span id="cb153-4"><a href="#cb153-4"></a>    <span class="at">breaks =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">7</span><span class="sc">*</span><span class="fl">35.5</span>, </span>
-<span id="cb153-5"><a href="#cb153-5"></a>    <span class="at">labels =</span> <span class="fu">c</span>(<span class="fu">paste0</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">6</span>, <span class="st">"x"</span>), <span class="st">"7x higher"</span>)</span>
-<span id="cb153-6"><a href="#cb153-6"></a>  ) <span class="sc">+</span></span>
-<span id="cb153-7"><a href="#cb153-7"></a>  <span class="fu">scale_y_discrete</span>(</span>
-<span id="cb153-8"><a href="#cb153-8"></a>    <span class="at">name =</span> <span class="cn">NULL</span>, </span>
-<span id="cb153-9"><a href="#cb153-9"></a>    <span class="at">expand =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">0</span>)</span>
-<span id="cb153-10"><a href="#cb153-10"></a>  ) <span class="sc">+</span></span>
-<span id="cb153-11"><a href="#cb153-11"></a>  <span class="fu">coord_cartesian</span>(<span class="at">clip =</span> <span class="st">"off"</span>)</span>
-<span id="cb153-12"><a href="#cb153-12"></a></span>
-<span id="cb153-13"><a href="#cb153-13"></a>g3</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb154" data-code-line-numbers="2,3,4,5,6|7,8,9,10|11"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb154-1"><a href="#cb154-1"></a>g3 <span class="ot">&lt;-</span> g2 <span class="sc">+</span></span>
+<span id="cb154-2"><a href="#cb154-2"></a>  <span class="fu">scale_x_continuous</span>(</span>
+<span id="cb154-3"><a href="#cb154-3"></a>    <span class="at">expand =</span> <span class="fu">expansion</span>(<span class="at">add =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">15</span>)), </span>
+<span id="cb154-4"><a href="#cb154-4"></a>    <span class="at">breaks =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">7</span><span class="sc">*</span><span class="fl">35.5</span>, </span>
+<span id="cb154-5"><a href="#cb154-5"></a>    <span class="at">labels =</span> <span class="fu">c</span>(<span class="fu">paste0</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">6</span>, <span class="st">"x"</span>), <span class="st">"7x higher"</span>)</span>
+<span id="cb154-6"><a href="#cb154-6"></a>  ) <span class="sc">+</span></span>
+<span id="cb154-7"><a href="#cb154-7"></a>  <span class="fu">scale_y_discrete</span>(</span>
+<span id="cb154-8"><a href="#cb154-8"></a>    <span class="at">name =</span> <span class="cn">NULL</span>, </span>
+<span id="cb154-9"><a href="#cb154-9"></a>    <span class="at">expand =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">0</span>)</span>
+<span id="cb154-10"><a href="#cb154-10"></a>  ) <span class="sc">+</span></span>
+<span id="cb154-11"><a href="#cb154-11"></a>  <span class="fu">coord_cartesian</span>(<span class="at">clip =</span> <span class="st">"off"</span>)</span>
+<span id="cb154-12"><a href="#cb154-12"></a></span>
+<span id="cb154-13"><a href="#cb154-13"></a>g3</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div><div class="column">
 <div class="cell-output-display">
 <p><img data-src="03-concepts-pt2_files/figure-revealjs/exercise-travel-solution-06-1.png" width="1000"></p>
@@ -3828,13 +3866,13 @@ Geodetic CRS:  WGS 84</code></pre>
 <h2>Customize Colors</h2>
 <div class="cell columns column-output-location" data-hash="03-concepts-pt2_cache/revealjs/exercise-travel-solution-07_6150cc78254061357676b3e9c7a71748">
 <div class="column">
-<div class="sourceCode cell-code" id="cb154" data-code-line-numbers="2,3,4,5"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb154-1"><a href="#cb154-1"></a>g4 <span class="ot">&lt;-</span> g3 <span class="sc">+</span></span>
-<span id="cb154-2"><a href="#cb154-2"></a>  <span class="fu">scale_fill_manual</span>(</span>
-<span id="cb154-3"><a href="#cb154-3"></a>    <span class="at">values =</span> <span class="fu">c</span>(<span class="st">"grey65"</span>, <span class="st">"#208865"</span>), </span>
-<span id="cb154-4"><a href="#cb154-4"></a>    <span class="at">guide =</span> <span class="st">"none"</span></span>
-<span id="cb154-5"><a href="#cb154-5"></a>  )</span>
-<span id="cb154-6"><a href="#cb154-6"></a></span>
-<span id="cb154-7"><a href="#cb154-7"></a>g4</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb155" data-code-line-numbers="2,3,4,5"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb155-1"><a href="#cb155-1"></a>g4 <span class="ot">&lt;-</span> g3 <span class="sc">+</span></span>
+<span id="cb155-2"><a href="#cb155-2"></a>  <span class="fu">scale_fill_manual</span>(</span>
+<span id="cb155-3"><a href="#cb155-3"></a>    <span class="at">values =</span> <span class="fu">c</span>(<span class="st">"grey65"</span>, <span class="st">"#208865"</span>), </span>
+<span id="cb155-4"><a href="#cb155-4"></a>    <span class="at">guide =</span> <span class="st">"none"</span></span>
+<span id="cb155-5"><a href="#cb155-5"></a>  )</span>
+<span id="cb155-6"><a href="#cb155-6"></a></span>
+<span id="cb155-7"><a href="#cb155-7"></a>g4</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div><div class="column">
 <div class="cell-output-display">
 <p><img data-src="03-concepts-pt2_files/figure-revealjs/exercise-travel-solution-07-1.png" width="1000"></p>
@@ -3846,15 +3884,15 @@ Geodetic CRS:  WGS 84</code></pre>
 <h2>Adjust and Add Titles</h2>
 <div class="cell columns column-output-location" data-hash="03-concepts-pt2_cache/revealjs/exercise-travel-solution-08_6aefc3f78ecd20edfcefd5600557b043">
 <div class="column">
-<div class="sourceCode cell-code" id="cb155" data-code-line-numbers="2,3,4,5,6,7|3,4|5|6"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb155-1"><a href="#cb155-1"></a>g5 <span class="ot">&lt;-</span> g4 <span class="sc">+</span></span>
-<span id="cb155-2"><a href="#cb155-2"></a>  <span class="fu">labs</span>(</span>
-<span id="cb155-3"><a href="#cb155-3"></a>    <span class="at">title =</span> <span class="st">"Taking the train instead of a petrol car or plane for medium-range travels cuts your emissions by more than 80%."</span>,</span>
-<span id="cb155-4"><a href="#cb155-4"></a>    <span class="at">subtitle =</span> <span class="st">"If you took the Eurostar in France instead of a short-haul flight, you’d be able to cut your journey’s carbon footprint by around 97%."</span>,</span>
-<span id="cb155-5"><a href="#cb155-5"></a>    <span class="at">caption =</span> <span class="st">"Data: UK Government, Department for Energy Security and Net Zero via OurWorldInData</span><span class="sc">\n</span><span class="st">Note: Official conversion factors used in UK reporting. Data for aviation is based on economy class."</span>,</span>
-<span id="cb155-6"><a href="#cb155-6"></a>    <span class="at">x =</span> <span class="st">"Travel emissions compared to taking the nation rail"</span></span>
-<span id="cb155-7"><a href="#cb155-7"></a>  )</span>
-<span id="cb155-8"><a href="#cb155-8"></a></span>
-<span id="cb155-9"><a href="#cb155-9"></a>g5</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb156" data-code-line-numbers="2,3,4,5,6,7|3,4|5|6"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb156-1"><a href="#cb156-1"></a>g5 <span class="ot">&lt;-</span> g4 <span class="sc">+</span></span>
+<span id="cb156-2"><a href="#cb156-2"></a>  <span class="fu">labs</span>(</span>
+<span id="cb156-3"><a href="#cb156-3"></a>    <span class="at">title =</span> <span class="st">"Taking the train instead of a petrol car or plane for medium-range travels cuts your emissions by more than 80%."</span>,</span>
+<span id="cb156-4"><a href="#cb156-4"></a>    <span class="at">subtitle =</span> <span class="st">"If you took the Eurostar in France instead of a short-haul flight, you’d be able to cut your journey’s carbon footprint by around 97%."</span>,</span>
+<span id="cb156-5"><a href="#cb156-5"></a>    <span class="at">caption =</span> <span class="st">"Data: UK Government, Department for Energy Security and Net Zero via OurWorldInData</span><span class="sc">\n</span><span class="st">Note: Official conversion factors used in UK reporting. Data for aviation is based on economy class."</span>,</span>
+<span id="cb156-6"><a href="#cb156-6"></a>    <span class="at">x =</span> <span class="st">"Travel emissions compared to taking the nation rail"</span></span>
+<span id="cb156-7"><a href="#cb156-7"></a>  )</span>
+<span id="cb156-8"><a href="#cb156-8"></a></span>
+<span id="cb156-9"><a href="#cb156-9"></a>g5</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div><div class="column">
 <div class="cell-output-display">
 <p><img data-src="03-concepts-pt2_files/figure-revealjs/exercise-travel-solution-08-1.png" width="2200"></p>
@@ -3866,13 +3904,13 @@ Geodetic CRS:  WGS 84</code></pre>
 <h2>Theming</h2>
 <div class="cell columns column-output-location" data-hash="03-concepts-pt2_cache/revealjs/exercise-travel-solution-09_f422ecaa47d0db6239869bfd6d61b79c">
 <div class="column">
-<div class="sourceCode cell-code" id="cb156" data-code-line-numbers="2,3,4,5"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb156-1"><a href="#cb156-1"></a>g6 <span class="ot">&lt;-</span> g5 <span class="sc">+</span></span>
-<span id="cb156-2"><a href="#cb156-2"></a>  <span class="fu">theme_minimal</span>(</span>
-<span id="cb156-3"><a href="#cb156-3"></a>    <span class="at">base_size =</span> <span class="dv">14</span>, </span>
-<span id="cb156-4"><a href="#cb156-4"></a>    <span class="at">base_family =</span> <span class="st">"Asap SemiCondensed"</span></span>
-<span id="cb156-5"><a href="#cb156-5"></a>  )</span>
-<span id="cb156-6"><a href="#cb156-6"></a></span>
-<span id="cb156-7"><a href="#cb156-7"></a>g6</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb157" data-code-line-numbers="2,3,4,5"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb157-1"><a href="#cb157-1"></a>g6 <span class="ot">&lt;-</span> g5 <span class="sc">+</span></span>
+<span id="cb157-2"><a href="#cb157-2"></a>  <span class="fu">theme_minimal</span>(</span>
+<span id="cb157-3"><a href="#cb157-3"></a>    <span class="at">base_size =</span> <span class="dv">14</span>, </span>
+<span id="cb157-4"><a href="#cb157-4"></a>    <span class="at">base_family =</span> <span class="st">"Asap SemiCondensed"</span></span>
+<span id="cb157-5"><a href="#cb157-5"></a>  )</span>
+<span id="cb157-6"><a href="#cb157-6"></a></span>
+<span id="cb157-7"><a href="#cb157-7"></a>g6</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div><div class="column">
 <div class="cell-output-display">
 <p><img data-src="03-concepts-pt2_files/figure-revealjs/exercise-travel-solution-09-1.png" width="2200"></p>
@@ -3884,33 +3922,33 @@ Geodetic CRS:  WGS 84</code></pre>
 <h2>Theming</h2>
 <div class="cell columns column-output-location" data-hash="03-concepts-pt2_cache/revealjs/exercise-travel-solution-10_2bfc872eaafb71e29b81b01621a86c04">
 <div class="column">
-<div class="sourceCode cell-code" id="cb157" data-code-line-numbers="2,27|3|4,5,6|7,8,9,10,11,12|13,14,15,16|17,18,19,20,21,22,23|24,25|26"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb157-1"><a href="#cb157-1"></a>g6 <span class="sc">+</span></span>
-<span id="cb157-2"><a href="#cb157-2"></a>  <span class="fu">theme</span>(</span>
-<span id="cb157-3"><a href="#cb157-3"></a>    <span class="at">panel.grid =</span> <span class="fu">element_blank</span>(),</span>
-<span id="cb157-4"><a href="#cb157-4"></a>    <span class="at">axis.title.x =</span> <span class="fu">element_text</span>(</span>
-<span id="cb157-5"><a href="#cb157-5"></a>      <span class="at">hjust =</span> <span class="dv">0</span>, <span class="at">color =</span> <span class="st">"grey30"</span>, <span class="at">size =</span> <span class="fu">rel</span>(.<span class="dv">85</span>)</span>
-<span id="cb157-6"><a href="#cb157-6"></a>    ),</span>
-<span id="cb157-7"><a href="#cb157-7"></a>    <span class="at">axis.text.x =</span> <span class="fu">element_text</span>(</span>
-<span id="cb157-8"><a href="#cb157-8"></a>      <span class="at">hjust =</span> <span class="fu">c</span>(<span class="fu">rep</span>(.<span class="dv">5</span>, <span class="dv">6</span>), .<span class="dv">12</span>)</span>
-<span id="cb157-9"><a href="#cb157-9"></a>    ),</span>
-<span id="cb157-10"><a href="#cb157-10"></a>    <span class="at">axis.text.y =</span> <span class="fu">element_text</span>(</span>
-<span id="cb157-11"><a href="#cb157-11"></a>      <span class="at">color =</span> <span class="st">"black"</span>, <span class="at">size =</span> <span class="fu">rel</span>(<span class="fl">1.2</span>), <span class="at">hjust =</span> <span class="dv">0</span></span>
-<span id="cb157-12"><a href="#cb157-12"></a>    ),</span>
-<span id="cb157-13"><a href="#cb157-13"></a>    <span class="at">axis.ticks.x =</span> <span class="fu">element_line</span>(</span>
-<span id="cb157-14"><a href="#cb157-14"></a>      <span class="at">color =</span> <span class="st">"grey85"</span>, <span class="at">linewidth =</span> .<span class="dv">6</span></span>
-<span id="cb157-15"><a href="#cb157-15"></a>    ),</span>
-<span id="cb157-16"><a href="#cb157-16"></a>    <span class="at">axis.ticks.length =</span> <span class="fu">unit</span>(.<span class="dv">4</span>, <span class="st">"lines"</span>),</span>
-<span id="cb157-17"><a href="#cb157-17"></a>    <span class="at">plot.title =</span> <span class="fu">element_text</span>(<span class="at">face =</span> <span class="st">"bold"</span>),</span>
-<span id="cb157-18"><a href="#cb157-18"></a>    <span class="at">plot.subtitle =</span> <span class="fu">element_text</span>(</span>
-<span id="cb157-19"><a href="#cb157-19"></a>      <span class="at">margin =</span> <span class="fu">margin</span>(<span class="at">t =</span> <span class="sc">-</span><span class="dv">5</span>, <span class="at">b =</span> <span class="dv">25</span>)</span>
-<span id="cb157-20"><a href="#cb157-20"></a>    ),</span>
-<span id="cb157-21"><a href="#cb157-21"></a>    <span class="at">plot.caption =</span> <span class="fu">element_text</span>(</span>
-<span id="cb157-22"><a href="#cb157-22"></a>      <span class="at">hjust =</span> <span class="dv">0</span>, <span class="at">margin =</span> <span class="fu">margin</span>(<span class="at">t =</span> <span class="dv">20</span>), <span class="at">size =</span> <span class="fu">rel</span>(.<span class="dv">7</span>)</span>
-<span id="cb157-23"><a href="#cb157-23"></a>    ),</span>
-<span id="cb157-24"><a href="#cb157-24"></a>    <span class="at">plot.title.position =</span> <span class="st">"plot"</span>,</span>
-<span id="cb157-25"><a href="#cb157-25"></a>    <span class="at">plot.caption.position =</span> <span class="st">"plot"</span>,</span>
-<span id="cb157-26"><a href="#cb157-26"></a>    <span class="at">plot.margin =</span> <span class="fu">margin</span>(<span class="fu">rep</span>(<span class="dv">15</span>, <span class="dv">4</span>))</span>
-<span id="cb157-27"><a href="#cb157-27"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb158" data-code-line-numbers="2,27|3|4,5,6|7,8,9,10,11,12|13,14,15,16|17,18,19,20,21,22,23|24,25|26"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb158-1"><a href="#cb158-1"></a>g6 <span class="sc">+</span></span>
+<span id="cb158-2"><a href="#cb158-2"></a>  <span class="fu">theme</span>(</span>
+<span id="cb158-3"><a href="#cb158-3"></a>    <span class="at">panel.grid =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb158-4"><a href="#cb158-4"></a>    <span class="at">axis.title.x =</span> <span class="fu">element_text</span>(</span>
+<span id="cb158-5"><a href="#cb158-5"></a>      <span class="at">hjust =</span> <span class="dv">0</span>, <span class="at">color =</span> <span class="st">"grey30"</span>, <span class="at">size =</span> <span class="fu">rel</span>(.<span class="dv">85</span>)</span>
+<span id="cb158-6"><a href="#cb158-6"></a>    ),</span>
+<span id="cb158-7"><a href="#cb158-7"></a>    <span class="at">axis.text.x =</span> <span class="fu">element_text</span>(</span>
+<span id="cb158-8"><a href="#cb158-8"></a>      <span class="at">hjust =</span> <span class="fu">c</span>(<span class="fu">rep</span>(.<span class="dv">5</span>, <span class="dv">6</span>), .<span class="dv">12</span>)</span>
+<span id="cb158-9"><a href="#cb158-9"></a>    ),</span>
+<span id="cb158-10"><a href="#cb158-10"></a>    <span class="at">axis.text.y =</span> <span class="fu">element_text</span>(</span>
+<span id="cb158-11"><a href="#cb158-11"></a>      <span class="at">color =</span> <span class="st">"black"</span>, <span class="at">size =</span> <span class="fu">rel</span>(<span class="fl">1.2</span>), <span class="at">hjust =</span> <span class="dv">0</span></span>
+<span id="cb158-12"><a href="#cb158-12"></a>    ),</span>
+<span id="cb158-13"><a href="#cb158-13"></a>    <span class="at">axis.ticks.x =</span> <span class="fu">element_line</span>(</span>
+<span id="cb158-14"><a href="#cb158-14"></a>      <span class="at">color =</span> <span class="st">"grey85"</span>, <span class="at">linewidth =</span> .<span class="dv">6</span></span>
+<span id="cb158-15"><a href="#cb158-15"></a>    ),</span>
+<span id="cb158-16"><a href="#cb158-16"></a>    <span class="at">axis.ticks.length =</span> <span class="fu">unit</span>(.<span class="dv">4</span>, <span class="st">"lines"</span>),</span>
+<span id="cb158-17"><a href="#cb158-17"></a>    <span class="at">plot.title =</span> <span class="fu">element_text</span>(<span class="at">face =</span> <span class="st">"bold"</span>),</span>
+<span id="cb158-18"><a href="#cb158-18"></a>    <span class="at">plot.subtitle =</span> <span class="fu">element_text</span>(</span>
+<span id="cb158-19"><a href="#cb158-19"></a>      <span class="at">margin =</span> <span class="fu">margin</span>(<span class="at">t =</span> <span class="sc">-</span><span class="dv">5</span>, <span class="at">b =</span> <span class="dv">25</span>)</span>
+<span id="cb158-20"><a href="#cb158-20"></a>    ),</span>
+<span id="cb158-21"><a href="#cb158-21"></a>    <span class="at">plot.caption =</span> <span class="fu">element_text</span>(</span>
+<span id="cb158-22"><a href="#cb158-22"></a>      <span class="at">hjust =</span> <span class="dv">0</span>, <span class="at">margin =</span> <span class="fu">margin</span>(<span class="at">t =</span> <span class="dv">20</span>), <span class="at">size =</span> <span class="fu">rel</span>(.<span class="dv">7</span>)</span>
+<span id="cb158-23"><a href="#cb158-23"></a>    ),</span>
+<span id="cb158-24"><a href="#cb158-24"></a>    <span class="at">plot.title.position =</span> <span class="st">"plot"</span>,</span>
+<span id="cb158-25"><a href="#cb158-25"></a>    <span class="at">plot.caption.position =</span> <span class="st">"plot"</span>,</span>
+<span id="cb158-26"><a href="#cb158-26"></a>    <span class="at">plot.margin =</span> <span class="fu">margin</span>(<span class="fu">rep</span>(<span class="dv">15</span>, <span class="dv">4</span>))</span>
+<span id="cb158-27"><a href="#cb158-27"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div><div class="column">
 <div class="cell-output-display">
 <p><img data-src="03-concepts-pt2_files/figure-revealjs/exercise-travel-solution-10-1.png" width="2200"></p>
@@ -3921,46 +3959,46 @@ Geodetic CRS:  WGS 84</code></pre>
 <section id="full-code" class="slide level2">
 <h2>Full Code</h2>
 <div class="cell" data-hash="03-concepts-pt2_cache/revealjs/exercise-travel-solution-full_7e4b718f763c1c7b457c74c61b4f0316">
-<div class="sourceCode cell-code" id="cb158"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb158-1"><a href="#cb158-1"></a>travel <span class="ot">&lt;-</span> readr<span class="sc">::</span><span class="fu">read_csv</span>(<span class="st">"data/carbon-footprint-travel-2022-simple.csv"</span>)</span>
-<span id="cb158-2"><a href="#cb158-2"></a></span>
-<span id="cb158-3"><a href="#cb158-3"></a><span class="fu">ggplot</span>(travel, <span class="fu">aes</span>(<span class="at">x =</span> emissions, <span class="at">y =</span> forcats<span class="sc">::</span><span class="fu">fct_reorder</span>(entity, <span class="sc">-</span>emissions))) <span class="sc">+</span></span>
-<span id="cb158-4"><a href="#cb158-4"></a>  <span class="fu">geom_col</span>(<span class="fu">aes</span>(<span class="at">fill =</span> emissions <span class="sc">&lt;</span> <span class="dv">40</span>), <span class="at">width =</span> .<span class="dv">65</span>) <span class="sc">+</span></span>
-<span id="cb158-5"><a href="#cb158-5"></a>  <span class="fu">geom_vline</span>(<span class="at">xintercept =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">7</span><span class="sc">*</span><span class="fl">35.5</span>, <span class="at">color =</span> <span class="st">"white"</span>, <span class="at">linewidth =</span> .<span class="dv">6</span>) <span class="sc">+</span></span>
-<span id="cb158-6"><a href="#cb158-6"></a>  <span class="fu">geom_text</span>(<span class="fu">aes</span>(<span class="at">label =</span> dplyr<span class="sc">::</span><span class="fu">if_else</span>(emissions <span class="sc">&lt;</span> <span class="dv">10</span>,</span>
-<span id="cb158-7"><a href="#cb158-7"></a>                                       <span class="fu">paste0</span>(<span class="st">"  "</span>, <span class="fu">round</span>(emissions), </span>
-<span id="cb158-8"><a href="#cb158-8"></a>                                              <span class="st">" g of carbon dioxide equivalents per person and kilometer"</span>),</span>
-<span id="cb158-9"><a href="#cb158-9"></a>                                       <span class="fu">paste0</span>(<span class="st">"  "</span>, <span class="fu">round</span>(emissions), <span class="st">"g"</span>))),</span>
-<span id="cb158-10"><a href="#cb158-10"></a>            <span class="at">hjust =</span> <span class="dv">0</span>, <span class="at">family =</span> <span class="st">"Asap SemiCondensed"</span>, <span class="at">size =</span> <span class="fl">3.8</span>) <span class="sc">+</span></span>
-<span id="cb158-11"><a href="#cb158-11"></a>  <span class="fu">scale_x_continuous</span>(<span class="at">expand =</span> <span class="fu">expansion</span>(<span class="at">add =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">15</span>)), </span>
-<span id="cb158-12"><a href="#cb158-12"></a>                     <span class="at">breaks =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">7</span><span class="sc">*</span><span class="fl">35.5</span>, <span class="at">labels =</span> <span class="fu">c</span>(<span class="fu">paste0</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">6</span>, <span class="st">"x"</span>), <span class="st">"7x higher"</span>)) <span class="sc">+</span></span>
-<span id="cb158-13"><a href="#cb158-13"></a>  <span class="fu">scale_y_discrete</span>(<span class="at">name =</span> <span class="cn">NULL</span>, <span class="at">expand =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">0</span>)) <span class="sc">+</span></span>
-<span id="cb158-14"><a href="#cb158-14"></a>  <span class="fu">scale_fill_manual</span>(<span class="at">values =</span> <span class="fu">c</span>(<span class="st">"grey65"</span>, <span class="st">"#208865"</span>), <span class="at">guide =</span> <span class="st">"none"</span>) <span class="sc">+</span></span>
-<span id="cb158-15"><a href="#cb158-15"></a>  <span class="fu">coord_cartesian</span>(<span class="at">clip =</span> <span class="st">"off"</span>) <span class="sc">+</span></span>
-<span id="cb158-16"><a href="#cb158-16"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Taking the train instead of a petrol car or plane for medium-range travels cuts your emissions by more than 80%."</span>,</span>
-<span id="cb158-17"><a href="#cb158-17"></a>       <span class="at">subtitle =</span> <span class="st">"If you took the Eurostar in France instead of a short-haul flight, you’d be able to cut your journey’s carbon footprint by around 97%."</span>,</span>
-<span id="cb158-18"><a href="#cb158-18"></a>       <span class="at">caption =</span> <span class="st">"Data: UK Government, Department for Energy Security and Net Zero via OurWorldInData</span><span class="sc">\n</span><span class="st">Note: Official conversion factors used in UK reporting. Data for aviation is based on economy class."</span>,</span>
-<span id="cb158-19"><a href="#cb158-19"></a>      <span class="at">x =</span> <span class="st">"Travel emissions compared to taking the nation rail"</span>) <span class="sc">+</span></span>
-<span id="cb158-20"><a href="#cb158-20"></a>  <span class="fu">theme_minimal</span>(<span class="at">base_size =</span> <span class="dv">14</span>, <span class="at">base_family =</span> <span class="st">"Asap SemiCondensed"</span>) <span class="sc">+</span></span>
-<span id="cb158-21"><a href="#cb158-21"></a>  <span class="fu">theme</span>(<span class="at">panel.grid =</span> <span class="fu">element_blank</span>(),</span>
-<span id="cb158-22"><a href="#cb158-22"></a>        <span class="at">axis.title.x =</span> <span class="fu">element_text</span>(<span class="at">hjust =</span> <span class="dv">0</span>, <span class="at">color =</span> <span class="st">"grey30"</span>, <span class="at">size =</span> <span class="fu">rel</span>(.<span class="dv">85</span>)),</span>
-<span id="cb158-23"><a href="#cb158-23"></a>        <span class="at">axis.text.x =</span> <span class="fu">element_text</span>(<span class="at">hjust =</span> <span class="fu">c</span>(<span class="fu">rep</span>(.<span class="dv">5</span>, <span class="dv">6</span>), .<span class="dv">12</span>)),</span>
-<span id="cb158-24"><a href="#cb158-24"></a>        <span class="at">axis.text.y =</span> <span class="fu">element_text</span>(<span class="at">color =</span> <span class="st">"black"</span>, <span class="at">size =</span> <span class="fu">rel</span>(<span class="fl">1.2</span>), <span class="at">hjust =</span> <span class="dv">0</span>),</span>
-<span id="cb158-25"><a href="#cb158-25"></a>        <span class="at">axis.ticks.x =</span> <span class="fu">element_line</span>(<span class="at">color =</span> <span class="st">"grey85"</span>, <span class="at">linewidth =</span> .<span class="dv">6</span>),</span>
-<span id="cb158-26"><a href="#cb158-26"></a>        <span class="at">axis.ticks.length =</span> <span class="fu">unit</span>(.<span class="dv">4</span>, <span class="st">"lines"</span>),</span>
-<span id="cb158-27"><a href="#cb158-27"></a>        <span class="at">plot.title =</span> <span class="fu">element_text</span>(<span class="at">face =</span> <span class="st">"bold"</span>),</span>
-<span id="cb158-28"><a href="#cb158-28"></a>        <span class="at">plot.subtitle =</span> <span class="fu">element_text</span>(<span class="at">margin =</span> <span class="fu">margin</span>(<span class="at">t =</span> <span class="sc">-</span><span class="dv">5</span>, <span class="at">b =</span> <span class="dv">25</span>)),</span>
-<span id="cb158-29"><a href="#cb158-29"></a>        <span class="at">plot.title.position =</span> <span class="st">"plot"</span>,</span>
-<span id="cb158-30"><a href="#cb158-30"></a>        <span class="at">plot.caption.position =</span> <span class="st">"plot"</span>,</span>
-<span id="cb158-31"><a href="#cb158-31"></a>        <span class="at">plot.caption =</span> <span class="fu">element_text</span>(<span class="at">hjust =</span> <span class="dv">0</span>, <span class="at">margin =</span> <span class="fu">margin</span>(<span class="at">t =</span> <span class="dv">20</span>), <span class="at">size =</span> <span class="fu">rel</span>(.<span class="dv">7</span>)),</span>
-<span id="cb158-32"><a href="#cb158-32"></a>        <span class="at">plot.margin =</span> <span class="fu">margin</span>(<span class="fu">rep</span>(<span class="dv">15</span>, <span class="dv">4</span>)))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb159"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb159-1"><a href="#cb159-1"></a>travel <span class="ot">&lt;-</span> readr<span class="sc">::</span><span class="fu">read_csv</span>(<span class="st">"data/carbon-footprint-travel-2022-simple.csv"</span>)</span>
+<span id="cb159-2"><a href="#cb159-2"></a></span>
+<span id="cb159-3"><a href="#cb159-3"></a><span class="fu">ggplot</span>(travel, <span class="fu">aes</span>(<span class="at">x =</span> emissions, <span class="at">y =</span> forcats<span class="sc">::</span><span class="fu">fct_reorder</span>(entity, <span class="sc">-</span>emissions))) <span class="sc">+</span></span>
+<span id="cb159-4"><a href="#cb159-4"></a>  <span class="fu">geom_col</span>(<span class="fu">aes</span>(<span class="at">fill =</span> emissions <span class="sc">&lt;</span> <span class="dv">40</span>), <span class="at">width =</span> .<span class="dv">65</span>) <span class="sc">+</span></span>
+<span id="cb159-5"><a href="#cb159-5"></a>  <span class="fu">geom_vline</span>(<span class="at">xintercept =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">7</span><span class="sc">*</span><span class="fl">35.5</span>, <span class="at">color =</span> <span class="st">"white"</span>, <span class="at">linewidth =</span> .<span class="dv">6</span>) <span class="sc">+</span></span>
+<span id="cb159-6"><a href="#cb159-6"></a>  <span class="fu">geom_text</span>(<span class="fu">aes</span>(<span class="at">label =</span> dplyr<span class="sc">::</span><span class="fu">if_else</span>(emissions <span class="sc">&lt;</span> <span class="dv">10</span>,</span>
+<span id="cb159-7"><a href="#cb159-7"></a>                                       <span class="fu">paste0</span>(<span class="st">"  "</span>, <span class="fu">round</span>(emissions), </span>
+<span id="cb159-8"><a href="#cb159-8"></a>                                              <span class="st">" g of carbon dioxide equivalents per person and kilometer"</span>),</span>
+<span id="cb159-9"><a href="#cb159-9"></a>                                       <span class="fu">paste0</span>(<span class="st">"  "</span>, <span class="fu">round</span>(emissions), <span class="st">"g"</span>))),</span>
+<span id="cb159-10"><a href="#cb159-10"></a>            <span class="at">hjust =</span> <span class="dv">0</span>, <span class="at">family =</span> <span class="st">"Asap SemiCondensed"</span>, <span class="at">size =</span> <span class="fl">3.8</span>) <span class="sc">+</span></span>
+<span id="cb159-11"><a href="#cb159-11"></a>  <span class="fu">scale_x_continuous</span>(<span class="at">expand =</span> <span class="fu">expansion</span>(<span class="at">add =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">15</span>)), </span>
+<span id="cb159-12"><a href="#cb159-12"></a>                     <span class="at">breaks =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">7</span><span class="sc">*</span><span class="fl">35.5</span>, <span class="at">labels =</span> <span class="fu">c</span>(<span class="fu">paste0</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">6</span>, <span class="st">"x"</span>), <span class="st">"7x higher"</span>)) <span class="sc">+</span></span>
+<span id="cb159-13"><a href="#cb159-13"></a>  <span class="fu">scale_y_discrete</span>(<span class="at">name =</span> <span class="cn">NULL</span>, <span class="at">expand =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">0</span>)) <span class="sc">+</span></span>
+<span id="cb159-14"><a href="#cb159-14"></a>  <span class="fu">scale_fill_manual</span>(<span class="at">values =</span> <span class="fu">c</span>(<span class="st">"grey65"</span>, <span class="st">"#208865"</span>), <span class="at">guide =</span> <span class="st">"none"</span>) <span class="sc">+</span></span>
+<span id="cb159-15"><a href="#cb159-15"></a>  <span class="fu">coord_cartesian</span>(<span class="at">clip =</span> <span class="st">"off"</span>) <span class="sc">+</span></span>
+<span id="cb159-16"><a href="#cb159-16"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Taking the train instead of a petrol car or plane for medium-range travels cuts your emissions by more than 80%."</span>,</span>
+<span id="cb159-17"><a href="#cb159-17"></a>       <span class="at">subtitle =</span> <span class="st">"If you took the Eurostar in France instead of a short-haul flight, you’d be able to cut your journey’s carbon footprint by around 97%."</span>,</span>
+<span id="cb159-18"><a href="#cb159-18"></a>       <span class="at">caption =</span> <span class="st">"Data: UK Government, Department for Energy Security and Net Zero via OurWorldInData</span><span class="sc">\n</span><span class="st">Note: Official conversion factors used in UK reporting. Data for aviation is based on economy class."</span>,</span>
+<span id="cb159-19"><a href="#cb159-19"></a>      <span class="at">x =</span> <span class="st">"Travel emissions compared to taking the nation rail"</span>) <span class="sc">+</span></span>
+<span id="cb159-20"><a href="#cb159-20"></a>  <span class="fu">theme_minimal</span>(<span class="at">base_size =</span> <span class="dv">14</span>, <span class="at">base_family =</span> <span class="st">"Asap SemiCondensed"</span>) <span class="sc">+</span></span>
+<span id="cb159-21"><a href="#cb159-21"></a>  <span class="fu">theme</span>(<span class="at">panel.grid =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb159-22"><a href="#cb159-22"></a>        <span class="at">axis.title.x =</span> <span class="fu">element_text</span>(<span class="at">hjust =</span> <span class="dv">0</span>, <span class="at">color =</span> <span class="st">"grey30"</span>, <span class="at">size =</span> <span class="fu">rel</span>(.<span class="dv">85</span>)),</span>
+<span id="cb159-23"><a href="#cb159-23"></a>        <span class="at">axis.text.x =</span> <span class="fu">element_text</span>(<span class="at">hjust =</span> <span class="fu">c</span>(<span class="fu">rep</span>(.<span class="dv">5</span>, <span class="dv">6</span>), .<span class="dv">12</span>)),</span>
+<span id="cb159-24"><a href="#cb159-24"></a>        <span class="at">axis.text.y =</span> <span class="fu">element_text</span>(<span class="at">color =</span> <span class="st">"black"</span>, <span class="at">size =</span> <span class="fu">rel</span>(<span class="fl">1.2</span>), <span class="at">hjust =</span> <span class="dv">0</span>),</span>
+<span id="cb159-25"><a href="#cb159-25"></a>        <span class="at">axis.ticks.x =</span> <span class="fu">element_line</span>(<span class="at">color =</span> <span class="st">"grey85"</span>, <span class="at">linewidth =</span> .<span class="dv">6</span>),</span>
+<span id="cb159-26"><a href="#cb159-26"></a>        <span class="at">axis.ticks.length =</span> <span class="fu">unit</span>(.<span class="dv">4</span>, <span class="st">"lines"</span>),</span>
+<span id="cb159-27"><a href="#cb159-27"></a>        <span class="at">plot.title =</span> <span class="fu">element_text</span>(<span class="at">face =</span> <span class="st">"bold"</span>),</span>
+<span id="cb159-28"><a href="#cb159-28"></a>        <span class="at">plot.subtitle =</span> <span class="fu">element_text</span>(<span class="at">margin =</span> <span class="fu">margin</span>(<span class="at">t =</span> <span class="sc">-</span><span class="dv">5</span>, <span class="at">b =</span> <span class="dv">25</span>)),</span>
+<span id="cb159-29"><a href="#cb159-29"></a>        <span class="at">plot.title.position =</span> <span class="st">"plot"</span>,</span>
+<span id="cb159-30"><a href="#cb159-30"></a>        <span class="at">plot.caption.position =</span> <span class="st">"plot"</span>,</span>
+<span id="cb159-31"><a href="#cb159-31"></a>        <span class="at">plot.caption =</span> <span class="fu">element_text</span>(<span class="at">hjust =</span> <span class="dv">0</span>, <span class="at">margin =</span> <span class="fu">margin</span>(<span class="at">t =</span> <span class="dv">20</span>), <span class="at">size =</span> <span class="fu">rel</span>(.<span class="dv">7</span>)),</span>
+<span id="cb159-32"><a href="#cb159-32"></a>        <span class="at">plot.margin =</span> <span class="fu">margin</span>(<span class="fu">rep</span>(<span class="dv">15</span>, <span class="dv">4</span>)))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="export-graphic" class="slide level2">
 <h2>Export Graphic</h2>
 <div class="cell" data-hash="03-concepts-pt2_cache/revealjs/exercise-travel-solution-export_460d70149eb2d56e5bd8451652d3d446">
-<div class="sourceCode cell-code" id="cb159"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb159-1"><a href="#cb159-1"></a><span class="fu">ggsave</span>(<span class="st">"travel-emissions.pdf"</span>, <span class="at">width =</span> <span class="dv">11</span>, <span class="at">height =</span> <span class="dv">6</span>, <span class="at">device =</span> cairo_pdf)</span>
-<span id="cb159-2"><a href="#cb159-2"></a></span>
-<span id="cb159-3"><a href="#cb159-3"></a><span class="fu">ggsave</span>(<span class="st">"travel-emissions.png"</span>, <span class="at">width =</span> <span class="dv">11</span>, <span class="at">height =</span> <span class="dv">6</span>, <span class="at">dpi =</span> <span class="dv">600</span>, <span class="at">bg =</span> <span class="st">"white"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb160"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb160-1"><a href="#cb160-1"></a><span class="fu">ggsave</span>(<span class="st">"travel-emissions.pdf"</span>, <span class="at">width =</span> <span class="dv">11</span>, <span class="at">height =</span> <span class="dv">6</span>, <span class="at">device =</span> cairo_pdf)</span>
+<span id="cb160-2"><a href="#cb160-2"></a></span>
+<span id="cb160-3"><a href="#cb160-3"></a><span class="fu">ggsave</span>(<span class="st">"travel-emissions.png"</span>, <span class="at">width =</span> <span class="dv">11</span>, <span class="at">height =</span> <span class="dv">6</span>, <span class="at">dpi =</span> <span class="dv">600</span>, <span class="at">bg =</span> <span class="st">"white"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section></section>
 <section>
@@ -3982,16 +4020,16 @@ Geodetic CRS:  WGS 84</code></pre>
 <section id="setup-1" class="slide level2">
 <h2>Setup</h2>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb160"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb160-1"><a href="#cb160-1"></a><span class="fu">library</span>(ggplot2)</span>
-<span id="cb160-2"><a href="#cb160-2"></a><span class="fu">library</span>(sf)</span>
-<span id="cb160-3"><a href="#cb160-3"></a></span>
-<span id="cb160-4"><a href="#cb160-4"></a><span class="fu">theme_set</span>(<span class="fu">theme_minimal</span>(<span class="at">base_size =</span> <span class="dv">14</span>, <span class="at">base_family =</span> <span class="st">"Asap SemiCondensed"</span>))</span>
-<span id="cb160-5"><a href="#cb160-5"></a><span class="fu">theme_update</span>(<span class="at">panel.grid.minor =</span> <span class="fu">element_blank</span>())</span>
-<span id="cb160-6"><a href="#cb160-6"></a></span>
-<span id="cb160-7"><a href="#cb160-7"></a>sf_germany <span class="ot">&lt;-</span> rnaturalearth<span class="sc">::</span><span class="fu">ne_countries</span>(<span class="at">country =</span> <span class="st">"Germany"</span>, <span class="at">returnclass =</span> <span class="st">"sf"</span>)</span>
-<span id="cb160-8"><a href="#cb160-8"></a>sf_germany_hd <span class="ot">&lt;-</span> rnaturalearth<span class="sc">::</span><span class="fu">ne_countries</span>(<span class="at">country =</span> <span class="st">"Germany"</span>, <span class="at">scale =</span> <span class="dv">10</span>, <span class="at">returnclass =</span> <span class="st">"sf"</span>)</span>
-<span id="cb160-9"><a href="#cb160-9"></a></span>
-<span id="cb160-10"><a href="#cb160-10"></a><span class="fu">class</span>(sf_germany)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb161"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb161-1"><a href="#cb161-1"></a><span class="fu">library</span>(ggplot2)</span>
+<span id="cb161-2"><a href="#cb161-2"></a><span class="fu">library</span>(sf)</span>
+<span id="cb161-3"><a href="#cb161-3"></a></span>
+<span id="cb161-4"><a href="#cb161-4"></a><span class="fu">theme_set</span>(<span class="fu">theme_minimal</span>(<span class="at">base_size =</span> <span class="dv">14</span>, <span class="at">base_family =</span> <span class="st">"Asap SemiCondensed"</span>))</span>
+<span id="cb161-5"><a href="#cb161-5"></a><span class="fu">theme_update</span>(<span class="at">panel.grid.minor =</span> <span class="fu">element_blank</span>())</span>
+<span id="cb161-6"><a href="#cb161-6"></a></span>
+<span id="cb161-7"><a href="#cb161-7"></a>sf_germany <span class="ot">&lt;-</span> rnaturalearth<span class="sc">::</span><span class="fu">ne_countries</span>(<span class="at">country =</span> <span class="st">"Germany"</span>, <span class="at">returnclass =</span> <span class="st">"sf"</span>)</span>
+<span id="cb161-8"><a href="#cb161-8"></a>sf_germany_hd <span class="ot">&lt;-</span> rnaturalearth<span class="sc">::</span><span class="fu">ne_countries</span>(<span class="at">country =</span> <span class="st">"Germany"</span>, <span class="at">scale =</span> <span class="dv">10</span>, <span class="at">returnclass =</span> <span class="st">"sf"</span>)</span>
+<span id="cb161-9"><a href="#cb161-9"></a></span>
+<span id="cb161-10"><a href="#cb161-10"></a><span class="fu">class</span>(sf_germany)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] "sf"         "data.frame"</code></pre>
 </div>
@@ -4002,16 +4040,16 @@ Geodetic CRS:  WGS 84</code></pre>
 <div class="quarto-layout-panel">
 <div class="quarto-layout-row quarto-layout-valign-top">
 <div class="cell quarto-layout-cell" data-hash="03-concepts-pt2_cache/revealjs/exercise-sf-solution-02_4283eb0f6eb04d82fbd8d8d932f23266" style="flex-basis: 50.0%;justify-content: center;">
-<div class="sourceCode cell-code" id="cb162"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb162-1"><a href="#cb162-1"></a><span class="fu">ggplot</span>(sf_germany) <span class="sc">+</span>  </span>
-<span id="cb162-2"><a href="#cb162-2"></a>  <span class="fu">geom_sf</span>(<span class="at">fill =</span> <span class="st">"#CBE7BE"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb163"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb163-1"><a href="#cb163-1"></a><span class="fu">ggplot</span>(sf_germany) <span class="sc">+</span>  </span>
+<span id="cb163-2"><a href="#cb163-2"></a>  <span class="fu">geom_sf</span>(<span class="at">fill =</span> <span class="st">"#CBE7BE"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <p><img data-src="03-concepts-pt2_files/figure-revealjs/exercise-sf-solution-02-1.png" width="1000"></p>
 </div>
 </div>
 <div class="fragment quarto-layout-cell" style="flex-basis: 50.0%;justify-content: center;">
 <div class="cell" data-hash="03-concepts-pt2_cache/revealjs/exercise-sf-solution-03_498b8ccb496df28f6593f77759d2de4c">
-<div class="sourceCode cell-code" id="cb163"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb163-1"><a href="#cb163-1"></a><span class="fu">ggplot</span>(sf_germany_hd) <span class="sc">+</span> </span>
-<span id="cb163-2"><a href="#cb163-2"></a>  <span class="fu">geom_sf</span>(<span class="at">fill =</span> <span class="st">"#CBE7BE"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb164"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb164-1"><a href="#cb164-1"></a><span class="fu">ggplot</span>(sf_germany_hd) <span class="sc">+</span> </span>
+<span id="cb164-2"><a href="#cb164-2"></a>  <span class="fu">geom_sf</span>(<span class="at">fill =</span> <span class="st">"#CBE7BE"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <p><img data-src="03-concepts-pt2_files/figure-revealjs/exercise-sf-solution-03-1.png" width="1000"></p>
 </div>
@@ -4023,48 +4061,48 @@ Geodetic CRS:  WGS 84</code></pre>
 <section id="change-projection" class="slide level2">
 <h2>Change Projection</h2>
 <div class="cell" data-layout-align="center" data-hash="03-concepts-pt2_cache/revealjs/exercise-sf-solution-04_b8778646b8deb6970b08c301e84a07d7">
-<div class="sourceCode cell-code" id="cb164"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb164-1"><a href="#cb164-1"></a><span class="fu">ggplot</span>(sf_germany) <span class="sc">+</span> </span>
-<span id="cb164-2"><a href="#cb164-2"></a>  <span class="fu">geom_sf</span>(<span class="at">fill =</span> <span class="st">"#CBE7BE"</span>) <span class="sc">+</span></span>
-<span id="cb164-3"><a href="#cb164-3"></a>  <span class="fu">coord_sf</span>(<span class="at">crs =</span> <span class="st">"+proj=lcc +lat_1=48.66 +lat_2=53.66 +lat_0=51 +lon_0=10.5 +ellps=GRS80"</span>) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb165"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb165-1"><a href="#cb165-1"></a><span class="fu">ggplot</span>(sf_germany) <span class="sc">+</span> </span>
+<span id="cb165-2"><a href="#cb165-2"></a>  <span class="fu">geom_sf</span>(<span class="at">fill =</span> <span class="st">"#CBE7BE"</span>) <span class="sc">+</span></span>
+<span id="cb165-3"><a href="#cb165-3"></a>  <span class="fu">coord_sf</span>(<span class="at">crs =</span> <span class="st">"+proj=lcc +lat_1=48.66 +lat_2=53.66 +lat_0=51 +lon_0=10.5 +ellps=GRS80"</span>) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 
 </div>
 <img data-src="03-concepts-pt2_files/figure-revealjs/exercise-sf-solution-04-1.png" width="1000" class="r-stretch quarto-figure-center"></section>
 <section id="change-projection-1" class="slide level2">
 <h2>Change Projection</h2>
 <div class="cell" data-layout-align="center" data-hash="03-concepts-pt2_cache/revealjs/exercise-sf-solution-05_dd7790130eeec7f3f0fc4831fcd0a538">
-<div class="sourceCode cell-code" id="cb165"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb165-1"><a href="#cb165-1"></a><span class="fu">ggplot</span>(sf_germany) <span class="sc">+</span> </span>
-<span id="cb165-2"><a href="#cb165-2"></a>  <span class="fu">geom_sf</span>(<span class="at">fill =</span> <span class="st">"#CBE7BE"</span>) <span class="sc">+</span></span>
-<span id="cb165-3"><a href="#cb165-3"></a>  <span class="fu">coord_sf</span>(<span class="at">crs =</span> <span class="fu">st_crs</span>(<span class="dv">5243</span>)) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb166"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb166-1"><a href="#cb166-1"></a><span class="fu">ggplot</span>(sf_germany) <span class="sc">+</span> </span>
+<span id="cb166-2"><a href="#cb166-2"></a>  <span class="fu">geom_sf</span>(<span class="at">fill =</span> <span class="st">"#CBE7BE"</span>) <span class="sc">+</span></span>
+<span id="cb166-3"><a href="#cb166-3"></a>  <span class="fu">coord_sf</span>(<span class="at">crs =</span> <span class="fu">st_crs</span>(<span class="dv">5243</span>)) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 
 </div>
 <img data-src="03-concepts-pt2_files/figure-revealjs/exercise-sf-solution-05-1.png" width="1000" class="r-stretch quarto-figure-center"></section>
 <section id="change-projection-2" class="slide level2">
 <h2>Change Projection</h2>
 <div class="cell" data-layout-align="center" data-hash="03-concepts-pt2_cache/revealjs/exercise-sf-solution-06_9b4124fdcd34dcf267290b8752d00b20">
-<div class="sourceCode cell-code" id="cb166"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb166-1"><a href="#cb166-1"></a><span class="fu">ggplot</span>(sf_germany) <span class="sc">+</span> </span>
-<span id="cb166-2"><a href="#cb166-2"></a>  <span class="fu">geom_sf</span>(<span class="at">fill =</span> <span class="st">"#CBE7BE"</span>) <span class="sc">+</span></span>
-<span id="cb166-3"><a href="#cb166-3"></a>  <span class="fu">coord_sf</span>(<span class="at">crs =</span> <span class="st">"+proj=moll"</span>) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb167"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb167-1"><a href="#cb167-1"></a><span class="fu">ggplot</span>(sf_germany) <span class="sc">+</span> </span>
+<span id="cb167-2"><a href="#cb167-2"></a>  <span class="fu">geom_sf</span>(<span class="at">fill =</span> <span class="st">"#CBE7BE"</span>) <span class="sc">+</span></span>
+<span id="cb167-3"><a href="#cb167-3"></a>  <span class="fu">coord_sf</span>(<span class="at">crs =</span> <span class="st">"+proj=moll"</span>) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 
 </div>
 <img data-src="03-concepts-pt2_files/figure-revealjs/exercise-sf-solution-06-1.png" width="1000" class="r-stretch quarto-figure-center"></section>
 <section id="change-projection-3" class="slide level2">
 <h2>Change Projection</h2>
 <div class="cell" data-layout-align="center" data-hash="03-concepts-pt2_cache/revealjs/exercise-sf-solution-07_d19a96a2209aa58a016ba7b28dfcb82d">
-<div class="sourceCode cell-code" id="cb167"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb167-1"><a href="#cb167-1"></a><span class="fu">ggplot</span>(sf_germany) <span class="sc">+</span> </span>
-<span id="cb167-2"><a href="#cb167-2"></a>  <span class="fu">geom_sf</span>(<span class="at">fill =</span> <span class="st">"#CBE7BE"</span>) <span class="sc">+</span></span>
-<span id="cb167-3"><a href="#cb167-3"></a>  <span class="fu">coord_sf</span>(<span class="at">crs =</span> <span class="st">"+proj=laea +lon_0=-70 +lat_0=0"</span>) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb168"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb168-1"><a href="#cb168-1"></a><span class="fu">ggplot</span>(sf_germany) <span class="sc">+</span> </span>
+<span id="cb168-2"><a href="#cb168-2"></a>  <span class="fu">geom_sf</span>(<span class="at">fill =</span> <span class="st">"#CBE7BE"</span>) <span class="sc">+</span></span>
+<span id="cb168-3"><a href="#cb168-3"></a>  <span class="fu">coord_sf</span>(<span class="at">crs =</span> <span class="st">"+proj=laea +lon_0=-70 +lat_0=0"</span>) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 
 </div>
 <img data-src="03-concepts-pt2_files/figure-revealjs/exercise-sf-solution-07-1.png" width="1320" class="r-stretch quarto-figure-center"></section>
 <section id="generate-locator-object" class="slide level2">
 <h2>Generate Locator Object</h2>
 <div class="cell" data-hash="03-concepts-pt2_cache/revealjs/exercise-sf-solution-08_83fed7ab312377a2a6f3eed6a53454af">
-<div class="sourceCode cell-code" id="cb168"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb168-1"><a href="#cb168-1"></a>sf_bln <span class="ot">&lt;-</span> sf<span class="sc">::</span><span class="fu">st_sfc</span>(</span>
-<span id="cb168-2"><a href="#cb168-2"></a>  sf<span class="sc">::</span><span class="fu">st_point</span>(<span class="fu">c</span>(<span class="fl">13.4050</span>, <span class="fl">52.5200</span>)), </span>
-<span id="cb168-3"><a href="#cb168-3"></a>  <span class="at">crs =</span> sf<span class="sc">::</span><span class="fu">st_crs</span>(sf_germany)</span>
-<span id="cb168-4"><a href="#cb168-4"></a>)</span>
-<span id="cb168-5"><a href="#cb168-5"></a></span>
-<span id="cb168-6"><a href="#cb168-6"></a>sf_bln</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb169"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb169-1"><a href="#cb169-1"></a>sf_bln <span class="ot">&lt;-</span> sf<span class="sc">::</span><span class="fu">st_sfc</span>(</span>
+<span id="cb169-2"><a href="#cb169-2"></a>  sf<span class="sc">::</span><span class="fu">st_point</span>(<span class="fu">c</span>(<span class="fl">13.4050</span>, <span class="fl">52.5200</span>)), </span>
+<span id="cb169-3"><a href="#cb169-3"></a>  <span class="at">crs =</span> sf<span class="sc">::</span><span class="fu">st_crs</span>(sf_germany)</span>
+<span id="cb169-4"><a href="#cb169-4"></a>)</span>
+<span id="cb169-5"><a href="#cb169-5"></a></span>
+<span id="cb169-6"><a href="#cb169-6"></a>sf_bln</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Geometry set for 1 feature 
 Geometry type: POINT
@@ -4079,19 +4117,19 @@ Geodetic CRS:  WGS 84</code></pre>
 <div class="quarto-layout-panel">
 <div class="quarto-layout-row quarto-layout-valign-top">
 <div class="cell quarto-layout-cell" data-hash="03-concepts-pt2_cache/revealjs/exercise-sf-solution-09_bd09a1e869e30a098781952093afb1e0" style="flex-basis: 50.0%;justify-content: center;">
-<div class="sourceCode cell-code" id="cb170"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb170-1"><a href="#cb170-1"></a><span class="fu">ggplot</span>(sf_germany) <span class="sc">+</span> </span>
-<span id="cb170-2"><a href="#cb170-2"></a>  <span class="fu">geom_sf</span>(<span class="at">fill =</span> <span class="st">"#CBE7BE"</span>) <span class="sc">+</span></span>
-<span id="cb170-3"><a href="#cb170-3"></a>  <span class="fu">geom_sf</span>(<span class="at">data =</span> sf_bln, <span class="at">size =</span> <span class="dv">5</span>) <span class="sc">+</span></span>
-<span id="cb170-4"><a href="#cb170-4"></a>  <span class="fu">coord_sf</span>(<span class="at">crs =</span> <span class="st">"+proj=moll"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb171"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb171-1"><a href="#cb171-1"></a><span class="fu">ggplot</span>(sf_germany) <span class="sc">+</span> </span>
+<span id="cb171-2"><a href="#cb171-2"></a>  <span class="fu">geom_sf</span>(<span class="at">fill =</span> <span class="st">"#CBE7BE"</span>) <span class="sc">+</span></span>
+<span id="cb171-3"><a href="#cb171-3"></a>  <span class="fu">geom_sf</span>(<span class="at">data =</span> sf_bln, <span class="at">size =</span> <span class="dv">5</span>) <span class="sc">+</span></span>
+<span id="cb171-4"><a href="#cb171-4"></a>  <span class="fu">coord_sf</span>(<span class="at">crs =</span> <span class="st">"+proj=moll"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <p><img data-src="03-concepts-pt2_files/figure-revealjs/exercise-sf-solution-09-1.png" width="1000"></p>
 </div>
 </div>
 <div class="cell quarto-layout-cell" data-hash="03-concepts-pt2_cache/revealjs/exercise-sf-solution-10_ab62fcd6a3770ff05be026f031c3a601" style="flex-basis: 50.0%;justify-content: center;">
-<div class="sourceCode cell-code" id="cb171"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb171-1"><a href="#cb171-1"></a><span class="fu">ggplot</span>(sf_germany) <span class="sc">+</span> </span>
-<span id="cb171-2"><a href="#cb171-2"></a>  <span class="fu">geom_sf</span>(<span class="at">fill =</span> <span class="st">"#CBE7BE"</span>) <span class="sc">+</span></span>
-<span id="cb171-3"><a href="#cb171-3"></a>  <span class="fu">geom_sf</span>(<span class="at">data =</span> sf_bln, <span class="at">size =</span> <span class="dv">5</span>) <span class="sc">+</span></span>
-<span id="cb171-4"><a href="#cb171-4"></a>  <span class="fu">coord_sf</span>(<span class="at">crs =</span> <span class="fu">st_crs</span>(<span class="dv">5243</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb172"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb172-1"><a href="#cb172-1"></a><span class="fu">ggplot</span>(sf_germany) <span class="sc">+</span> </span>
+<span id="cb172-2"><a href="#cb172-2"></a>  <span class="fu">geom_sf</span>(<span class="at">fill =</span> <span class="st">"#CBE7BE"</span>) <span class="sc">+</span></span>
+<span id="cb172-3"><a href="#cb172-3"></a>  <span class="fu">geom_sf</span>(<span class="at">data =</span> sf_bln, <span class="at">size =</span> <span class="dv">5</span>) <span class="sc">+</span></span>
+<span id="cb172-4"><a href="#cb172-4"></a>  <span class="fu">coord_sf</span>(<span class="at">crs =</span> <span class="fu">st_crs</span>(<span class="dv">5243</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <p><img data-src="03-concepts-pt2_files/figure-revealjs/exercise-sf-solution-10-1.png" width="1000"></p>
 </div>

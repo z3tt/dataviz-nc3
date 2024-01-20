@@ -2825,7 +2825,7 @@ bikes <- readr::read_csv(
 #| label: concepts-pt1-exercise-1-1
 #| output-location: column
 ggplot(
-    dplyr::filter(
+    filter(
       bikes, is_weekend == TRUE
     ),
     aes(x = date, y = count)
@@ -2842,7 +2842,7 @@ ggplot(
 #| output-location: column
 #| code-line-numbers: "8,9"
 ggplot(
-    dplyr::filter(
+    filter(
       bikes, is_weekend == TRUE
     ),
     aes(x = date, y = count)
@@ -2862,7 +2862,7 @@ ggplot(
 #| output-location: column
 #| code-line-numbers: "11,12,13"
 ggplot(
-    dplyr::filter(
+    filter(
       bikes, is_weekend == TRUE
     ),
     aes(x = date, y = count)
@@ -2885,7 +2885,7 @@ ggplot(
 #| output-location: column
 #| code-line-numbers: "12"
 ggplot(
-    dplyr::filter(
+    filter(
       bikes, is_weekend == TRUE
     ),
     aes(x = date, y = count)
@@ -2909,7 +2909,7 @@ ggplot(
 #| output-location: column
 #| code-line-numbers: "7,8,9,10"
 ggplot(
-    dplyr::filter(
+    filter(
       bikes, is_weekend == TRUE
     ),
     aes(x = date, y = count)
@@ -2933,7 +2933,7 @@ ggplot(
 #| output-location: column
 #| code-line-numbers: "7"
 ggplot(
-    dplyr::filter(
+    filter(
       bikes, is_weekend == TRUE
     ),
     aes(x = date, y = count)
@@ -2958,7 +2958,7 @@ ggplot(
 #| fig-height: 3.2
 #| code-line-numbers: "5|7"
 ggplot(
-    dplyr::filter(
+    filter(
       bikes, is_weekend == TRUE
     ),
     aes(x = temp_feel, y = count)
@@ -2972,7 +2972,7 @@ ggplot(
 #| fig-height: 3.2
 #| code-line-numbers: "7"
 ggplot(
-    dplyr::filter(
+    filter(
       bikes, is_weekend == TRUE
     ),
     aes(x = temp_feel, y = count)
@@ -2991,7 +2991,7 @@ ggplot(
 #| output-location: column
 #| code-line-numbers: "1|1,16|16,17,18,19,20,21,22,23|17,18,19,20|21,22,23"
 g <- ggplot(
-    dplyr::filter(
+    filter(
       bikes, is_weekend == TRUE
     ),
     aes(x = date, y = count)
@@ -3111,7 +3111,7 @@ ggsave("02_concepts_pt1_ex1.pdf",
 #| output-location: column
 #| code-line-numbers: "11"
 ggplot(
-    dplyr::filter(bikes, is_weekend == TRUE),
+    filter(bikes, is_weekend == TRUE),
     aes(x = date, y = count)
   ) +
   geom_line(
@@ -3147,7 +3147,7 @@ ggplot(
 #| output-location: column
 #| code-line-numbers: "11"
 ggplot(
-    dplyr::filter(bikes, is_weekend == TRUE),
+    filter(bikes, is_weekend == TRUE),
     aes(x = date, y = count)
   ) +
   geom_line(
@@ -3187,7 +3187,7 @@ invisible(
 )
 
 ggplot(
-    dplyr::filter(bikes, is_weekend == TRUE),
+    filter(bikes, is_weekend == TRUE),
     aes(x = date, y = count)
   ) +
   geom_line(
